@@ -1,0 +1,273 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --blue: #096097;
+    --white: #fff;
+    --gray: #f5f5f5;
+    --black1: #222;
+    --black2: #999;
+  }
+body { 
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+
+/* =============== Debut Sidebar ================ */
+.navigation {
+    position: fixed;
+    width: 230px;
+    height: 100%;
+    background: var(--blue);
+    border-left: 10px solid var(--blue);
+    transition: 0.5s;
+    overflow: hidden;
+  }
+  .navigation.active {
+    width: 60px;
+  }
+  
+  .navigation ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  .navigation ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+  }
+  
+  .navigation ul li:hover,
+  .navigation ul li.hovered {
+    background-color: var(--white);
+  }
+  
+  .navigation ul li:nth-child(1) {
+    margin-bottom: 40px;
+    pointer-events: none;
+  }
+  
+  .navigation ul li a {
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: var(--white);
+  }
+  .navigation ul li:hover a,
+  .navigation ul li.hovered a {
+    color: var(--blue);
+  }
+  
+  .navigation ul li a .icon {
+    position: relative;
+    display: block;
+    min-width: 40px;
+    height: 40px;
+    line-height: 75px;
+    text-align: center;
+  }
+  .navigation ul li a .icon .fa-solid .fa-gear {
+    font-size: 1.5rem;
+  }
+  
+  .navigation ul li a .title {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 65px;
+    text-align: start;
+    white-space: nowrap;
+    font-size: x-small;
+    font-family: 'Ubuntu', sans-serif;
+  }
+  /* =============== Fin Sidebar ================ */
+  
+  /* --------- curve border à l'extérieur ---------- */
+  .navigation ul li:hover a::before,
+  .navigation ul li.hovered a::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    box-shadow: 35px 35px 0 10px var(--white);
+    pointer-events: none;
+  }
+  .navigation ul li:hover a::after,
+  .navigation ul li.hovered a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    box-shadow: 35px -35px 0 10px var(--white);
+    pointer-events: none;
+  }
+
+
+  /* ===================== Début Navbar ===================== */
+  .navbar {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    position: sticky;
+  }
+  
+  .toggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: #f99324 ;
+  }
+  
+  .search {
+    position: relative;
+    width: 300px;
+    margin: 0 10px;
+  }
+  
+  .search label {
+    position: relative;
+    width: 100%;
+  }
+  
+  .search label input {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 18px;
+    outline: none;
+    border: 1px solid var(--black2);
+  }
+  
+  .search label ion-icon {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .user {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  .user img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+    /* ===================== Fin Navbar ===================== */
+
+  /* ===================== Main Content ===================== */
+  .main-content {
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
+    min-height: 100vh;
+    background: var(--white);
+    transition: 0.5s;
+  }
+  .main-content.active {
+    width: calc(100% - 80px);
+    left: 80px;
+  }
+  
+             /* ===================== Table des réservations ===================== */
+  .table-container {
+    max-width: 700px;
+    height: auto;
+    overflow-y: auto;
+    margin: 50px auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.reservation-table {
+    border-collapse: collapse;
+}
+
+.reservation-table th,
+.reservation-table td {
+    padding: 12px;
+    text-align: left;
+}
+.reservation-table td{
+    font-family: 'Ubuntu', sans-serif;
+    font-size:small;
+}
+.reservation-table th {
+    background-color: #096097;
+    color: #fff;
+    font-family: 'ubuntu';
+    font-size: small;
+}
+
+.reservation-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.reservation-table tbody tr:hover {
+    background-color: #e2e6ea;
+}
+
+
+.button1{
+    background-color: #1b7b39;
+    border-radius: 5px;
+    border-color: #087c1b;
+    color: rgb(255, 255, 255);
+    font-size: xx-small;
+}
+.button1:hover{
+    background-color: #82b684;
+}
+
+.button2{
+    background-color: #c3342f;
+    border-radius: 5px;
+    border-color: #7c0808;
+    color: rgb(255, 255, 255);
+    font-size: xx-small;
+}
+.button2:hover{
+    background-color: #db6a6a;
+} 

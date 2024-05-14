@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #faf8f8;
+    margin: 0;
+    padding: 0;
+}
+
+.containerform {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    width: 500px;
+    height: 490px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 8px 8px #5a5a5a;
+}
+
+
+.title {
+    color: #f39c12;
+    text-align: center;
+    font-size: small;
+    font-family: cursive;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #3498db;
+    font-size: x-small;
+    font-family: cursive;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    height: 12px;
+    padding: 10px;
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#tele, #confirm {
+    width: 90px;
+    font-size: x-small;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 12px;
+    cursor: pointer;
+    height: 15px;
+    transition: background-color 0.3s;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.fa-solid.fa-download{
+    color: rgb(11, 78, 81);
+    
+}
+
+#confirm:hover {
+    background-color: #22b5e6;
+}
+
+#confirm {
+    background-color: #f35912;
+  
+}
