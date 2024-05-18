@@ -3,22 +3,44 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LivreController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\adminController;
 
+//route pour l'authentification 
 
-Route::get('/', function () {
-    return redirect()->route('catalogue');
+Route::controller(LoginController::class)->group(function() {
+    Route::get('/login', 'login')->name('login');
+    Route::get('/','index')->name('index');
+    Route::post('/login/store', 'Redirection')->name('Redirection');
+    Route::get('/forgot', 'forgotPassword')->name('forgot');
 });
+Route::controller(adminController::class)->group(function() {
+    Route::get('/admin', 'admin')->name('admin');
+    Route::post('/admin/ajouter', 'store')->name('ajouterUser');
+    Route::post('/import', 'import')->name('import');
+});
+
+
+
+//use App\Http\Controllers\auth\ForgotPasswordController;
+
+// Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+// Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+/*Auth::routes([
+    'register' => false, // Désactiver l'inscription);
+]);*/
+
+///////////////////////////////////////:::::
+/*Route::get('/', function () {
+    return redirect()->route('catalogue');
+});*/
 // route pour afficher les livres dans la page du catalogue
 Route::get('/catalogue', [LivreController::class, 'index'])->name('catalogue');
 
-Route::get('/login', function () {
-
-    return view('login');
-})->name('login');
 //route pour afficher la page dashboard d responsable
-Route::get('/responsable', function () {
-    return view('responsablegestion');
-});
+Route::get('/responsable', [LivreController::class, 'responsable'])->name('responsable');
+
 
 //debut routes pour faires appels aux methodes ajouter modifer supprimer pour le responsable
        //ajouter nv livre
@@ -52,11 +74,9 @@ Route::get('/reservation', [ReservationController::class, 'show'])->name('reserv
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
 
 //bibliothecaire
-      Route::get('/bibliothecaire', function () {
-         return view('bibliothecaire');
-        });
-    //gestions des reservations 
-    Route::get('/reservations', [ReservationController::class, 'index']);
+Route::get('/bibliothècaire', [ReservationController::class, 'bibliothècaire'])->name('bibliothècaire');
+//gestions des reservations 
+Route::get('/reservations', [ReservationController::class, 'index']);
 
 
 

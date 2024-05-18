@@ -7,6 +7,10 @@ use App\Models\Livre;
 
 class LivreController extends Controller
 {
+    public function responsable()
+    {
+    return view('responsablegestion');
+    }
 
     // methode pour afficher les livres dans le ctalogue
     public function index()
