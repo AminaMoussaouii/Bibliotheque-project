@@ -1,10 +1,10 @@
-// méthode de redirection vers la page de détails 
+// =================méthode de redirection vers la page de détails ================
 $('.livre-box').click(function() {
     var livreId = $(this).data('id');
     window.location.href = '/livres/' + livreId;
 });
 
-// début filtre 
+// =================début filtre ===========================
 $(document).ready(function() {
     $('input[type="checkbox"]').change(function() {
         var filters = {};
@@ -42,3 +42,62 @@ $(document).ready(function() {
     });
 });
 // fin filtre 
+
+//=============methode recherche livres===========================
+
+var searchUrl = "/livre/search";
+
+$(function() {
+    $("#search_livre").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: searchUrl,
+                dataType: "json",
+                data: {
+                    term: request.term
+                },
+                success: function(data) {
+                    var suggestions = data.map(function(livre) {
+                        return {
+                            label: livre.titre + " - " + livre.auteur,
+                            value: livre.titre
+                        };
+                    });
+                    response(suggestions);
+                }
+            });
+        },
+        minLength: 1 
+    });
+
+   
+    $("#search-button").click(function() {
+        var searchTerm = $("#search_livre").val();
+        $.ajax({
+            url: searchUrl,
+            method: "GET",
+            data: {
+                term: searchTerm
+            },
+            success: function(data) {
+                $("#livre-container").empty();
+                data.forEach(function(livre) {
+                    var livreBox = '<div class="livre-box" data-id="' + livre.id + '">' +
+                                       '<div class="img-box">' +
+                                           '<img src="' + livre.image + '" alt="' + livre.titre + '">' +
+                                       '</div>' +
+                                       '<div class="livre-info">' +
+                                           '<p id="titre" style="margin-bottom: 0px">' + livre.titre + '</p>' +
+                                           '<p style="margin-bottom: 2px"><span>Auteur:</span> ' + livre.auteur + '</p>' +
+                                           '<p style="margin-bottom: 2px"><span>Statut:</span> ' + livre.statut + '</p>' +
+                                       '</div>' +
+                                   '</div>';
+                    $("#livre-container").append(livreBox);
+                });
+            }
+        });
+    });
+
+
+
+});

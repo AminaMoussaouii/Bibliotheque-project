@@ -5,25 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails du Livre</title>
     <link rel="stylesheet" href="{{ asset('css/LivreDetails.css') }}">
-    
+    <link rel="stylesheet" href="{{asset('fontawesome-free-6.4.2-web/css/all.min.css')}}">
 
 </head>
 <body>
     <header>
-        <nav>
-            <h2 class="logo">FSTS BIBLIOTHEQUE</h2>
+        <nav class="navbar-head">
+            <h2 class="logo"> FSTS BIBLIOTHEQUE</h2>
             <ul class="navlinks">
                <li><a href="{{ route('catalogue') }}">Ouvrages</a></li>
                <li><a href="#">Mes emprunts</a></li>
-               <li><a href="#">Historique</a></li>
-               <li><a href="{{ route('login') }}" target="_blank">Déconnexion</a></li>  
+               <li><a href="#"><i class="fa-solid fa-bell"></i></a></li>
+               <li><a href="{{ route('login') }}" target="_blank"><i class="fa-solid fa-user"></i>Déconnexion</a></li>  
             </ul>
         </nav>
-    </header>  
+    </header> 
     
     <section>
         @if($livre)
-            <div class="livre-image"><img src="{{ asset($livre->image) }}" alt="Image du livre"></div>
+            <div class="livre-image"><img src="{{ asset('images/' . $livre->image) }}" alt="Image du livre"></div>
             <div class="informations">
                <div class="titre">{{ $livre->titre }}</div>
                 <div class="details"> 
@@ -50,8 +50,10 @@
                             <td>{{ $livre->date_edition }}</td>
                         </tr>
                         <tr>
+
                             <td class="info">Exemplaires disponibles</td>
                             <td>{{ $livre->exp_disp }}</td>
+                            
                         </tr>
                     </table>
                 </div>

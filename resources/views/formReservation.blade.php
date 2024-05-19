@@ -37,8 +37,8 @@
             <input type="text" id="auteur" name="auteur" required>
         </div>
         <div class="form-group">
-            <label for="rang">Rang :</label>
-            <input type="text" id="rang" name="rang">
+            <label for="rayon">Rayon :</label>
+            <input type="text" id="rang" name="rayon">
         </div>
         <div class="form-group">
             <label for="etage">Étage :</label>

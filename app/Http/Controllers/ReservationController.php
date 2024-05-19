@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation; 
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReservationController extends Controller
 {
@@ -24,7 +24,7 @@ class ReservationController extends Controller
             'email' => 'required|email',
             'titre' => 'required|string',
             'auteur' => 'required|string',
-            'rang' => 'nullable|string',
+            'rayon' => 'nullable|string',
             'etage' => 'nullable|string',
             'branche' => 'nullable|string',
         ]);
@@ -35,12 +35,12 @@ class ReservationController extends Controller
         $reservation->email = $validatedData['email'];
         $reservation->titre = $validatedData['titre'];
         $reservation->auteur = $validatedData['auteur'];
-        $reservation->rang = $validatedData['rang'];
+        $reservation->rayon = $validatedData['rayon'];
         $reservation->etage = $validatedData['etage'];
         $reservation->branche = $validatedData['branche'];
         $reservation->save();
 
-        return redirect()->route('details_livre');
+        return back();
     }
 
   //table de reservation affichage
@@ -61,7 +61,7 @@ public function telechargerPDF(Request $request)
     $reservation->email = $request->input('email');
     $reservation->titre = $request->input('titre');
     $reservation->auteur = $request->input('auteur');
-    $reservation->rang = $request->input('rang');
+    $reservation->rayon = $request->input('rayon');
     $reservation->etage = $request->input('etage');
     $reservation->branche = $request->input('branche');
     $reservation->save();
@@ -74,11 +74,11 @@ public function telechargerPDF(Request $request)
         'Branche' => $request->input('branche'),
         'Titre' => $request->input('titre'),
         'Auteur' => $request->input('auteur'),
-        'Rang' => $request->input('rang'),
+        'Rayon' => $request->input('rayon'),
         'Étage' => $request->input('etage'),
     ];
 
-    $pdf = PDF::loadView('pdf.reservation', $pdfData);
+    $pdf = PDF::loadView('pdf', $pdfData);
 
     // Télécharger le PDF
     return $pdf->download('reservation.pdf');}
