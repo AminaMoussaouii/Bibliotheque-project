@@ -7,7 +7,11 @@ use App\Models\Reservation;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReservationController extends Controller
-{
+{ 
+    public function bibliothècaire()
+    {
+        return view('bibliothecaire');
+    }  
     //pour afficher le formulaire de demande de reservation 
     public function show()
     {

@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.biblio {
+    background-image: url('../images/bib-image.jpg');
+    background-size: cover;
+}
+
+header{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color:#096097;
+    box-shadow:0 5px 3px #4d4c4c;
+    margin-bottom: 20px;
+    padding: 0 0px;
+   /* background: linear-gradient(45deg,#00515a,#100375,#0d0d0d);*/
+}
+nav{
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-left: 10%;
+    padding-right: 0%;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+nav h2 span{
+    color: rgb(35, 35, 182);
+}
+.navlinks{
+  list-style: none;
+  margin-right: 0px;
+}
+nav .logo {
+   /* height: 50px;
+    width: 50px*/
+    color: #000000;
+    font-family:'Times New Roman', Times, serif;
+    font-size: medium;
+
+}
+nav ul li{
+    list-style-type: none;
+    display: inline-block;
+    padding: 5px 10px;
+    
+}
+nav ul li a{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  
+}
+
+
+nav ul li:hover{
+    background: #c9c3c3;
+    box-shadow: 10px 20px 30px  #000000;
+    border-radius: 20px;
+}
+nav ul li a:hover{
+    color: black;
+    transition: .1s;
+    border-bottom: 4px solid #ff9400;
+
+}
+.fa-solid.fa-user{
+    color: rgb(20, 2, 177);
+    margin-right: 5px;
+    font-size: 16px;
+}
+main {
+    padding: 20px;
+    text-align: center;
+}
