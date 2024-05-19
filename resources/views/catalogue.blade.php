@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/catalogue.css') }}">
     <link rel="stylesheet" href="{{asset('fontawesome-free-6.4.2-web/css/all.min.css')}}">
 </head>
+
 <body>
     <header>
         <nav>
@@ -15,11 +17,22 @@
             </a>-->
             <h2 class="logo"> FSTS BIBLIOTHEQUE</h2>
             <ul class="navlinks">
-               <li><a href="{{ route('catalogue') }}">Ouvrages</a></li>
-               <li><a href="#">Mes emprunts</a></li>
-               <li><a href="#"><i class="fa-solid fa-bell"></i></a></li>
-               <li><a href="{{ route('login') }}" target="_blank"><i class="fa-solid fa-user"></i>Déconnexion</a></li>  
+                <li><a href="{{ route('catalogue') }}">Ouvrages</a></li>
+                <li><a href="#">Mes emprunts</a></li>
+                <li><a href="#"><i class="fa-solid fa-bell"></i></a></li>
+                <!-- <li><a href="{{ route('logout') }}" target="_blank"><i class="fa-solid fa-user"></i>Déconnexion</a></li> -->
+                <li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fa-solid fa-user"></i> Déconnexion
+                    </a>
+                </li>
             </ul>
+
+
+
         </nav>
     </header>
     <div class="search-bar">
@@ -38,7 +51,7 @@
                 @foreach ($livres as $livre)
                     <div class="livre-box" data-id="{{ $livre->id }}">
                         <div class="img-box">
-                        <img src="{{ $livre->image }}" alt="{{ $livre->titre }}">
+                            <img src="{{ $livre->image }}" alt="{{ $livre->titre }}">
                         </div>
                         <div class="livre-info">
                             <h5>{{ $livre->titre }}</h5>
@@ -49,14 +62,15 @@
                 @endforeach
             </div>
 
-         
+
             <div class="pagination">
-                
+
             </div>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ asset('javascript/catalogue.js') }}"></script>
-    
+
 </body>
+
 </html>

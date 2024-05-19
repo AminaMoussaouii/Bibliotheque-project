@@ -12,24 +12,23 @@ Route::controller(LoginController::class)->group(function() {
     Route::get('/login', 'login')->name('login');
     Route::get('/','index')->name('index');
     Route::post('/login/store', 'Redirection')->name('Redirection');
-    Route::get('/forgot', 'forgotPassword')->name('forgot');
+    Route::post('/logout', 'logout')->name('logout');
 });
+//route pour admin dashbord
 Route::controller(adminController::class)->group(function() {
     Route::get('/admin', 'admin')->name('admin');
     Route::post('/admin/ajouter', 'store')->name('ajouterUser');
     Route::post('/import', 'import')->name('import');
 });
 
-
-
-//use App\Http\Controllers\auth\ForgotPasswordController;
+Auth::routes([
+    'register' => false, // Désactiver l'inscription);
+]);
 
 // Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 // Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
-/*Auth::routes([
-    'register' => false, // Désactiver l'inscription);
-]);*/
+
 
 ///////////////////////////////////////:::::
 /*Route::get('/', function () {
@@ -80,3 +79,7 @@ Route::get('/reservations', [ReservationController::class, 'index']);
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

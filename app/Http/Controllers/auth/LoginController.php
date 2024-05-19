@@ -7,9 +7,11 @@ use App\Models\UserLibrary;
 use Illuminate\Http\Request;
 //use Illuminate\Auth\Notifications\ResetPassword;
 //use Illuminate\Support\Facades\Hash;
-//use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
-{
+{    
+    use AuthenticatesUsers;
     /**
      * Display a listing of the resource.
      */
@@ -66,6 +68,18 @@ class LoginController extends Controller
         }
     }
     
+    // method logout
+    
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
     /**
      * Show the form for creating a new resource.
      */

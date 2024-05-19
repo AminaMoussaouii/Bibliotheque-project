@@ -10,11 +10,11 @@
       <input type="checkbox"  id="showPassword">
       <label for="showPassword" class="showPassword">Afficher le mot de passe</label>
 
-      <span class="forgot-password"><a href="#">Forgot Password ?</a></span>
+      <span class="forgot-password"><a href="{{ route('password.request') }}">Forgot Password ?</a></span>
       <input class="login-button" type="submit" value="Sign In">
       
     </form>
-    <div class="social-account-container">
+    <!--<div class="social-account-container">
         <span class="title">Or Sign in with</span>
         <div class="social-accounts">
           <button class="social-button google">
@@ -34,5 +34,5 @@
         </div>
       </div>
       <span class="agreement"><a href="#">Learn user licence agreement</a></span>
-  </div>
+  </div>-->
   </body>

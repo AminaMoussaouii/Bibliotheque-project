@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
@@ -18,7 +18,7 @@ class ConfirmPasswordController extends Controller
     |
     */
 
-    //use ConfirmsPasswords;
+    use ConfirmsPasswords;
 
     /**
      * Where to redirect users when the intended url fails.
@@ -32,8 +32,8 @@ class ConfirmPasswordController extends Controller
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 }
