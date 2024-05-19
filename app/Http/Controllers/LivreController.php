@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Livre; 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\LivresImport;
+use Illuminate\Support\Facades\File;
+Use Response;
+use DataTables;
 
 class LivreController extends Controller
 {
@@ -13,72 +18,122 @@ class LivreController extends Controller
     }
 
     // methode pour afficher les livres dans le ctalogue
-    public function index()
+   public function index()
     {
         
-        $livres = Livre::all();
+        $livres = Livre::paginate(10);
         return view('catalogue', ['livres' => $livres]);
     }
     
-    //methode pour afficher les details de chaque livre 
+  
+  //methode pour afficher les details de chaque livre 
 
+  
     public function afficherDetails($id) {
         $livre = Livre::find($id);
         return view('livreDetails', ['livre' => $livre]);
     }
-    
 
-//methode pour ajouter un nouveau livre
+   
 
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'titre' => 'required|string|max:255',
-            'auteur' => 'required|string|max:255',
-            'isbn' => 'required|string',
-            'editeur' => 'required|string|max:255',
-            'langue' => 'required|string|max:255',
-            'date_edition' => 'required|date',
-            'exp_dispo' => 'required|string|max:255',
-            'etage' => 'required|string|max:255',
-            'rayon' => 'required|string|max:255',
-            'nbr_pages' => 'required|integer',
-            'discipline' => 'required|string|max:255',
-            'disponibilite' => 'required|string|in:disponible,reserve',
-            'type' => 'required|string|in:Livre,CD,Mémoire',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+//============ recupere les livres respo ====================
+public function getLivres(Request $request)
+{
+    if ($request->ajax()) {
+        $livres = Livre::all();
+        return datatables()->of($livres)
+        ->addIndexColumn()
+        ->addColumn('action', function($row){ 
+            $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-success edit-livre" style="height:20px;font-size:xx-small;width:43px;padding-left:0;background-color:#5dac0e; border:none">Edit</a>';
+            $btn .= ' <a href="javascript:void(0);" id="delete-livre" data-toggle="tooltip" data-original-title="Delete" data-id="' . $row->id . '"  class="btn btn-danger btn-sm deleteLivre" style="height:20px;font-size:xx-small;width:43px;padding-left:0; border:none;">Delete</a>';
+            
+            return $btn; })
+            ->addColumn('image', function($row){
+                $imageUrl = asset('images/' . $row->image);
+                return '<img src="'.$imageUrl.'" alt="Image" width="100" height="100">';
+            })
+            ->rawColumns(['action', 'image'])
        
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
-        } else {
-            $imageName = null;
-        }
-        
-        $livre = new Livre();
-        $livre->titre = $validatedData['titre'];
-        $livre->auteur = $validatedData['auteur'];
-        $livre->isbn = $validatedData['isbn'];
-        $livre->editeur = $validatedData['editeur'];
-        $livre->langue = $validatedData['langue'];
-        $livre->date_edition = $validatedData['date_edition'];
-        $livre->exp_disp = $validatedData['exp_dispo'];
-        $livre->etage = $validatedData['etage'];
-        $livre->rayon = $validatedData['rayon'];
-        $livre->nombre_pages = $validatedData['nbr_pages']; 
-        $livre->discipline = $validatedData['discipline'];
-        $livre->statut = $validatedData['disponibilite'];
-        $livre->type_ouvrage = $validatedData['type'];
-        $livre->image = $imageName;
-    
-        $livre->save();
-    
-        return redirect('/responsable')->with('success', 'Livre enregistré avec succès.');
+       
+        ->make(true);
     }
-    
+    return back();
+}
 
+//===================methode pour ajouter un nouveau livre==================
+
+public function store(Request $request)
+{
+    request()->validate([
+        'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $isbn = $request->isbn;
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('images'), $imageName);
+        $imagePath = $imageName; 
+    } 
+
+    $livre = new Livre();
+    $livre->titre = $request->titre;
+    $livre->auteur = $request->auteur;
+    $livre->isbn = $isbn;
+    $livre->editeur = $request->editeur;
+    $livre->langue = $request->langue;
+    $livre->date_edition = $request->date_edition;
+    $livre->exp_disp = $request->exp_disp;
+    $livre->etage = $request->etage;
+    $livre->rayon = $request->rayon;
+    $livre->nombre_pages = $request->nombre_pages;
+    $livre->discipline = $request->discipline;
+    $livre->statut = $request->statut;
+    $livre->type_ouvrage = $request->type_ouvrage;
+    $livre->image = $imagePath;
+
+    $livre->save();
+    flash()->success('Le livre est ajouté avec succés');
+
+    return response()->json($livre);
+}
+
+// =============Edit Livre================
+
+public function edit($id)
+{
+    $livre = Livre::findOrFail($id); 
+    return response()->json($livre);
+}
+
+// ============ Update ============
+public function update(Request $request, $id)
+{
+    dd($request->all());
+    $livre = Livre::findOrFail($id);
+    $request->validate([
+        'isbn' => 'required|string|max:255',
+        'titre' => 'required|string|max:255',
+    ]);
+
+    $livre->isbn = $request->isbn;
+    $livre->titre = $request->titre;
+
+    $livre->save();
+    return response()->json(['message' => 'Les données du livre ont été mises à jour avec succès']);
+}
+
+
+// ================== supprimer un livre ============
+public function destroy($id)
+{
+    $livre = Livre::findOrFail($id);
+    $livre->delete(); 
+    
+    flash()->success('Le livre est supprimé avec succés');
+    return response()->json(['success' => 'Livre supprimé avec succès']); 
+}
 
 //methode pour le filtre
 
@@ -107,57 +162,38 @@ public function filtrerLivres(Request $request)
     return response()->json(['livres' => $livres]);
 }
 
-//methode pour afficher les livres dans le tableau du dasbboard responsable
 
-public function getAllLivres()
+
+//methode pour limportation du fichier Excel diun ensemble de livres 
+
+public function import(Request $request)
 {
-    $livres = Livre::all();
-    return response()->json(['livres' => $livres]);
-}
-
-
-//fonction pour recuperer les infos d'un livre à modifier 
-public function modifier($id)
-{
-    $livre = Livre::find($id);
-    return view('modifierLivre', ['livre' => $livre]);
-}
-
-//fonction pour faire et update aux données du livre
-public function update(Request $request, $id)
-{
-    $validatedData = $request->validate([
-        'isbn' => 'required|string|max:255',
-        'titre' => 'required|string|max:255',
-        'auteur' => 'required|string|max:255',
-        'langue' => 'required|string|max:255',
-        'editeur' => 'required|string|max:255',
-        'date_edition' => 'required|date',
-        'exp_dispo' => 'required|integer',
-        'etage' => 'required|string|max:255',
-        'rayon' => 'required|string|max:255',
-        'nbr_pages' => 'required|integer',
-        'discipline' => 'required|string|max:255',
-        'disponibilite' => 'required|in:disponible,reserve',
-        'type' => 'required|in:Livre,CD,Mémoire',
+    $request->validate([
+        'file' => 'required|mimes:xls,xlsx,csv'
     ]);
 
-    $livre = Livre::findOrFail($id);
-    $livre->update($validatedData);
-    return redirect('/responsable')->with('success', 'Livre mis à jour avec succès.');
+    $file = $request->file('file');
+
+    Excel::import(new LivresImport, $file);
+
+    return redirect()->back()->with('success', 'Les livres ont été importées avec succès.');
 }
 
-
-//methode pour supprimer un livre existantt dans la base de donneés 
-public function destroy($id)
+//methode pour la recherche des livres 
+public function search(Request $request)
 {
-    $livre = Livre::findOrFail($id);
-    $livre->delete();
+    $term = $request->input('term');
+    
+    $livres = Livre::where('titre', 'LIKE', "%$term%")
+                    ->orWhere('auteur', 'LIKE', "%$term%")
+                    ->get();
 
-    return redirect('/responsable')->with('success', 'Livre supprimé avec succès.');
+    return response()->json($livres);
 }
 
 
 
-
 }
+
+
+

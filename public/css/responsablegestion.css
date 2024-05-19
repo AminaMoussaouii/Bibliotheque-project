@@ -29,6 +29,7 @@ body {
     border-left: 10px solid var(--blue);
     transition: 0.5s;
     overflow: hidden;
+    left: 0;
   }
   .navigation.active {
     width: 60px;
@@ -37,13 +38,13 @@ body {
   .navigation ul {
     position: absolute;
     top: 0;
-    left: 0;
+    left: -30px;
     width: 100%;
   }
   
   .navigation ul li {
     position: relative;
-    width: 100%;
+    width: 116.5%;
     list-style: none;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
@@ -52,6 +53,7 @@ body {
   .navigation ul li:hover,
   .navigation ul li.hovered {
     background-color: var(--white);
+
   }
   
   .navigation ul li:nth-child(1) {
@@ -103,26 +105,28 @@ body {
     content: "";
     position: absolute;
     right: 0;
-    top: -50px;
-    width: 50px;
-    height: 50px;
+    top: -25px;
+    width: 23px;
+   height: 43px;
     background-color: transparent;
-    border-radius: 50%;
+    border-radius: 80%;
     box-shadow: 35px 35px 0 10px var(--white);
     pointer-events: none;
+   
   }
   .navigation ul li:hover a::after,
   .navigation ul li.hovered a::after {
     content: "";
     position: absolute;
     right: 0;
-    bottom: -50px;
-    width: 50px;
-    height: 50px;
+    bottom: -25px;
+    width: 23px;
+    height: 43px;
     background-color: transparent;
     border-radius: 50%;
     box-shadow: 35px -35px 0 10px var(--white);
     pointer-events: none;
+   
   }
 
 
@@ -133,17 +137,18 @@ body {
   /* ===================== Début Navbar ===================== */
   .navbar {
     width: 100%;
-    height: 40px;
-    padding-top: 5px;
+    right: 0;
+    height: 50px;
+    padding-top: 7px;
+    padding-right: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
     position: sticky;
+  
   }
   
   .toggle {
-    position: relative;
     width: 40px;
     height: 40px;
     display: flex;
@@ -153,15 +158,18 @@ body {
     font-size: 2.5rem;
     cursor: pointer;
     color: #f99324 ;
+    position: fixed;
+    left: 0;
   }
   
   .user {
-    position: relative;
+    position: fixed;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
+    right: 0;
   }
   
   .user img {
@@ -180,7 +188,6 @@ body {
     width: calc(100% - 300px);
     left: 280px;
     min-height: 100vh;
-    background: var(--white);
     transition: 0.5s;
   }
   .main-content.active {
@@ -191,12 +198,12 @@ body {
 
 .search2 {
   position: relative;
-  width: 200px;
-  margin-left: 200px;
+  width: 300px;
+  margin-left: 100px;
   margin-bottom: 10px;
-  border: 1px solid #f99324;
   border-radius: 20px ;
   padding: 5px;
+
 }
 
 .search2 label {
@@ -204,13 +211,30 @@ body {
   width: 100%;
 }
 
-.search2 label input {
-  width: 100%;
+.search2 input[type="search"] {
+  width: 70%;
   height: 20px;
   padding: 5px 20px;
   padding-left: 35px;
   outline: none;
   border: none;
+    border:1.3px solid #003fde;
+    border-radius: 20px;
+    margin-right: 10px;
+    outline: none;
+    box-shadow: 0 5px 8px #9a9a9a; 
+}
+.search2 button{
+  border: 1px solid #096097;
+  background-color: #096097;
+  border-radius: 10px;
+  cursor: pointer;
+  height: 30px;
+  font-size: xx-small;
+  width: 65px;
+  color: white;
+  font-weight: 500;
+  font-family: 'ubuntu';
 }
 
 #ajouter-btn , #excelfile{
@@ -221,6 +245,7 @@ body {
     border: none;
     width: 70px;
     font-family: 'ubuntu';
+    font-weight:500;
     font-size: x-small;
 }
 #excelfile{
@@ -273,12 +298,12 @@ body {
   font-size: xx-small;
   padding: 3px;
   border: none;
+  margin-bottom: 3px;
 }
 
 .fa-solid.fa-pen{
- width: 40px;
- font-size: 16px;
- padding: 5px 0;
+ width: 30px;
+ font-size: 13px;
 }
 
 .button1:hover{
@@ -295,10 +320,8 @@ body {
 }
 
 .fa-solid.fa-trash{
-width: 40px;
-font-size: 16px;
-padding: 5px 0;
-
+width: 30px;
+font-size: 13px;
 }
 
 .button2:hover{
@@ -349,20 +372,23 @@ font-family: 'ubuntu';
  border-radius: 20px;
  cursor: pointer;
  width: 90px;
- height: 20px;
+ height: 30px;
  margin-top: 20px;
  margin-left: 20px;
+ font-size: small;
+ font-family: 'ubuntu';
  transition: background-color 0.3s ease;
 }
 .informations .valider:hover{
  background-color: #2679e7;
 }
 .informations select{
- margin-left: 50px;
  height: 30px;
  border-radius: 5px;
  border:1.5px solid #096097;
- 
+}
+.informations #editeur{
+  width: 150px;
 }
 .input-file-button {
   border-radius: 8px;

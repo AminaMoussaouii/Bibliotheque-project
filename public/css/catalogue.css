@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
+
 *{
     box-sizing: border-box;
     margin: 0;
@@ -6,8 +9,7 @@
 }
 body{
 
-   background: #fcfcfc;/*#f2f1f1*/
-   /* background-image: url('../images/bibphoto1.jpeg');*/
+   background: #fcfcfc;
     background-repeat: no-repeat;
     background-attachment: fixed;
     
@@ -19,19 +21,17 @@ header{
     top: 0;
     z-index: 2;
     background-color:#096097;
-    box-shadow:0 5px 3px #4d4c4c;
+    box-shadow:0 5px 3px #9a9a9a;
     margin-bottom: 20px;
+    height: 40px;
+    padding-top: 5px;
    /* background: linear-gradient(45deg,#00515a,#100375,#0d0d0d);*/
 }
 nav{
-    
     display: flex;
     align-items: center;
     justify-content: space-around;
-    padding-left: 10%;
-    padding-right: 10%;
-    padding-bottom: 3px;
-    padding-top: 3px;
+   
 }
 nav h2 span{
     color: rgb(35, 35, 182);
@@ -40,7 +40,7 @@ nav h2 span{
   list-style: none;
   
 }
-nav .logo {
+.navbar-head .logo {
    /* height: 50px;
     width: 50px*/
     color: #000000;
@@ -48,36 +48,45 @@ nav .logo {
     font-size: small;
 
 }
-nav ul li{
+.navbar-head ul li{
     list-style-type: none;
     display: inline-block;
-    padding: 10px 20px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
-nav ul li a{
+.navbar-head ul li a{
     color: white;
     text-decoration: none;
     font-weight: bold;
+    font-size: x-small;
+    font-family: 'ubuntu';
   
 }
-nav ul li:hover{
-    background: #c9c3c3;
-    box-shadow: 10px 20px 30px  #000000;
-    border-radius: 20px;
+.navbar-head ul li:hover{
+    background: #efefef;
+    box-shadow: 10px 20px 30px  #3d3d3d;
+    border-radius: 10px;
 
 }
-nav ul li a:hover{
+.navbar-head ul li a:hover{
     color: black;
     transition: .1s;
-    border-bottom: 4px solid #ff9400;
+   
 }
 .fa-solid.fa-user{
-    color: rgb(20, 2, 177);
+    color: rgb(240, 240, 240);
     margin-right: 10px;
     font-size: 16px;
 }
+.fa-solid.fa-user:hover{
+    color: black;
+}
 .fa-solid.fa-bell{
-    color: rgb(39, 45, 141);
+    color: rgb(232, 232, 232);
     font-size: 16px;
+}
+.fa-solid.fa-bell:hover{
+    color: black;
 }
 /*fin navbar*/
 
@@ -87,15 +96,18 @@ nav ul li a:hover{
     text-align: center;
 }
 
-.search-bar input[type="text"] {
+.search-bar input[type="search"] {
     padding: 8px;
     width: 40%;
-    border-color: #100375;
+    border:1.3px solid #003fde;
     border-radius: 20px;
     margin-right: 10px;
     outline: none;
-    box-shadow: 0 5px 8px #1d94f5; 
+    box-shadow: 0 5px 8px #9a9a9a; 
 }
+/*.ui-menu{
+    z-index: 3500 !important;
+}*/
 
 .search-bar button {
     padding: 8px 20px;
@@ -121,6 +133,10 @@ nav ul li a:hover{
     padding: 20px;
     margin-left: 10px;
 
+    position: sticky;
+    top: 60px;
+    max-height: calc(100vh - 40px); 
+    overflow-y: auto;
 }
 .section{
     margin-bottom: 10px;
@@ -146,7 +162,7 @@ nav ul li a:hover{
     bottom: -5px;
     width: 150px;
     height: 1.5px;
-    background-color: #100375;
+    background-color: #fa9119;
 }
 
 .section-contenu table {
@@ -191,13 +207,13 @@ nav ul li a:hover{
 
 .livre-container {
     display: grid;
-    grid-template-columns: repeat(4,1fr) ;
-    grid-template-rows: repeat(4,1fr);
+    grid-template-columns: repeat(5,1fr) ;
+    grid-template-rows: repeat(3,1fr);
     row-gap :20px;
     column-gap :15px;
     margin-top: 40px;
-    margin-right: 40px;
-    width: auto;
+    width: 960px;
+    /*width :auto;*/
 }
 
 .livre-box {  
@@ -205,9 +221,11 @@ nav ul li a:hover{
     border: 1px solid #ddd; 
     border-radius: 10px; 
     box-shadow: 5px 10px 10px #2b2b2b; 
-    background-color: #ffffff; 
+    background-color: #dadada; 
     text-align: center;
     transition: .5s ease-in-out;
+    height: 250px;
+    
 }
 .livre-box:hover{
     border:2px solid rgb(79, 79, 79) ;
@@ -219,37 +237,45 @@ nav ul li a:hover{
     border-bottom-right-radius: 25px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background-color: #ffefef;
+    background-color: #f4f2f2;
     padding-top: 5px;
  }
 
 .livre-box img {
-    max-width: 100%; 
-    height: 170px;
+    max-width: 100%;
+    width: 60%; 
+    height: 140px;
    border-radius: 5px;
     display: inline-block;
+    padding-bottom: 5px;
 }
 .livre-info span{
    margin-right: 10px;
-   font-size: 10;
+   font-size: x-small;
    font-weight: bold;
    color: #ff6f1c;
 }
 
 .livre-info {
-    padding: 5px;
     font-family: 'Times New Roman', Times, serif;
+    font-size: x-small;
 }
-
+#titre{
+    font-size: small;
+    font-weight: bold;
+    padding-top: 5px;
+}
+p{
+    margin-bottom: 0;
+}
 
 .pagination {
     text-align: center;
-    margin-top: 20px;
 }
 
 .pagination a {
     display: inline-block;
-    padding: 5px 10px;
+    /*padding: 5px 10px;*/
     margin-right: 5px; 
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -259,7 +285,7 @@ nav ul li a:hover{
 }
 
 .pagination a.active {
-    background-color: #007bff; 
+    background-color: #096097; 
     color: #fff; 
 }
 .page-container {
@@ -268,4 +294,23 @@ nav ul li a:hover{
 .main-container {
     flex-grow: 1; 
     margin-left: 40px; 
+}
+
+/* ===============scroll personnalisé ===============*/
+
+::-webkit-scrollbar{
+    width: 15px;
+}
+
+::-webkit-scrollbar-track{
+    background:#ffffff;
+    border-radius: 20px;
+    margin-block: 50px;
+}
+::-webkit-scrollbar-thumb{
+    background: linear-gradient(#096097,#fa9119);
+    border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover{
+    background: linear-gradient(#fa9119,#096097);
 }

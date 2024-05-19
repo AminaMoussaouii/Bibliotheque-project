@@ -251,23 +251,27 @@ body {
 
 
 .button1{
-    background-color: #1b7b39;
-    border-radius: 5px;
-    border-color: #087c1b;
-    color: rgb(255, 255, 255);
-    font-size: xx-small;
+  background-color: #5dac0e;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  font-size: xx-small;
+  padding: 3px;
+  border: none;
+  margin-bottom: 3px;
 }
 .button1:hover{
     background-color: #82b684;
 }
 
 .button2{
-    background-color: #c3342f;
-    border-radius: 5px;
-    border-color: #7c0808;
-    color: rgb(255, 255, 255);
-    font-size: xx-small;
+  background-color: #cb0b0b;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  font-size: xx-small;
+  border: none;
+  padding: 3px;
 }
+
 .button2:hover{
     background-color: #db6a6a;
 } 

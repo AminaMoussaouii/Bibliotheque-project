@@ -9,35 +9,32 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;  
 }
+/*debut navbar*/
 header{
     position: sticky;
     top: 0;
     z-index: 2;
-    height: 35px;
-    background-color:#4973f3;
-    box-shadow:0 3px 3px #4d4c4c;
+    background-color:#096097;
+    box-shadow:0 5px 3px #9a9a9a;
+    margin-bottom: 20px;
+    height: 40px;
+    padding-top: 5px;
+   /* background: linear-gradient(45deg,#00515a,#100375,#0d0d0d);*/
 }
 nav{
     display: flex;
     align-items: center;
     justify-content: space-around;
-    padding-left: 10%;
-    padding-right: 10%;
-    padding-bottom: 3px;
-    padding-top: 3px;
-    font-size: x-small;
-    font-family: 'Times New Roman', Times, serif;
-
+   
 }
 nav h2 span{
     color: rgb(35, 35, 182);
-  
 }
 .navlinks{
   list-style: none;
   
 }
-nav .logo {
+.navbar-head .logo {
    /* height: 50px;
     width: 50px*/
     color: #000000;
@@ -45,33 +42,47 @@ nav .logo {
     font-size: small;
 
 }
-nav ul li{
+.navbar-head ul li{
     list-style-type: none;
     display: inline-block;
-    padding: 10px 20px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
-nav ul li a{
+.navbar-head ul li a{
     color: white;
     text-decoration: none;
     font-weight: bold;
+    font-size: x-small;
+    font-family: 'ubuntu';
   
 }
-nav ul li:hover{
-    background: #c9c3c3;
-    box-shadow: 0px 5px 5px  #000000;
-    border-radius: 20px;
-    height: 30px;
+.navbar-head ul li:hover{
+    background: #efefef;
+    box-shadow: 10px 20px 30px  #3d3d3d;
+    border-radius: 10px;
 
 }
-nav ul li a:hover{
+.navbar-head ul li a:hover{
     color: black;
     transition: .1s;
-    border-bottom: 2px solid #ff9400;
+   
 }
 .fa-solid.fa-user{
-    color: rgb(20, 2, 177);
+    color: rgb(240, 240, 240);
     margin-right: 10px;
+    font-size: 16px;
 }
+.fa-solid.fa-user:hover{
+    color: black;
+}
+.fa-solid.fa-bell{
+    color: rgb(232, 232, 232);
+    font-size: 16px;
+}
+.fa-solid.fa-bell:hover{
+    color: black;
+}
+/*fin nav*/
 
 section {
     display: grid;
