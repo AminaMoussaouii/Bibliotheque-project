@@ -91,12 +91,21 @@
                         <span class="title">Statistiques</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ url('#') }}" class="sidebar-link">
+                <!--<li>
+                    <a href="{{ url('logout') }}" class="sidebar-link">
                         <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
                         <span class="title">Déconnexion</span>
                     </a>
-                </li>
+                    </li>-->
+                    <li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                        <span class="title">Déconnexion</span>
+                    </a>
+                </li> 
             </ul>
         </div>
 
@@ -109,8 +118,8 @@
             </div> 
         </div>
 
-        <!--====================== Main-content ==========================-->
-        <div class="main-content">
+      <!--====================== Main-content ==========================-->
+      <div class="main-content">
             <div class="containergestion" style="padding-left: 50px; padding-right:50px;padding-bottom:70px">
                 <h2 style="margin-left: 110px">Gestion des ouvrages</h2>
                 <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-livre" style="margin-left: 110px; background-color: #f99324; border:none;border-radius:10px   ;box-shadow: 0 5px 5px #9a9a9a; ">Ajouter</a>
@@ -139,7 +148,9 @@
                         </div>
                         <div class="modal-body">
                             <form id="livreForm" name="livreForm" class="form-horizontal" enctype="multipart/form-data">
-                            
+                             @csrf
+                             <input type="hidden" name="livre_id" id="livre_id">
+                             
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Image</label>
                                     <div class="col-sm-12">
@@ -298,12 +309,10 @@ $(document).ready(function() {
         $('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
     });
 
-    // Aperçu de l'image sélectionnée
     $('body').on('change', '#image', function() {
         readURL(this);
     });
 
-    // Fonction pour lire et afficher l'image sélectionnée
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -313,7 +322,6 @@ $(document).ready(function() {
             reader.readAsDataURL(input.files[0]);
         }
     }
-
     // Ajout
     $('body').on('submit', '#livreForm', function(e) {
         e.preventDefault();
@@ -341,56 +349,84 @@ $(document).ready(function() {
             }
         });
     });
+    
+//modification methode (update)
 
-                            // Édition d'un livre
-       $('body').on('click', '.edit-livre', function() {
-var livre_id = $(this).data('id');
-$.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
-    // Mise à jour du formulaire avec les données du livre
-    $('#livreCrudModal').html("Modifier Livre");
-    $('#btn-save').val("edit-livre");
-    $('#ajax-livre-modal').modal('show');
-    $('#isbn').val(data.isbn);
-    $('#titre').val(data.titre);
-    $('#auteur').val(data.auteur);
-    $('#editeur').val(data.editeur);
-    $('#langue').val(data.langue);
-    $('#date_edition').val(data.date_edition);
-    $('#exp_disp').val(data.exp_disp);
-    $('#etage').val(data.etage);
-    $('#rayon').val(data.rayon);
-    $('#nombre_pages').val(data.nombre_pages);
-    $('#discipline').val(data.discipline);
-    $('#type_ouvrage').val(data.type_ouvrage);
-    $('#statut').val(data.statut);
-
-    // Afficher l'image du livre
-    $('#modal-preview').attr('src', data.image_url).removeClass('hidden');
+    $('body').on('submit', '#livreForm', function(e) {
+    e.preventDefault();
+    var actionType = $('#btn-save').val();
+    $('#btn-save').html('Sending..');
+    var formData = new FormData(this);
+    $.ajax({
+        type: 'POST',
+        url: SITEURL + 'livres/Update/' + $('#livre_id').val(),
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+            console.log(data);
+            $('#livreForm').trigger("reset");
+            $('#ajax-livre-modal').modal('hide');
+            $('#btn-save').html('Save Changes');
+            var oTable = $('#laravel_11_datatable').DataTable();
+            oTable.ajax.reload();
+        },
+        error: function(data) {
+            console.log('Error:', data);
+           // alert('Erreur lors de la mise à jour du livre. Veuillez vérifier les logs pour plus de détails.');
+            $('#btn-save').html('Save Changes');
+        }
+    });
 });
-});
 
-        // Suppression d'un livre
-        $('body').on('click', '#delete-livre', function() {
-            var livre_id = $(this).data('id');
-            if (confirm("Êtes-vous sûr de vouloir supprimer ce livre?")) {
-                $.ajax({
-                    type: "GET",
-                    url: SITEURL + 'livres/Delete/' + livre_id,
-                    success: function(data) {
-                        var oTable = $('#laravel_11_datatable').DataTable();
-                        oTable.ajax.reload();
-                        alert(data.success);
-                    },
-                    error: function(data) {
-                        console.log('Error:', data);
-                    }
-                });
-            }
+//edit 
+    $('body').on('click', '.edit-livre', function() {
+        var livre_id = $(this).data('id');
+        $.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
+            $('#livreCrudModal').html("Modifier Livre");
+            $('#btn-save').val("edit-livre");
+            $('#livre_id').val(livre_id);
+            $('#ajax-livre-modal').modal('show');
+            $('#isbn').val(data.isbn);
+            $('#titre').val(data.titre);
+            $('#auteur').val(data.auteur);
+            $('#editeur').val(data.editeur);
+            $('#langue').val(data.langue);
+            $('#date_edition').val(data.date_edition);
+            $('#exp_disp').val(data.exp_disp);
+            $('#etage').val(data.etage);
+            $('#rayon').val(data.rayon);
+            $('#nombre_pages').val(data.nombre_pages);
+            $('#discipline').val(data.discipline);
+            $('#type_ouvrage').val(data.type_ouvrage);
+            $('#statut').val(data.statut);
+            $('#modal-preview').attr('src', data.image_url).removeClass('hidden');
         });
-       
+    });
+
+    //supprimer
+
+    $('body').on('click', '#delete-livre', function() {
+        var livre_id = $(this).data('id');
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce livre?")) {
+            $.ajax({
+                type: "GET",
+                url: SITEURL + 'livres/Delete/' + livre_id,
+                success: function(data) {
+                    var oTable = $('#laravel_11_datatable').DataTable();
+                    oTable.ajax.reload();
+                    alert(data.success);
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
+    });
 
     //================== EXCEL ===============
-                $(document).ready(function() {
+    $(document).ready(function() {
                 var SITEURL = '{{ url("/") }}/';
 
                 console.log(SITEURL);
@@ -456,6 +492,7 @@ $.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
         order: [[0, 'desc']]
     });
 });
+
 </script>
 
     
@@ -482,4 +519,3 @@ $.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
 
 </body>
 </html>
-

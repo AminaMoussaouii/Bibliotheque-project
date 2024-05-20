@@ -12,7 +12,7 @@
         <nav>
          <h2 class="logo"> FSTS BIBLIOTHEQUE</h2>
          <ul class="navlinks">
-            <li><a href="{{ route('login') }}" target="_blank"><i class="fa-solid fa-user"></i>Connexion</a></li>
+            <li><a href="{{ route('login') }}" ><i class="fa-solid fa-user"></i>Connexion</a></li>
          </ul>
         </nav>
     </header>

@@ -5,6 +5,7 @@ use App\Http\Controllers\LivreController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\adminController;
+use Illuminate\Support\Facades\Auth;
 
 //route pour l'authentification 
 
@@ -61,7 +62,9 @@ Route::get('/responsable', [LivreController::class, 'responsable'])->name('respo
 
        Route::get('livres/Edit/{id}', [LivreController::class, 'edit']);
        Route::get('livres/Delete/{id}', [LivreController::class, 'destroy']);
-       Route::put('livres/Update/{id}', [LivreController::class, 'update'])->name('livres.update');
+       Route::post('livres/Update/{id}',[LivreController::class,'update']);
+      
+      
 
 
 

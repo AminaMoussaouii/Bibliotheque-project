@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,28 +12,23 @@
     
     <meta name="livre-search-url" content="{{ route('livre.search') }}">
 </head>
-
 <body>
     <header>
         <nav class="navbar-head">
             <h2 class="logo"> FSTS BIBLIOTHEQUE</h2>
             <ul class="navlinks">
-                <li><a href="{{ route('catalogue') }}">Ouvrages</a></li>
-                <li><a href="#">Mes emprunts</a></li>
-                <li><a href="#"><i class="fa-solid fa-bell"></i></a></li>
-                <!-- <li><a href="{{ route('logout') }}" target="_blank"><i class="fa-solid fa-user"></i>Déconnexion</a></li> -->
-                <li>
+               <li><a href="{{ route('catalogue') }}">Ouvrages</a></li>
+               <li><a href="#">Mes emprunts</a></li>
+               <li><a href="#"><i class="fa-solid fa-bell"></i></a></li>
+               <li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fa-solid fa-user"></i> Déconnexion
                     </a>
-                </li>
+                </li>  
             </ul>
-
-
-
         </nav>
     </header>
    
@@ -75,6 +69,9 @@
             </div>
         </div>
     </div>
+    <script>
+        var baseUrl = "{{ asset('images') }}";
+    </script>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ asset('javascript/catalogue.js') }}"></script>
@@ -83,5 +80,4 @@
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     
 </body>
-
 </html>
