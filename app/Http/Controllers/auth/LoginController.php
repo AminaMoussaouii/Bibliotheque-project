@@ -42,7 +42,7 @@ class LoginController extends Controller
             // User found, verify password
             if ($password == $user->password) {
                 // Passwords match, redirect to dashboard
-                switch ($user->role) {
+                switch ($user->Role) {
                     case 'etudiant':
                         return redirect()->route('catalogue');
                     case 'personnel':

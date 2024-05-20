@@ -212,7 +212,7 @@ body {
   
              /* ===================== Table des réservations ===================== */
   .table-container {
-    max-width: 700px;
+    max-width: 900px;
     height: auto;
     overflow-y: auto;
     margin: 50px auto;
@@ -223,6 +223,7 @@ body {
 
 .reservation-table {
     border-collapse: collapse;
+    width:900px;
 }
 
 .reservation-table th,

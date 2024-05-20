@@ -60,13 +60,14 @@
             </li>
 
             <li>
-                <a href="{{ url('#') }}" class="sidebar-link">
-                    <span class="icon">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    </span>
-                    <span class="title">Déconnexion</span>
-                </a>
-            </li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                        <span class="title">Déconnexion</span>
+                    </a>
+                </li> 
         </ul>
     </div>
   
