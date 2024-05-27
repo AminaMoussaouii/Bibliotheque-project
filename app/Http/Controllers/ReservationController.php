@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserLibrary;
 use Illuminate\Http\Request;
 use App\Models\Reservation; 
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 { 
@@ -15,7 +17,17 @@ class ReservationController extends Controller
     //pour afficher le formulaire de demande de reservation 
     public function show()
     {
-        return view('formReservation');
+        // Récupérer l'utilisateur connecté
+    $user = Auth::user();
+    
+    // Vérifier si l'utilisateur est connecté
+    if ($user) {
+        // Afficher le formulaire de réservation avec les informations de l'utilisateur
+        return view('formReservation', compact('user'));
+    } else {
+        // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+        return redirect()->route('login')->with('error', 'Vous devez vous connecter pour accéder à cette page');
+    }
     }
     
     
@@ -87,4 +99,5 @@ public function telechargerPDF(Request $request)
     // Télécharger le PDF
     return $pdf->download('reservation.pdf');}
 
+  
 }

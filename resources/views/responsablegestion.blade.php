@@ -443,7 +443,7 @@ $(document).ready(function() {
                     $('#livreForm').trigger("reset");
                     $('#livreCrudModal').html("Ajouter Nouveau Livre");
                     $('#ajax-livre-modal').modal('show');
-                    $('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
+                    //$('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
                 });
 
                 $('#import-button').click(function() {

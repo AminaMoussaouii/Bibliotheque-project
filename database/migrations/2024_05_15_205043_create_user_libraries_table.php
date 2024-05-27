@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('user_libraries', function (Blueprint $table) {
             $table->id();
+            $table->string('nom');
+            $table->string('prénom');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('Role')->nullable();
+            $table->string('Tél');
+            $table->boolean('is_blocked')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

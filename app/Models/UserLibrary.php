@@ -17,9 +17,13 @@ class UserLibrary extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        
+        'nom',
+        'prénom',
         'email',
         'password',
+        'Tél',
+        'Role',
+    
     ];
 
     /**
@@ -27,10 +31,10 @@ class UserLibrary extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
+    /*protected $hidden = [
         'password',
         'remember_token',
-    ];
+    ];*/
 
     /**
      * Get the attributes that should be cast.
