@@ -163,6 +163,8 @@ return [
          */
         App\Providers\AppServiceProvider::class,
 
+       
+
     ],
 
     /*
@@ -179,6 +181,7 @@ return [
 
     'aliases' => [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        
     ],
     
 ];

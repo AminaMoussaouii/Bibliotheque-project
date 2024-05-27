@@ -33,6 +33,7 @@ class LoginController extends Controller
     
     public function Redirection(Request $request)
     {
+    
         $email = $request->input('email');
         $password = $request->input('password');
     
@@ -50,8 +51,8 @@ class LoginController extends Controller
                     case 'responsable':
                         return redirect()->route('responsable');
                     case 'admin':
-                        return redirect()->route('admin');
-                    case 'bibiothècaire':
+                       return redirect()->route('admin.users.index');
+                    case 'bibliothècaire':
                         return redirect()->route('bibliothècaire');
                     default:
                         return redirect('index');
@@ -79,6 +80,15 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    //block
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->is_blocked) {
+            Auth::logout();
+            return redirect('/login')->withErrors(['message' => 'Your account has been blocked. Please contact the administrator.']);
+        }
     }
     /**
      * Show the form for creating a new resource.

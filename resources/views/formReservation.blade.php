@@ -22,11 +22,15 @@
         </div>
         <div class="form-group">
             <label for="prenom">Prénom :</label>
-            <input type="text" id="prenom" name="prenom" required>
+            <input type="text" id="prénom" name="prenom" required>
         </div>
         <div class="form-group">
             <label for="email">Email :</label>
             <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="branche">Tél:</label>
+            <input type="text" id="Tél" name="branche">
         </div>
         <div class="form-group">
             <label for="titre">Titre de l'ouvrage :</label>
@@ -44,10 +48,7 @@
             <label for="etage">Étage :</label>
             <input type="text" id="etage" name="etage">
         </div>
-        <div class="form-group">
-            <label for="branche">Branche :</label>
-            <input type="text" id="branche" name="branche">
-        </div>
+        
         <button type="submit" id="confirm">Confirmer</button>
         <button type="submit" id="tele"><i class="fa-solid fa-download"></i></button>
 

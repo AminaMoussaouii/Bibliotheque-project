@@ -15,16 +15,31 @@ Route::controller(LoginController::class)->group(function() {
     Route::post('/login/store', 'Redirection')->name('Redirection');
     Route::post('/logout', 'logout')->name('logout');
 });
-//route pour admin dashbord
-Route::controller(adminController::class)->group(function() {
-    Route::get('/admin', 'admin')->name('admin');
-    Route::post('/admin/ajouter', 'store')->name('ajouterUser');
-    Route::post('/import', 'import')->name('import');
-});
-
 Auth::routes([
     'register' => false, // Désactiver l'inscription);
 ]);
+
+//routeS pour admin dashbord
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('users', [adminController::class, 'admin'])->name('users.index');
+    Route::get('users/get', [adminController::class, 'getUsers']);
+    Route::post('users/store', [adminController::class, 'store'])->name('users.store');
+    Route::get('users/Edit/{id}', [adminController::class, 'edit']);
+    Route::get('users/Delete/{id}', [adminController::class, 'destroy']);
+    Route::post('users/update/{id}', [adminController::class, 'update']);
+    Route::post('users/block/{id}', [adminController::class, 'block'])->name('users.block');
+    Route::post('users/import', [adminController::class, 'import'])->name('users.import');
+});
+
+/*Route::get('/admin', [adminController::class, 'admin']);
+
+Route::get('users', [adminController::class, 'getUsers']);
+Route::post('users/store', [adminController::class, 'store'])->name('users.store');
+Route::get('users/Edit/{id}', [adminController::class, 'edit']);
+Route::get('users/Delete/{id}', [adminController::class, 'destroy']);
+Route::post('users/update/{id}', [adminController::class, 'update']);
+Route::post('/import', [adminController::class, 'import'])->name('import');*/
 
 // Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 // Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
