@@ -9,9 +9,9 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 20px;
+    margin-top: 10px;
     width: 500px;
-    height: 490px;
+    height: 570px;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -51,7 +51,7 @@ input[type="email"] {
     color: #fff;
     border: none;
     border-radius: 5px;
-    margin-top: 12px;
+    margin-top: 8px;
     cursor: pointer;
     height: 15px;
     transition: background-color 0.3s;
@@ -67,10 +67,10 @@ input[type="email"] {
 }
 
 #confirm:hover {
-    background-color: #22b5e6;
+    background-color: rgb(5, 71, 147);
 }
 
 #confirm {
-    background-color: #f35912;
+    background-color: #ff9616;
   
 }

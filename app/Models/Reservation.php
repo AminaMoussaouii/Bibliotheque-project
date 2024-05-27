@@ -9,7 +9,11 @@ class Reservation extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nom', 'prenom','email', 'titre', 'auteur', 'rayon', 'etage', 'branche'
+        'nom', 'prenom','email', 'titre', 'auteur', 'rayon', 'etage', 'branche','isbn','type_ouvrage'
     ];
+    public function emprunt()
+{
+    return $this->hasOne(Emprunt::class);
+}
 
 }

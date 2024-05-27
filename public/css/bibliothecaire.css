@@ -12,6 +12,7 @@
     --gray: #f5f5f5;
     --black1: #222;
     --black2: #999;
+    --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 body { 
     min-height: 100vh;
@@ -128,64 +129,38 @@ body {
   /* ===================== Début Navbar ===================== */
   .navbar {
     width: 100%;
-    height: 60px;
+    right: 0;
+    height: 50px;
+    padding-top: 7px;
+    padding-right: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
-    position: sticky;
+    position: sticky;  
   }
   
   .toggle {
-    position: relative;
     width: 40px;
     height: 40px;
     display: flex;
+    top: 10px;
     justify-content: center;
     align-items: center;
     font-size: 2.5rem;
     cursor: pointer;
     color: #f99324 ;
+    position: fixed;
+    left: 0;
   }
-  
-  .search {
-    position: relative;
-    width: 300px;
-    margin: 0 10px;
-  }
-  
-  .search label {
-    position: relative;
-    width: 100%;
-  }
-  
-  .search label input {
-    width: 100%;
-    height: 40px;
-    border-radius: 40px;
-    padding: 5px 20px;
-    padding-left: 35px;
-    font-size: 18px;
-    outline: none;
-    border: 1px solid var(--black2);
-  }
-  
-  .search label ion-icon {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    font-size: 1.2rem;
-  }
-  
   .user {
-    position: relative;
+    position: fixed;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
+    right: 0;
   }
-  
   .user img {
     position: absolute;
     top: 0;
@@ -199,79 +174,101 @@ body {
   /* ===================== Main Content ===================== */
   .main-content {
     position: absolute;
-    width: calc(100% - 300px);
-    left: 300px;
-    min-height: 100vh;
-    background: var(--white);
+    width: auto;
+    left: 290px;
     transition: 0.5s;
   }
   .main-content.active {
-    width: calc(100% - 80px);
-    left: 80px;
+    left: 120px;
   }
   
              /* ===================== Table des réservations ===================== */
   .table-container {
-    max-width: 700px;
-    height: auto;
-    overflow-y: auto;
-    margin: 50px auto;
+   height: auto;
+   margin-top: 40px;
+   margin-right: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+     
+}
+.table thead tr th{
+  font-family:'Times New Roman', Times, serif;
+}
+.table{
+  width: auto;
 }
 
-.reservation-table {
-    border-collapse: collapse;
-}
+#reservations_datatable_wrapper {
+  border-bottom: none; 
+  }
 
-.reservation-table th,
-.reservation-table td {
-    padding: 12px;
-    text-align: left;
-}
-.reservation-table td{
-    font-family: 'Ubuntu', sans-serif;
-    font-size:small;
-}
-.reservation-table th {
-    background-color: #096097;
-    color: #fff;
-    font-family: 'ubuntu';
-    font-size: small;
-}
+  #btn1, #btn2 {
+  border-radius: 6px; 
+  width: 120px; 
+  padding: 4px;
+  margin-bottom: 10px;
+  margin-left: 40px;
+  height: 50px;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: xx-small;
+   
+  }
 
-.reservation-table tbody tr:nth-child(even) {
-    background-color: #f8f9fa;
-}
-
-.reservation-table tbody tr:hover {
-    background-color: #e2e6ea;
-}
-
-
-.button1{
+  #btn1 {
   background-color: #5dac0e;
-  border-radius: 5px;
-  color: rgb(255, 255, 255);
-  font-size: xx-small;
-  padding: 3px;
-  border: none;
-  margin-bottom: 3px;
-}
-.button1:hover{
-    background-color: #82b684;
-}
+  }
+  #btn1:hover{
+  background-color: #82b684;
+  }
 
-.button2{
-  background-color: #cb0b0b;
-  border-radius: 5px;
-  color: rgb(255, 255, 255);
-  font-size: xx-small;
-  border: none;
-  padding: 3px;
-}
+  #btn2 {
+  background-color: #cf2945;
+  padding: 4px 10px 4px 10px;
+  }
+ #btn2:hover{
+  background-color: #db6a6a;
+  }
+ #reservations_datatable_filter{
+  margin-bottom: 20px;
+  }
+ #reservations_datatable_filter label{
+  margin-bottom: 30px;
+  margin-left:80px;
 
-.button2:hover{
-    background-color: #db6a6a;
-} 
+}
+#reservations_datatable_filter label #text{
+  color: blue;
+  font-weight: bold;
+}
+#reservations_datatable_filter input[type="search"]{
+   border: 2px solid #2679e7;
+   border-radius: 20px;
+   box-shadow: 0 5px 8px #9a9a9a; 
+   outline: none;
+   height: 35px;
+   width: 220px;
+}
+.dataTables_length{
+  margin-bottom: 20px;
+}
+.dataTables_length label{
+  margin-left: 110px
+}
+#table_reservation h2{
+  font-family: var(--bs-font-sans-serif);
+font-size: xx-large;
+  font-weight: 500;
+  color: #212529;
+}
+#table_reservation td{
+  font-family: var(--bs-font-sans-serif);
+  color: #212529;
+  
+}
+#table_reservation{
+  width: 1000px;
+}
+.main-content.active #table_reservation{
+ 
+  left: 230px;
+}

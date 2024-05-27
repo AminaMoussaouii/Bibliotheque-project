@@ -181,6 +181,7 @@ return [
 
     'aliases' => [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Session' => Illuminate\Support\Facades\Session::class,
     ],
     
     

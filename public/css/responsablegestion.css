@@ -196,7 +196,140 @@ body {
   }
 
 
-.search2 {
+
+
+/*================================================================================*/
+
+
+/* Style du gestion de la regle d'emprunt */
+
+.regles-container{
+  padding-left: 100px;
+  padding-right: 150px;
+  padding-top: 30px;
+}
+#regle-form {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1.5px solid #096097;
+  border-radius: 10px;
+  background-color: #629f9b;
+  width: 270px;
+}
+#regle-form select{
+  border: 1px solid #096097;
+}
+
+#regle-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-family: cursive;
+  font-size: small;
+  color: white;
+}
+
+#regle-form input[type="number"] {
+  width: calc(100% - 30px);
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1.5px solid #003fde;
+  border-radius: 8px;
+  height: 32px;
+}
+
+#regle-form button[type="submit"] {
+  padding: 8px;
+  background-color: #096097;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: small;
+  width: 95px;
+}
+#ajouter-regle{
+  background-color: #f99324;
+  border-radius: 10px;
+  border: none;
+  height: 40px;
+  font-size: x-small;
+  font-weight: 500; 
+  font-family: 'ubuntu';
+  width: 110px;
+  box-shadow: 0 5px 5px #9a9a9a;
+}
+#ajouter-regle:hover{
+  background-color: #f86c20;
+}
+#regle-form button[type="submit"]:hover {
+  background-color: #096097;
+}
+
+#regles-table {
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+ border: none;
+ 
+}
+
+#regles-table th,
+#regles-table td {
+  padding: 8px;
+  text-align: left;
+
+}
+#regles-table td {
+border-left: 1px solid #ccc;
+border-bottom:  1px solid #ccc;
+border-right: 1px solid #ccc;}
+
+
+#regles-table thead tr {
+  background-color: #096097;
+  color:white;
+  font-size: small;
+  font-weight: 500;
+
+}
+#regles-table thead tr #last{
+  border-top-right-radius: 10px;
+
+}
+#regles-table thead tr #first {
+  border-top-left-radius: 10px;
+}
+.button1,.button2{
+  border: none;
+  border-radius: 10px;
+  height: 30px;
+  color: white;
+  font-size: x-small;
+  font-family: 'ubuntu';
+  width: 63px;
+}
+.button1{
+  background-color:#5dac0e ;
+}
+.button1:hover{
+  background-color: #417d05;
+}
+.button2{
+  background-color: rgb(227, 32, 71);
+}
+.button2:hover{
+  background-color: brown;
+}
+
+
+
+/* style pour ancien design*/
+
+
+
+
+/*.search2 {
   position: relative;
   width: 300px;
   margin-left: 100px;
@@ -250,12 +383,12 @@ body {
 }
 #excelfile{
   width: 90px;
-}
+}*/
 
 
   /*===============modification et ajout ===============*/
 
-.main{
+/*.main{
   display: grid;
  grid-template-columns: repeat(2,1fr);
  gap: 20px;
@@ -330,7 +463,7 @@ font-size: 13px;
 
 
 /* ============================*/
-.grid2 {
+/*.grid2 {
   padding: 20px 10px;
   margin-right: 20px;
 }
@@ -412,5 +545,5 @@ font-family: 'ubuntu';
   margin-left: 10px; 
   font-size: xx-small;
   font-family: 'ubuntu';
-}
 
+}*/

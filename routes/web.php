@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LivreController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\RegleEmpruntController;
+use App\Http\Controllers\EmpruntController;
+use App\Http\Controllers\StatistiquesController;
+
+use Illuminate\Support\Facades\Session;
 
 
 Route::get('/', function () {
@@ -40,8 +45,8 @@ Route::get('/responsable', function () {
 
        Route::get('livres/Edit/{id}', [LivreController::class, 'edit']);
        Route::get('livres/Delete/{id}', [LivreController::class, 'destroy']);
-       Route::put('livres/Update/{id}', [LivreController::class, 'update'])->name('livres.update');
-
+      
+       Route::post('livres/Update/{id}', [LivreController::class, 'update']);
 
 
 // fin gestion responsable
@@ -56,15 +61,31 @@ Route::get('/livres/filtre', [LivreController::class, 'filtrerLivres'])->name('l
 
 
 
-Route::get('/reservation', [ReservationController::class, 'show'])->name('reservation');
+//Route::get('/reservation', [ReservationController::class, 'show'])->name('reservation');
+Route::get('/livres/{id}/reserver', [LivreController::class, 'reserverLivre'])->name('livres.reserver');
+
+// <button><a href="{{ route('reservation') }}" target="blank">Réserver</a></button>
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
+Route::post('/reservations/emprunter/{id}', [ReservationController::class, 'emprunter'])->name('reservations.emprunter');
+
 
 //bibliothecaire
       Route::get('/bibliothecaire', function () {
          return view('bibliothecaire');
         });
     //gestions des reservations 
-    Route::get('/reservations', [ReservationController::class, 'index']);
+   // Route::get('/reservations', [ReservationController::class, 'index']);
+   Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+   Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+   Route::post('reservations/emprunter/{id}', [ReservationController::class,'emprunter'])->name('reservations.emprunter');
+
+   // routes/web.php
+
+Route::get('emprunts', [EmpruntController::class, 'index'])->name('emprunts.index');
+
+
+
+
 
 // Routes pour l'export et import d'un fichier excel 
 Route::post('/import', [LivreController::class, 'import'])->name('import');
@@ -77,3 +98,34 @@ Route::get('/livre/search', [LivreController::class, 'search'])->name('livre.sea
 
 //search respo 
 Route::get('/livres/search', [LivreController::class,'searchResponsable'])->name('livres.search.responsable');
+
+
+//===============Gestion regle d'emprunt =======================
+
+
+// Route pour les règles d'emprunt
+// routes/web.php
+
+Route::get('/regles', [RegleEmpruntController::class, 'index']);
+Route::post('/regles', [RegleEmpruntController::class,'store'])->name('regles.store');
+
+Route::get('/regles/{id}/edit', [RegleEmpruntController::class, 'edit'])->name('regles.edit');
+Route::put('/regles/{id}', [RegleEmpruntController::class, 'update'])->name('regles.update');
+
+Route::delete('/regles/{id}', [RegleEmpruntController::class, 'destroy']);
+
+
+Route::get('/test-session', function () {
+    Session::put('key', 'value');
+    return Session::get('key');
+});
+
+
+//Chart JS ==============================
+/////data: {!! json_encode(array_values($data)) !!}
+Route::get('/statistiques/emprunts-par-mois', [StatistiquesController::class, 'empruntsParMois'])->name('statistiques.empruntsParMois');
+
+
+
+
+

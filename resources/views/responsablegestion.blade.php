@@ -13,12 +13,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet">
 
-    <!-- JS Libraries -->
+    <!-- JS cdn  Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 
+   
+    
     <style>
         #laravel_11_datatable_filter label{
             margin-bottom: 30px;
@@ -53,6 +55,9 @@
         width: 50px;
         margin-left: 20px;
          }
+         .table thead tr th{
+        font-family:'Times New Roman', Times, serif;
+        }
 
     </style>
 
@@ -68,13 +73,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="sidebar-link" id="gerer-ouvrages">
+                    <a href="#" class="sidebar-link" id="gerer-ouvrages-link">
                         <span class="icon"><i class="fa-solid fa-list-check"></i></span>
                         <span class="title">Gérer les Ouvrages</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('#') }}" class="sidebar-link">
+                    <a href="{{ url('#regle-emprunt') }}" class="sidebar-link" id="regle-emprunt-link">
                         <span class="icon"><i class="fa-solid fa-gear"></i></span>
                         <span class="title">Règle d'emprunt</span>
                     </a>
@@ -86,7 +91,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('#') }}" class="sidebar-link">
+                    <a href="{{ url('#') }}" class="sidebar-link"  id="statistiques-link">
                         <span class="icon"><i class="fa-solid fa-chart-column"></i></span>
                         <span class="title">Statistiques</span>
                     </a>
@@ -111,6 +116,9 @@
 
         <!--====================== Main-content ==========================-->
         <div class="main-content">
+            <div id="dynamic-content">
+
+        <div id="gerer-ouvrages-content">
             <div class="containergestion" style="padding-left: 50px; padding-right:50px;padding-bottom:70px">
                 <h2 style="margin-left: 110px">Gestion des ouvrages</h2>
                 <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-livre" style="margin-left: 110px; background-color: #f99324; border:none;border-radius:10px   ;box-shadow: 0 5px 5px #9a9a9a; ">Ajouter</a>
@@ -120,7 +128,7 @@
                 <br><br>
                 <table class="table table-bordered table-striped" id="laravel_11_datatable" style="height: 380px;">
                     <thead>
-                        <tr style="background-color: #2679e7;">
+                        <tr style="background-color: #096097;">
                             <th style="color: white;font-weight:500; border-top-left-radius: 13px;">Image</th>
                             <th style="color: white;font-weight:500">ISBN</th>
                             <th style="color: white;font-weight:500">Auteur</th>
@@ -139,7 +147,9 @@
                         </div>
                         <div class="modal-body">
                             <form id="livreForm" name="livreForm" class="form-horizontal" enctype="multipart/form-data">
-                            
+                             @csrf
+                             <input type="hidden" name="livre_id" id="livre_id">
+                             
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Image</label>
                                     <div class="col-sm-12">
@@ -273,10 +283,87 @@
                 </div>
             </div>
         </div>
+
+        <!--=====================table regle emprunt -->
+        <div id="regle-emprunt-content">
+            <h2>Règle d'emprunt</h2>
+            <div class="regles-container">
+        
+                <button id="ajouter-regle">Ajouter Règle</button>
+                <form id="regle-form" style="display: none;">
+                    <label for="type_tier">Type Tier:</label>
+                    <select name="type-tier" id="type_tier">
+                       <option value="Professeur">Professeur</option>
+                       <option value="Étudiant">Étudiant</option>
+                    </select>
+                    <br><br>
+                    <label for="nbr_emprunt">Nombre Emprunt:</label>
+                    <input type="number" id="nbr_emprunt" name="nbr_emprunt"><br><br>
+                    <button type="submit">Enregistrer</button>
+                </form>
+        
+                <table id="regles-table">
+                    <thead>
+                        <tr>
+                            <td id="first">Nombre emprunt</td>
+                            <td>Type tiers</td>
+                            <td id="last">Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody id="regles-table-body">
+                       
+                    </tbody>
+                </table>
+        
+            </div>
+        </div>
+        
+        <!--Statistiquees -->
+        <div id="statistiques-content" style="display: none;">
+
+
+            <h2>Statistiques de la bibliothèque de FSTS</h2>
+        
+
+        </div>
+
+
+
+        </div>
     </div>
+    <!--===================================================== -->
+        </div>
+    <!-- ce sccript est utiliser pour gerer l'affichage dans le main-content -->
+    <script>
+        $(document).ready(function() {
+           //contenu initial
+            $('#gerer-ouvrages-content').show();
+            $('#regle-emprunt-content').hide();
+            $('#statistiques-content').hide();
 
+          
+            $('#gerer-ouvrages-link').click(function() {
+                $('#gerer-ouvrages-content').show();
+                $('#regle-emprunt-content').hide();
+                $('#statistiques-content').hide();
+            });
 
-  
+            $('#regle-emprunt-link').click(function() {
+                $('#gerer-ouvrages-content').hide();
+                $('#regle-emprunt-content').show();
+                $('#statistiques-content').hide();
+            });
+
+            $('#statistiques-link').click(function() {
+                $('#gerer-ouvrages-content').hide();
+                $('#regle-emprunt-content').hide();
+                $('#statistiques-content').show();
+            });
+        });
+    </script>
+    <!-- Fin du script d'affichage-->
+
+<!-- Script pour gerer le dataTable de gestion des ouvrages -->
 <script>
 $(document).ready(function() {
     var SITEURL = '{{ url("/") }}/';
@@ -298,12 +385,10 @@ $(document).ready(function() {
         $('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
     });
 
-    // Aperçu de l'image sélectionnée
     $('body').on('change', '#image', function() {
         readURL(this);
     });
 
-    // Fonction pour lire et afficher l'image sélectionnée
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -313,7 +398,6 @@ $(document).ready(function() {
             reader.readAsDataURL(input.files[0]);
         }
     }
-
     // Ajout
     $('body').on('submit', '#livreForm', function(e) {
         e.preventDefault();
@@ -341,56 +425,84 @@ $(document).ready(function() {
             }
         });
     });
+    
+//modification methode (update)
 
-                            // Édition d'un livre
-       $('body').on('click', '.edit-livre', function() {
-var livre_id = $(this).data('id');
-$.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
-    // Mise à jour du formulaire avec les données du livre
-    $('#livreCrudModal').html("Modifier Livre");
-    $('#btn-save').val("edit-livre");
-    $('#ajax-livre-modal').modal('show');
-    $('#isbn').val(data.isbn);
-    $('#titre').val(data.titre);
-    $('#auteur').val(data.auteur);
-    $('#editeur').val(data.editeur);
-    $('#langue').val(data.langue);
-    $('#date_edition').val(data.date_edition);
-    $('#exp_disp').val(data.exp_disp);
-    $('#etage').val(data.etage);
-    $('#rayon').val(data.rayon);
-    $('#nombre_pages').val(data.nombre_pages);
-    $('#discipline').val(data.discipline);
-    $('#type_ouvrage').val(data.type_ouvrage);
-    $('#statut').val(data.statut);
-
-    // Afficher l'image du livre
-    $('#modal-preview').attr('src', data.image_url).removeClass('hidden');
+    $('body').on('submit', '#livreForm', function(e) {
+    e.preventDefault();
+    var actionType = $('#btn-save').val();
+    $('#btn-save').html('Sending..');
+    var formData = new FormData(this);
+    $.ajax({
+        type: 'POST',
+        url: SITEURL + 'livres/Update/' + $('#livre_id').val(),
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+            console.log(data);
+            $('#livreForm').trigger("reset");
+            $('#ajax-livre-modal').modal('hide');
+            $('#btn-save').html('Save Changes');
+            var oTable = $('#laravel_11_datatable').DataTable();
+            oTable.ajax.reload();
+        },
+        error: function(data) {
+            console.log('Error:', data);
+           // alert('Erreur lors de la mise à jour du livre.');
+            $('#btn-save').html('Save Changes');
+        }
+    });
 });
-});
 
-        // Suppression d'un livre
-        $('body').on('click', '#delete-livre', function() {
-            var livre_id = $(this).data('id');
-            if (confirm("Êtes-vous sûr de vouloir supprimer ce livre?")) {
-                $.ajax({
-                    type: "GET",
-                    url: SITEURL + 'livres/Delete/' + livre_id,
-                    success: function(data) {
-                        var oTable = $('#laravel_11_datatable').DataTable();
-                        oTable.ajax.reload();
-                        alert(data.success);
-                    },
-                    error: function(data) {
-                        console.log('Error:', data);
-                    }
-                });
-            }
+//edit 
+    $('body').on('click', '.edit-livre', function() {
+        var livre_id = $(this).data('id');
+        $.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
+            $('#livreCrudModal').html("Modifier Livre");
+            $('#btn-save').val("edit-livre");
+            $('#livre_id').val(livre_id);
+            $('#ajax-livre-modal').modal('show');
+            $('#isbn').val(data.isbn);
+            $('#titre').val(data.titre);
+            $('#auteur').val(data.auteur);
+            $('#editeur').val(data.editeur);
+            $('#langue').val(data.langue);
+            $('#date_edition').val(data.date_edition);
+            $('#exp_disp').val(data.exp_disp);
+            $('#etage').val(data.etage);
+            $('#rayon').val(data.rayon);
+            $('#nombre_pages').val(data.nombre_pages);
+            $('#discipline').val(data.discipline);
+            $('#type_ouvrage').val(data.type_ouvrage);
+            $('#statut').val(data.statut);
+            $('#modal-preview').attr('src', data.image_url).removeClass('hidden');
         });
-       
+    });
+
+    //supprimer
+
+    $('body').on('click', '#delete-livre', function() {
+        var livre_id = $(this).data('id');
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce livre?")) {
+            $.ajax({
+                type: "GET",
+                url: SITEURL + 'livres/Delete/' + livre_id,
+                success: function(data) {
+                    var oTable = $('#laravel_11_datatable').DataTable();
+                    oTable.ajax.reload();
+                    alert(data.success);
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
+    });
 
     //================== EXCEL ===============
-                $(document).ready(function() {
+    $(document).ready(function() {
                 var SITEURL = '{{ url("/") }}/';
 
                 console.log(SITEURL);
@@ -440,7 +552,6 @@ $.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
 
             });
 
-
     $('#laravel_11_datatable').DataTable({
         processing: true,
         serverSide: true,
@@ -456,17 +567,23 @@ $.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
         order: [[0, 'desc']]
     });
 });
+
 </script>
+<!-- Fin script de gestion des ouvrages -->
+
+
+
+
+
+
+<!-- Script pour la gestion de la regle de nombre d'emprunt -->
+
+
+
+
+<!-- Fin script pour la rgele d'emprunt -->
 
     
-    
-        
-        
-
-
-       
-    </div>
-
 
 
 
@@ -477,9 +594,8 @@ $.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
 
 
 
-
-
-
+ 
 </body>
 </html>
+
 
