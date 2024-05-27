@@ -2,21 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserLibrary;
 use Illuminate\Http\Request;
 use App\Models\Reservation; 
 use App\Models\Emprunt;
 use App\Models\Livre;
 use Illuminate\Support\Facades\Log; 
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DataTables;
 
 class ReservationController extends Controller
-{
+{ 
+    public function bibliothècaire()
+    {
+        return view('bibliothecaire');
+    }  
     //pour afficher le formulaire de demande de reservation 
    /*public function show()
     {
-        return view('formReservation');
+        // Récupérer l'utilisateur connecté
+    $user = Auth::user();
+    
+    // Vérifier si l'utilisateur est connecté
+    if ($user) {
+        // Afficher le formulaire de réservation avec les informations de l'utilisateur
+        return view('formReservation', compact('user'));
+    } else {
+        // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+        return redirect()->route('login')->with('error', 'Vous devez vous connecter pour accéder à cette page');
+    }
     }
     */
   
@@ -161,4 +177,5 @@ public function telechargerPDF(Request $request)
     // Télécharger le PDF
     return $pdf->download('pdf');}
 
+  
 }

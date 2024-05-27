@@ -96,12 +96,21 @@
                         <span class="title">Statistiques</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ url('#') }}" class="sidebar-link">
+                <!--<li>
+                    <a href="{{ url('logout') }}" class="sidebar-link">
                         <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
                         <span class="title">Déconnexion</span>
                     </a>
-                </li>
+                    </li>-->
+                    <li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                        <span class="title">Déconnexion</span>
+                    </a>
+                </li> 
             </ul>
         </div>
 
@@ -149,7 +158,7 @@
                             <form id="livreForm" name="livreForm" class="form-horizontal" enctype="multipart/form-data">
                              @csrf
                              <input type="hidden" name="livre_id" id="livre_id">
-                             
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Image</label>
                                     <div class="col-sm-12">
@@ -500,8 +509,28 @@ $(document).ready(function() {
             });
         }
     });
+    //supprimer
+
+    $('body').on('click', '#delete-livre', function() {
+        var livre_id = $(this).data('id');
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce livre?")) {
+            $.ajax({
+                type: "GET",
+                url: SITEURL + 'livres/Delete/' + livre_id,
+                success: function(data) {
+                    var oTable = $('#laravel_11_datatable').DataTable();
+                    oTable.ajax.reload();
+                    alert(data.success);
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
+    });
 
     //================== EXCEL ===============
+    $(document).ready(function() {
     $(document).ready(function() {
                 var SITEURL = '{{ url("/") }}/';
 
@@ -519,7 +548,7 @@ $(document).ready(function() {
                     $('#livreForm').trigger("reset");
                     $('#livreCrudModal').html("Ajouter Nouveau Livre");
                     $('#ajax-livre-modal').modal('show');
-                    $('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
+                    //$('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
                 });
 
                 $('#import-button').click(function() {
@@ -567,6 +596,7 @@ $(document).ready(function() {
         order: [[0, 'desc']]
     });
 });
+
 
 </script>
 <!-- Fin script de gestion des ouvrages -->

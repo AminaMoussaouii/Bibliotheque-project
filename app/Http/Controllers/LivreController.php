@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Livre; 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\LivresImport;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 Use Response;
 use DataTables;
@@ -19,6 +20,10 @@ class LivreController extends Controller
         
         $livres = Livre::paginate(10);
         return view('catalogue', ['livres' => $livres]);
+    }
+    public function responsable()
+    {
+        return view('responsablegestion');
     }
     
     //recuperer les données du livre dans le form de reservation 
@@ -233,6 +238,3 @@ public function search(Request $request)
 
 
 }
-
-
-

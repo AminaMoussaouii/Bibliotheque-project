@@ -10,6 +10,7 @@
     <script src="{{ asset('javascript/formReserv.js') }}"></script>
 </head>
 <body>
+
     <div class="containerform">
         <h2 class="title">Demande de réservation d'un ouvrage</h2>
         <form id="reservationForm" action="{{ route('reservation.store') }}" method="POST">
@@ -54,6 +55,7 @@
                 <label for="etage">Étage :</label>
                 <input type="text" id="etage" name="etage" value="{{ $livre->etage ?? old('etage') }}">
             </div>
+
 
            
             <button type="submit" id="confirm">Confirmer</button>

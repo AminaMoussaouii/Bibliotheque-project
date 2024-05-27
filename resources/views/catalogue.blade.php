@@ -20,7 +20,14 @@
                <li><a href="{{ route('catalogue') }}">Ouvrages</a></li>
                <li><a href="#">Mes emprunts</a></li>
                <li><a href="#"><i class="fa-solid fa-bell"></i></a></li>
-               <li><a href="{{ route('login') }}" target="_blank"><i class="fa-solid fa-user"></i>Déconnexion</a></li>  
+               <li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fa-solid fa-user"></i> Déconnexion
+                    </a>
+                </li>  
             </ul>
         </nav>
     </header>
