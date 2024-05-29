@@ -27,7 +27,7 @@
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fa-solid fa-user"></i> Déconnexion
                     </a>
-                </li>  
+                </li>  
             </ul>
         </nav>
     </header>

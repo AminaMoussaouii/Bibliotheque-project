@@ -37,7 +37,7 @@ class EmpruntController extends Controller
                     return Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
                 })
                 ->addColumn('action', function($row) {
-                    $btn = '<a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-danger btn-sm returnEmprunt" style="text-decoration: none;">Retourner</a>';
+                    $btn = '<a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-danger btn-sm returnEmprunt" >Retourner</a>';
                     return $btn;
                 })
                 ->rawColumns(['action', 'tier'])

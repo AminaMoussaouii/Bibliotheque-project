@@ -117,7 +117,7 @@
         <!--====================== Main-content ==========================-->
         <div class="main-content">
             <div class="containergestion" style="padding-left: 50px; padding-right:50px; padding-bottom:70px">
-                <h2 style="margin-left: 110px">Gestion des utilisateurs</h2>
+                <h2 style="margin-left: 90px; margin-top:50px">Gestion des utilisateurs</h2>
                 <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-user"
                     style="margin-left: 110px; background-color: #f99324; border:none; border-radius:10px; box-shadow: 0 5px 5px #9a9a9a;">Ajouter
                     utilisateur</a>
@@ -128,7 +128,7 @@
                 <br><br>
                 <table class="table table-bordered table-striped" id="laravel_11_datatable" style="height: 380px;">
                     <thead>
-                        <tr style="background-color: #2679e7;">
+                        <tr style="background-color: #096097;">
                             <th style="color: white; font-weight:500; border-top-left-radius: 13px;">Nom</th>
                             <th style="color: white; font-weight:500">Prénom</th>
                             <th style="color: white; font-weight:500">Email</th>

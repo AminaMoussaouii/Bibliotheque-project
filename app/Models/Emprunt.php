@@ -20,6 +20,7 @@ class Emprunt extends Model
         'date_retour',
         'nbr_jrs_retard',
         'statut',
+        'livre_id',
     ];
 
     protected $dates = ['date_limite', 'date_retour'];
@@ -32,7 +33,7 @@ class Emprunt extends Model
 
 public function livre()
 {
-    return $this->belongsTo(Livre::class, 'id');
+    return $this->belongsTo(Livre::class, 'livre_id');
 }
 
 

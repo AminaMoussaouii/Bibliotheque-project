@@ -127,7 +127,7 @@
         <div class="main-content">
             <div id="dynamic-content">
 
-        <div id="gerer-ouvrages-content">
+        <div id="gerer-ouvrages-content"  style="display: none;">
             <div class="containergestion" style="padding-left: 50px; padding-right:50px;padding-bottom:70px">
                 <h2 style="margin-left: 110px">Gestion des ouvrages</h2>
                 <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-livre" style="margin-left: 110px; background-color: #f99324; border:none;border-radius:10px   ;box-shadow: 0 5px 5px #9a9a9a; ">Ajouter</a>
@@ -135,7 +135,8 @@
                 <a href="javascript:void(0)" class="btn btn-info ml-3" id="import-button" style="background-color: #f99324; border:none;border-radius:10px; box-shadow: 0 5px 5px #9a9a9a;">Importer</a>
         
                 <br><br>
-                <table class="table table-bordered table-striped" id="laravel_11_datatable" style="height: 380px;">
+               
+                <table class="table table-bordered table-striped" id="laravel_11_datatable" style="height: 380px;width:90%;">
                     <thead>
                         <tr style="background-color: #096097;">
                             <th style="color: white;font-weight:500; border-top-left-radius: 13px;">Image</th>
@@ -147,6 +148,7 @@
                         </tr>
                     </thead>
                 </table>
+              
             </div>
             <div class="modal fade" id="ajax-livre-modal" aria-hidden="true">
                 <div class="modal-dialog">
@@ -158,7 +160,7 @@
                             <form id="livreForm" name="livreForm" class="form-horizontal" enctype="multipart/form-data">
                              @csrf
                              <input type="hidden" name="livre_id" id="livre_id">
-
+                             
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Image</label>
                                     <div class="col-sm-12">
@@ -293,7 +295,8 @@
             </div>
         </div>
 
-        <!--=====================table regle emprunt -->
+        <!--=====================table regle emprunt ================== -->
+
         <div id="regle-emprunt-content">
             <h2>Règle d'emprunt</h2>
             <div class="regles-container">
@@ -329,11 +332,24 @@
         
         <!--Statistiquees -->
         <div id="statistiques-content" style="display: none;">
-
-
             <h2>Statistiques de la bibliothèque de FSTS</h2>
-        
-
+            <div class="boxstat daily">
+                <p>Emprunts quotidiens</p>
+                <div>
+                    <span id="dailyEmpruntsCount"></span> <span>emprunts aujourd'hui</span>
+                </div>
+            </div>
+            <div class="charts-container">
+                <div class="boxstat bar">
+                    <h3>Emprunts par mois</h3>
+                    <canvas id="empruntsChart"></canvas>
+                </div>
+                <div class="boxstat pie">
+                    <h3>Emprunts par discipline</h3>
+                    <canvas id="empruntsParDisciplineChart"></canvas>
+                </div>
+            </div>
+           
         </div>
 
 
@@ -346,9 +362,10 @@
     <script>
         $(document).ready(function() {
            //contenu initial
-            $('#gerer-ouvrages-content').show();
+           $('#statistiques-content').show();
+            $('#gerer-ouvrages-content').hide();
             $('#regle-emprunt-content').hide();
-            $('#statistiques-content').hide();
+            
 
           
             $('#gerer-ouvrages-link').click(function() {
@@ -509,28 +526,8 @@ $(document).ready(function() {
             });
         }
     });
-    //supprimer
-
-    $('body').on('click', '#delete-livre', function() {
-        var livre_id = $(this).data('id');
-        if (confirm("Êtes-vous sûr de vouloir supprimer ce livre?")) {
-            $.ajax({
-                type: "GET",
-                url: SITEURL + 'livres/Delete/' + livre_id,
-                success: function(data) {
-                    var oTable = $('#laravel_11_datatable').DataTable();
-                    oTable.ajax.reload();
-                    alert(data.success);
-                },
-                error: function(data) {
-                    console.log('Error:', data);
-                }
-            });
-        }
-    });
 
     //================== EXCEL ===============
-    $(document).ready(function() {
     $(document).ready(function() {
                 var SITEURL = '{{ url("/") }}/';
 
@@ -548,7 +545,7 @@ $(document).ready(function() {
                     $('#livreForm').trigger("reset");
                     $('#livreCrudModal').html("Ajouter Nouveau Livre");
                     $('#ajax-livre-modal').modal('show');
-                    //$('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
+                    $('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
                 });
 
                 $('#import-button').click(function() {
@@ -597,18 +594,144 @@ $(document).ready(function() {
     });
 });
 
-
 </script>
 <!-- Fin script de gestion des ouvrages -->
 
+<!--Script pour Chart JS-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: "{{ route('statistiques.empruntsParMois') }}",
+            method: 'GET',
+            success: function(data) {
+                var colors = [
+                    'rgba(255, 161, 0, 1)',
+                    'rgba(116, 201, 221, 1)',
+                    'rgba(255, 119, 119, 1)',
+                    'rgba(36, 130, 128, 1)',
+                    'rgba(117, 13, 234, 1)',
+                    'rgba(106, 214, 57, 1)',
+                    'rgba(255, 161, 0, 1.2)',
+                    'rgba(116, 201, 221, 1)',
+                    'rgba(255, 119, 119, 1)',
+                    'rgba(36, 130, 128, 1)',
+                    'rgba(117, 13, 234, 1)',
+                    'rgba(106, 214, 57, 1)'
+                ];
+
+                var ctx = document.getElementById('empruntsChart').getContext('2d');
+                var empruntsChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+                        datasets: [{
+                            label: '# d\'emprunts',
+                            data: data,
+                            backgroundColor: colors,
+                            borderColor: colors.map(color => color.replace('0.8', '1')),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return Number.isInteger(value) ? value : '';
+                                    },
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+      // emprunt par disciplines
+      fetch('/statistiques/emprunts-par-discipline')
+        .then(response => response.json())
+        .then(data => {
+            const labels = Object.keys(data);
+            const counts = Object.values(data);
+            const total = counts.reduce((sum, value) => sum + value, 0);
+
+            const ctx = document.getElementById('empruntsParDisciplineChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Emprunts par discipline',
+                        data: counts,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const value = counts[tooltipItem.dataIndex];
+                                    const percentage = ((value / total) * 100).toFixed(2);
+                                    return `${tooltipItem.label}: ${value} emprunts (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+       // Emprunts quotidiens
+       fetch('/statistiques/emprunts-quotidiens')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('dailyEmpruntsCount').textContent = data;
+            });
+  
 
 
+</script>
 
 
 
 <!-- Script pour la gestion de la regle de nombre d'emprunt -->
 
-
+@if(session()->has('message'))
+<script>
+    Swal.fire({
+        title: 'Message',
+        text: "{{ session('message') }}",
+        icon: 'success',
+        confirmButtonText: 'OK'
+        timer:3000,
+    });
+</script>
+@endif
 
 
 <!-- Fin script pour la rgele d'emprunt -->

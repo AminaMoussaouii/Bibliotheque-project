@@ -131,7 +131,7 @@ Route::get('emprunts', [EmpruntController::class, 'index'])->name('emprunts.inde
 
 Route::get('/bibliothècaire', [ReservationController::class, 'bibliothècaire'])->name('bibliothècaire');
 //gestions des reservations 
-Route::get('/reservations', [ReservationController::class, 'index']);
+Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
 
 
 
@@ -175,8 +175,11 @@ Route::get('/test-session', function () {
 /////data: {!! json_encode(array_values($data)) !!}
 Route::get('/statistiques/emprunts-par-mois', [StatistiquesController::class, 'empruntsParMois'])->name('statistiques.empruntsParMois');
 
+Route::get('/statistiques/emprunts-par-discipline', [StatistiquesController::class, 'empruntsParDiscipline'])->name('statistiques.empruntsParDiscipline');
 
+Route::get('/statistiques/emprunts-quotidiens', [StatistiquesController::class,'empruntsQuotidiens']);
 
-
+//Route::get('pdf_generator', [ReservationController::class,'telechargerPDF']);
+Route::get('reservation/pdf', [ReservationController::class, 'telechargerPDF'])->name('reservation.telechargerPDF');
 
 

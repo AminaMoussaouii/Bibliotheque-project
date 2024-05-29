@@ -8,10 +8,11 @@ use App\Models\Reservation;
 use App\Models\Emprunt;
 use App\Models\Livre;
 use Illuminate\Support\Facades\Log; 
-use Barryvdh\DomPDF\Facade\Pdf;
+
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DataTables;
+use PDF;
 
 class ReservationController extends Controller
 { 
@@ -51,6 +52,7 @@ class ReservationController extends Controller
             'branche' => 'nullable|string',
             'isbn' => 'nullable|string',
             'type_ouvrage' => 'nullable|string',
+            'livre_id' => 'required|exists:livres,id',
         ]);
 
         $livre = Livre::where('isbn', $validatedData['isbn'])->first();
@@ -74,6 +76,7 @@ class ReservationController extends Controller
         $reservation->branche = $validatedData['branche'];
         $reservation->isbn = $validatedData['isbn'];
         $reservation->type_ouvrage = $validatedData['type_ouvrage'];
+        $reservation->livre_id = $validatedData['livre_id'];
         
         $reservation->save();
 
@@ -92,7 +95,7 @@ class ReservationController extends Controller
           return Datatables::of($data)
               ->addIndexColumn()
               ->addColumn('action', function($row){
-                  $btn = '<a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-primary btn-sm emprunterReservation" id="btn1" style=" text-decoration: none;">Emprunter</a>';
+                $btn = '<a href="javascript:void(0)" data-id="'.$row->id.'" data-livre_id="'.$row->livre_id.'" class="btn btn-primary btn-sm emprunterReservation" id="btn1" style=" text-decoration: none;">Emprunter</a>';
                   $btn .= ' <a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-danger btn-sm deleteReservation" id="btn2" style=" text-decoration: none;">Annuler</a>';
                   return $btn;
               })
@@ -133,6 +136,7 @@ public function emprunter($id, Request $request)
             $emprunt->date_retour = null;
             $emprunt->nbr_jrs_retard = 0;
             $emprunt->statut = 'emprunté';
+            $emprunt->livre_id = $reservation->livre_id;
 
             $emprunt->save();
             Log::info('Emprunt sauvegardé: ' . json_encode($emprunt));
@@ -149,33 +153,24 @@ public function emprunter($id, Request $request)
 
 public function telechargerPDF(Request $request)
 {
-    $reservation = new Reservation();
-    $reservation->nom = $request->input('nom');
-    $reservation->prenom = $request->input('prenom');
-    $reservation->email = $request->input('email');
-    $reservation->titre = $request->input('titre');
-    $reservation->auteur = $request->input('auteur');
-    $reservation->rayon = $request->input('rayon');
-    $reservation->etage = $request->input('etage');
-    $reservation->branche = $request->input('branche');
-    $reservation->save();
-
-    //=========== Générer le PDF===============
     $pdfData = [
-        'Nom' => $request->input('nom'),
-        'Prénom' => $request->input('prenom'),
-        'Email' => $request->input('email'),
-        'Branche' => $request->input('branche'),
-        'Titre' => $request->input('titre'),
-        'Auteur' => $request->input('auteur'),
-        'Rayon' => $request->input('rayon'),
-        'Étage' => $request->input('etage'),
+        'title' => 'Demande de réservation d\'un livre',
+        'date' => date('d/m/Y'),
+        'nom' => $request->nom,
+        'prenom' => $request->prenom,
+        'branche' => $request->branche,
+        'email' => $request->email,
+        'isbn' => $request->isbn,
+        'type_ouvrage' => $request->type_ouvrage,
+        'titre' => $request->titre,
+        'auteur' => $request->auteur,
+        'rayon' => $request->rayon,
+        'etage' => $request->etage,
     ];
 
     $pdf = PDF::loadView('pdf', $pdfData);
 
-    // Télécharger le PDF
-    return $pdf->download('pdf');}
-
+    return $pdf->download('DemandeReservation.pdf');
+}
   
 }

@@ -15,6 +15,7 @@
         <h2 class="title">Demande de réservation d'un ouvrage</h2>
         <form id="reservationForm" action="{{ route('reservation.store') }}" method="POST">
             @csrf
+            <input type="hidden" name="livre_id" value="{{ $livre->id }}">
             <div class="form-group">
                 <label for="nom">Nom :</label>
                 <input type="text" id="nom" name="nom" required value="{{ old('nom') }}">
@@ -59,8 +60,22 @@
 
            
             <button type="submit" id="confirm">Confirmer</button>
-            <button type="button" id="tele"><i class="fa-solid fa-download"></i></button>
+            <button type="button" id="telechargerPDF">Télécharger</button>
         </form>
     </div> 
+
+
+
+
+    <script>
+        document.getElementById('telechargerPDF').addEventListener('click', function() {
+            var form = document.getElementById('reservationForm');
+            var formData = new FormData(form);
+
+            var queryString = new URLSearchParams(formData).toString();
+
+            window.location.href = "{{ route('reservation.telechargerPDF') }}?" + queryString;
+        });
+    </script>
 </body>
 </html>

@@ -45,7 +45,7 @@ input[type="email"] {
     box-sizing: border-box;
 }
 
-#tele, #confirm {
+#confirm {
     width: 90px;
     font-size: x-small;
     color: #fff;
@@ -58,6 +58,21 @@ input[type="email"] {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+#telechargerPDF {
+    width: 90px;
+    font-size: x-small;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 8px;
+    cursor: pointer;
+    height: 15px;
+    transition: background-color 0.3s;
+    margin-left: 205px;
+    margin-right: auto;
+    background-color: #3498db;
+
 }
 
 

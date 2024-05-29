@@ -208,6 +208,7 @@ body {
   padding-right: 150px;
   padding-top: 30px;
 }
+
 #regle-form {
   margin-top: 20px;
   padding: 10px;
@@ -274,6 +275,8 @@ body {
  
 }
 
+
+
 #regles-table th,
 #regles-table td {
   padding: 8px;
@@ -322,6 +325,57 @@ border-right: 1px solid #ccc;}
   background-color: brown;
 }
 
+/* Style des statistiques*/
+
+.charts-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boxstat {
+  flex: 1;
+  margin: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 8px  #9a9a9a;
+  border-radius: 8px;
+  background-color: #fff;
+  position: relative;
+}
+
+.boxstat h3 {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.bar canvas {
+  height: 300px !important;
+  width: 500px !important;
+}
+
+.pie canvas {
+  height: 300px !important;
+  width: 320px !important;
+}
+.daily p{
+  margin-bottom: 10px;
+  color: #003fde;
+  font-family: cursive;
+}
+.daily{
+  width: 240px !important;
+  height: 126px !important;
+}
+
+#dailyEmpruntsCount {
+  font-size: 40px;
+  color: orange;
+  font-family: 'Arial', sans-serif;
+}
 
 
 /* style pour ancien design*/
