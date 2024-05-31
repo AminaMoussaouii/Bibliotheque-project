@@ -2,13 +2,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserLibrary;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use App\Imports\UsersImport;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cookie;
+
 use Exception;
 
 class adminController extends Controller
@@ -19,9 +21,15 @@ class adminController extends Controller
     }
 //code amina 
 public function getUsers(Request $request)
-{
+{   
+    $value = $request->cookie('email');
+    echo $value;
+
+    //$email= Cookie::get("user_email");
+    //echo ' ===========> ' . $email . '';
+
     if ($request->ajax()) {
-        $users = UserLibrary::all();
+        $users = User::all();
         return datatables()->of($users)
         ->addIndexColumn()
         ->addColumn('action', function($row){ 
@@ -46,7 +54,7 @@ public function store(Request $request)
         'password' => 'required',
     ]);
 
-    $user = new UserLibrary();
+    $user = new User();
     $user->nom = $request->nom;
     $user->prénom = $request->prénom;
     $user->email = $request->email;
@@ -65,14 +73,14 @@ public function store(Request $request)
 
 public function edit($id)
 {
-    $user = UserLibrary::findOrFail($id); 
+    $user = User::findOrFail($id); 
     return response()->json($user);
 }
 
 // ============ Update ============
 public function update(Request $request, $id)
 {
-    $user = UserLibrary::findOrFail($id);
+    $user = User::findOrFail($id);
     $user->update($request->all());
     return response()->json(['success' => 'User updated successfully']);
   
@@ -81,7 +89,7 @@ public function update(Request $request, $id)
 // ================== supprimer un livre ============
 public function destroy($id)
 {
-    $user= UserLibrary::findOrFail($id);
+    $user= User::findOrFail($id);
     $user->delete(); 
     
     flash()->success('l`utilisateur est supprimé avec succés');
@@ -107,7 +115,7 @@ public function import(Request $request)
 //method block
 public function block($id)
 {
-    $user = UserLibrary::findOrFail($id);
+    $user = User::findOrFail($id);
     $user->is_blocked = !$user->is_blocked;
     $user->save();
 

@@ -18,11 +18,11 @@
             <input type="hidden" name="livre_id" value="{{ $livre->id }}">
             <div class="form-group">
                 <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required value="{{ old('nom') }}">
+                <input type="text" id="nom" name="nom" required value="{{ $user->nom }}" >
             </div>
             <div class="form-group">
                 <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom" required value="{{ old('prenom') }}">
+                <input type="text" id="prenom" name="prenom" required value="{{ $user->prénom }}" >
             </div>
             <div class="form-group">
                 <label for="branche">Branche :</label>
@@ -30,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label for="email">Email :</label>
-                <input type="email" id="email" name="email" required value="{{ old('email') }}">
+                <input type="email" id="email" name="email" required value="{{ $user->email }}" >
             </div>
             <div class="form-group">
                 <label for="isbn">ISBN :</label>

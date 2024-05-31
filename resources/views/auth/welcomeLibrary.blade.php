@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,32 +6,18 @@
     <title>FSTs library</title>
     <link rel="stylesheet" href="{{ asset('auth/homePage.css') }}">
 </head>
-<body class="biblio">
-    <header>
-        <nav>
-         <h2 class="logo"> FSTS BIBLIOTHEQUE</h2>
-         <ul class="navlinks">
-            <li><a href="{{ route('login') }}" ><i class="fa-solid fa-user"></i>Connexion</a></li>
-         </ul>
-        </nav>
-    </header>
+<body>
+   <div class="gradient">
+        <ul class="navlinks">
+            <li><button><a href="{{ route('login') }}">Connexion</a></button></li>
+        </ul>
 
-    <main>
-        <h1>welcome to FSTs library</h1>
-        
-    </main>
+        <div class="center-content">
+            <div class="text-anime">
+                <img src="{{ asset('images/fsts_logo.png') }}" alt="Logo">
+                <span>Bienvenue à la bibliothèque de FSTS</span>
+            </div>
+        </div>
+   </div>
 </body>
 </html>
-
-
-
-   
-
-  
-   
-    
-
-
-
-
-   

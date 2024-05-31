@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\UserLibrary;
+use App\Models\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 
@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
     {
         public function model(array $row)
         {
-            return new UserLibrary([
+            return new User([
                 'nom' => $row[0],
                 'prénom' => $row[1],
                 'email' => $row[2],

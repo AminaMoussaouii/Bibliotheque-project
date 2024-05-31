@@ -19,7 +19,26 @@ class ReservationController extends Controller
     public function bibliothècaire()
     {
         return view('bibliothecaire');
-    }  
+    } 
+    public function recuperer(Request $request)
+{
+    // Validez les données du formulaire
+    $request->validate([
+        'nom' => 'required|string',
+        'prénom' => 'required|string',
+        'email' => 'required|email',
+        // Ajoutez d'autres règles de validation pour les nouveaux champs
+    ]);
+
+    // Récupérer les données du formulaire
+    $nom = $request->input('nom');
+    $prenom = $request->input('prénom');
+    $email = $request->input('email');
+    // Récupérez d'autres données du formulaire
+
+    // Enregistrez la réservation dans la base de données, générez le PDF, etc.
+}
+ 
     //pour afficher le formulaire de demande de reservation 
    /*public function show()
     {
