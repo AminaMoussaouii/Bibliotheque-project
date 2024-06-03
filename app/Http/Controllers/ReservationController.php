@@ -19,6 +19,27 @@ class ReservationController extends Controller
     public function bibliothècaire()
     {
         return view('bibliothecaire');
+    } 
+    
+    public function recuperer(Request $request)
+{
+    // Validez les données du formulaire
+    $request->validate([
+        'nom' => 'required|string',
+        'prénom' => 'required|string',
+        'email' => 'required|email',
+        // Ajoutez d'autres règles de validation pour les nouveaux champs
+    ]);
+
+    // Récupérer les données du formulaire
+    $nom = $request->input('nom');
+    $prenom = $request->input('prénom');
+    $email = $request->input('email');
+    // Récupérez d'autres données du formulaire
+
+    // Enregistrez la réservation dans la base de données, générez le PDF, etc.
+}
+ 
     }  
     
     //pour afficher le formulaire de demande de reservation 
@@ -45,13 +66,13 @@ class ReservationController extends Controller
     {
         $validatedData = $request->validate([
             'nom' => 'required|string',
-            'prenom' => 'required|string',
+            'prénom' => 'required|string',
             'email' => 'required|email',
             'titre' => 'required|string',
             'auteur' => 'required|string',
             'rayon' => 'nullable|string',
             'etage' => 'nullable|string',
-            'branche' => 'nullable|string',
+            'Filière' => 'nullable|string',
             'isbn' => 'nullable|string',
             'type_ouvrage' => 'nullable|string',
             'livre_id' => 'required|exists:livres,id',
@@ -75,7 +96,7 @@ class ReservationController extends Controller
         $reservation->auteur = $validatedData['auteur'];
         $reservation->rayon = $validatedData['rayon'];
         $reservation->etage = $validatedData['etage'];
-        $reservation->branche = $validatedData['branche'];
+        $reservation->Filière = $validatedData['Filière'];
         $reservation->isbn = $validatedData['isbn'];
         $reservation->type_ouvrage = $validatedData['type_ouvrage'];
         $reservation->livre_id = $validatedData['livre_id'];
@@ -160,7 +181,7 @@ public function telechargerPDF(Request $request)
         'date' => date('d/m/Y'),
         'nom' => $request->nom,
         'prenom' => $request->prenom,
-        'branche' => $request->branche,
+        'Filière' => $request->Filière,
         'email' => $request->email,
         'isbn' => $request->isbn,
         'type_ouvrage' => $request->type_ouvrage,

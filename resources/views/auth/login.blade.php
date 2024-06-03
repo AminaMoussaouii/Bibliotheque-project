@@ -3,13 +3,28 @@
     <div class="heading">Sign In</div>
     <link rel="stylesheet" href="auth\login.css">
     <script src="auth\login.js"></script>
-    <form action="{{route('Redirection')}}" class="form" method="post">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <form action="{{route('login')}}" class="form" method="post">
      @csrf
       <input required="" class="input" type="email" name="email" id="email" placeholder="E-mail">
       <input required="" class="input" type="password" name="password" id="password" placeholder="Password">
+      <div>
       <input type="checkbox"  id="showPassword">
       <label for="showPassword" class="showPassword">Afficher le mot de passe</label>
-
+      </div>
+      <div>
+      <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+      <label class="form-check-label" for="remember">Se souvenir de moi</label>
+      </div>        
+      
       <span class="forgot-password"><a href="{{ route('password.request') }}">Forgot Password ?</a></span>
       <input class="login-button" type="submit" value="Sign In">
       

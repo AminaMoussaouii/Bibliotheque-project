@@ -25,6 +25,7 @@ body {
     display: flex;
     justify-content: center;
 }
+
 .gradient ul li {
     display: inline-block;
     padding: 40px 15px;
@@ -44,6 +45,8 @@ button{
     background-color: #ff882c;
 }
 
+
+
 .gradient .center-content {
     display: flex;
     flex-direction: column;
@@ -52,6 +55,7 @@ button{
     height: calc(100vh - 280px);
     text-align: center;
 }
+
 
 .text-anime {
     display: flex;
@@ -67,9 +71,11 @@ button{
     left: 50%;
     transform: translateX(-50%);
     width: 170px;
-
 }
 
+.text-anime img {
+    margin-right: 20px;
+}
 
 .text-anime span {
     position: relative;
@@ -100,4 +106,25 @@ button{
     0% { background-position: 0 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0 50%; }
+}
+@keyframes blink {
+    from, to { border-color: transparent; }
+    50% { border-color: #fd631a; }
+}
+
+@keyframes erase {
+    from { width: 100%; }
+    to { width: 0; }
+}
+
+@keyframes animate {
+    0% {
+         background-position: 0 50%;
+        }
+    50% {
+         background-position: 100% 50%; 
+        }
+   100%{
+         background-position:0 50%;
+        }
 }

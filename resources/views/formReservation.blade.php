@@ -18,19 +18,20 @@
             <input type="hidden" name="livre_id" value="{{ $livre->id }}">
             <div class="form-group">
                 <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required value="{{ old('nom') }}"  readonly>
+
+                <input type="text" id="nom" name="nom" required value="{{ $user->nom }}" >
             </div>
             <div class="form-group">
                 <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom" required value="{{ old('prenom') }}" readonly>
+                <input type="text" id="prenom" name="prenom" required value="{{ $user->prénom }}" >
             </div>
-           <div class="form-group">
-                <label for="branche">Branche :</label>
-                <input type="text" id="branche" name="branche" value=""readonly>
+            <div class="form-group">
+                <label for="branche">Filière:</label>
+                <input type="text" id="branche" name="Filière" value="{{ $user->Filière }}">
             </div>
             <div class="form-group">
                 <label for="email">Email :</label>
-                <input type="email" id="email" name="email" required value="{{ old('email') }}" readonly>
+                <input type="email" id="email" name="email" required value="{{ $user->email }}" >
             </div>
             <div class="form-group">
                 <label for="isbn">ISBN :</label>

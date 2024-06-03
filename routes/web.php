@@ -12,24 +12,31 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\adminController;
 use Illuminate\Support\Facades\Auth;
-
+use app\Http\Middleware\CheckBlockedUser;
+use App\Http\Middleware\CheckRole;
 
 //route pour l'authentification 
+// Route::withoutMiddleware([CheckBlockedUser::class])->group(function() {
+// Route::controller(LoginController::class)->group(function() {
+//     Route::get('/login', 'login')->name('login');
+//     Route::get('/','index')->name('index');
+//     Route::post('/login/store', 'Redirection')->name('Redirection');
+//     Route::post('/logout', 'logout')->name('logout');
+// });
+// });
 
-Route::controller(LoginController::class)->group(function() {
-    Route::get('/login', 'login')->name('login');
-    Route::get('/','index')->name('index');
-    Route::post('/login/store', 'Redirection')->name('Redirection');
-    Route::post('/logout', 'logout')->name('logout');
-});
-Auth::routes([
-    'register' => false, // Désactiver l'inscription);
-]);
+Auth::routes(['register' => false]);
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+//Route::get('/dashboard', [LoginController::class, 'dashboard'])->name('dashboard');
+Route::get('/', [LoginController::class, 'index']);
 
 //routeS pour admin dashbord
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('users', [adminController::class, 'admin'])->name('users.index');
+Route::prefix('admin')->name('admin.')->middleware('auth','Role:admin')->group(function () {
+    Route::get('users', [adminController::class, 'admin'])->middleware('auth','Role:admin')->name('users.index');
     Route::get('users/get', [adminController::class, 'getUsers']);
     Route::post('users/store', [adminController::class, 'store'])->name('users.store');
     Route::get('users/Edit/{id}', [adminController::class, 'edit']);
@@ -58,10 +65,10 @@ Route::post('/import', [adminController::class, 'import'])->name('import');*/
     return redirect()->route('catalogue');
 });*/
 // route pour afficher les livres dans la page du catalogue
-Route::get('/catalogue', [LivreController::class, 'index'])->name('catalogue');
+Route::get('/catalogue', [LivreController::class, 'index'])->middleware('auth','Role:etudiant','Role:personnel')->name('catalogue');
 
 //route pour afficher la page dashboard d responsable
-Route::get('/responsable', [LivreController::class, 'responsable'])->name('responsable');
+Route::get('/responsable', [LivreController::class, 'responsable'])->middleware('auth','Role:responsable')->name('responsable');
 
 
 //debut routes pour faires appels aux methodes ajouter modifer supprimer pour le responsable
@@ -78,6 +85,7 @@ Route::get('/responsable', [LivreController::class, 'responsable'])->name('respo
        
         //suppression d'un livre 
        // Route::delete('/livres/{id}', [LivreController::class, 'destroy'])->name('livres.destroy');
+       Route::middleware('auth')->group(function () {
 
        Route::get('livres', [LivreController::class, 'getLivres']);
        Route::post('livres/Store', [LivreController::class, 'store'])->name('livres.store');
@@ -86,10 +94,7 @@ Route::get('/responsable', [LivreController::class, 'responsable'])->name('respo
        Route::get('livres/Delete/{id}', [LivreController::class, 'destroy']);
 
        Route::post('livres/Update/{id}',[LivreController::class,'update']);
-      
-    
-
-      
+       });
       
 
 
@@ -119,22 +124,21 @@ Route::post('/reservations/emprunter/{id}', [ReservationController::class, 'empr
 
       Route::get('/bibliothecaire', function () {
          return view('bibliothecaire');
-        });
+        })->middleware('auth','Role:bibliothècaire');
     //gestions des reservations 
    // Route::get('/reservations', [ReservationController::class, 'index']);
-   Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+   Route::get('/reservations', [ReservationController::class, 'index'])->middleware('auth')->name('reservations.index');
    Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
-   Route::post('reservations/emprunter/{id}', [ReservationController::class,'emprunter'])->name('reservations.emprunter');
-
-   // routes/web.php
+   Route::post('reservations/emprunter/{id}', [ReservationController::class,'emprunter'])->middleware('auth')->name('reservations.emprunter');
+// route emprunt
 
 Route::get('emprunts', [EmpruntController::class, 'index'])->name('emprunts.index');
+Route::post('/emprunt/retourner', [EmpruntController::class, 'retourner'])->name('emprunt.retourner');
 
 
-
-Route::get('/bibliothècaire', [ReservationController::class, 'bibliothècaire'])->name('bibliothècaire');
+Route::get('/bibliothècaire', [ReservationController::class, 'bibliothècaire'])->middleware('auth','Role:bibliothècaire')->name('bibliothècaire');
 //gestions des reservations 
-Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+//Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
 
 
 
@@ -144,10 +148,10 @@ Route::post('/import', [LivreController::class, 'import'])->name('import');
 
 //Routes pour la methode de recherche des livres 
 //Route::get('livres-list',[LivreController::class,'livresListAjax']);
-Route::get('/catalogue', [LivreController::class, 'index'])->name('catalogue');
+Route::get('/catalogue', [LivreController::class, 'index'])->middleware('auth')->name('catalogue');
 Route::get('/livre/search', [LivreController::class, 'search'])->name('livre.search');
 
-Auth::routes();
+
 //search respo 
 Route::get('/livres/search', [LivreController::class,'searchResponsable'])->name('livres.search.responsable');
 
@@ -175,10 +179,10 @@ Route::delete('/regles/{id}', [RegleEmpruntController::class, 'destroy']);*/
 
 
 
-Route::get('/test-session', function () {
-    Session::put('key', 'value');
-    return Session::get('key');
-});
+// Route::get('/test-session', function () {
+//     Session::put('key', 'value');
+//     return Session::get('key');
+// });
 
 
 //Chart JS ==============================
@@ -191,5 +195,7 @@ Route::get('/statistiques/emprunts-quotidiens', [StatistiquesController::class,'
 
 //Route::get('pdf_generator', [ReservationController::class,'telechargerPDF']);
 Route::get('reservation/pdf', [ReservationController::class, 'telechargerPDF'])->name('reservation.telechargerPDF');
+
+
 
 

@@ -1,23 +1,42 @@
 <?php
 
-namespace App\Http\Controllers\auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserLibrary;
-use Illuminate\Http\Request;
-//use Illuminate\Auth\Notifications\ResetPassword;
-//use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
-{    
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
     use AuthenticatesUsers;
+
     /**
-     * Display a listing of the resource.
+     * Where to redirect users after login.
+     *
+     * @var string
      */
-    public function login()
+   // protected $redirectTo = '/';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        return view('auth.login');
+        $this->middleware('guest')->except('logout');
+        $this->middleware('auth')->only('logout');
     }
 
     public function index()
@@ -25,178 +44,83 @@ class LoginController extends Controller
         return view('auth.welcomeLibrary');
     }
 
-    public function dashboard()
-    {
-        return view('admin.dashboard');
+    public function showLoginForm()
+{
+    return view('auth.login');
+}
+
+    //validation des donnees
+    protected function validateLogin(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
+
+}
+protected function redirectTo()
+{
+    $user = Auth::user();
+
+    switch ($user->Role) {
+        case 'etudiant':
+            return '/catalogue';
+        case 'personnel':
+            return '/catalogue';
+        case 'responsable':
+            return '/responsable';
+        case 'admin':
+            return '/admin/users';
+        case 'bibliothècaire':
+            return '/bibliothècaire';
+        default:
+            return '/';
+    }
+}
+protected function attemptLogin(Request $request)
+{
+    return Auth::attempt(
+        $this->credentials($request),
+        $request->filled('remember')
+    );
+}
+
+protected function credentials(Request $request)
+{
+    return $request->only($this->username(), 'password');
+}
+public function username()
+{
+    return 'email';
+}
+
+public function login(Request $request)
+{    
+    $this->validateLogin($request);
+
+    if (method_exists($this, 'hasTooManyLoginAttempts') &&
+        $this->hasTooManyLoginAttempts($request)) {
+        $this->fireLockoutEvent($request);
+
+        return $this->sendLockoutResponse($request);
     }
 
-    
-    public function Redirection(Request $request)
-    {
-    
-        $email = $request->input('email');
-        $password = $request->input('password');
-    
-        $user = UserLibrary::where('email', $email)->first();
-       
-        if ($user) {
-            // User found, verify password
-            if ($password == $user->password) {
-                // Passwords match, redirect to dashboard
-                switch ($user->Role) {
-                    case 'etudiant':
-                        return redirect()->route('catalogue');
-                    case 'personnel':
-                        return redirect()->route('catalogue');
-                    case 'responsable':
-                        return redirect()->route('responsable');
-                    case 'admin':
-                       return redirect()->route('admin.users.index');
-                    case 'bibliothècaire':
-                        return redirect()->route('bibliothècaire');
-                    default:
-                        return redirect('index');
-                }
-               
-               
-            } else {
-                // Passwords do not match, redirect back with error message
-            return back()->withInput($request->only('email'))->withErrors(['password' => 'Invalid password']);
-            }
-        } else {
-            // User not found, redirect back with error message
-            return redirect()->back()->withInput($request->only('email'))->withErrors(['email' => 'User not found']);
-        }
-    }
-    
-    // method logout
-    
-    public function logout(Request $request)
-    {
-        Auth::logout();
+    if ($this->attemptLogin($request)) {
+        $request->session()->regenerate(); 
+        $user = Auth::user();
 
-        $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
-
-    //block
-    protected function authenticated(Request $request, $user)
-    {
         if ($user->is_blocked) {
             Auth::logout();
-            return redirect('/login')->withErrors(['message' => 'Your account has been blocked. Please contact the administrator.']);
-        }
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create($request)
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-   /* public function store(Request $request)
-    {
-
-        $request->validate([
-            'email' => 'required|email|max:250',
-            'password' => 'required|min:8'
-        ]);
-
-        // Création d'une nouvelle instance du modèle
-        $USER = new UserLibrary();
-
-        // Attribution des valeurs aux champs du modèle
-        $USER->email = $request->input('email');
-        $USER->password = $request->input('password');
-        // Ajoutez ici d'autres attributions de valeurs pour vos champs
-
-        // Enregistrement de l'objet dans la base de données
-        $USER->save();
-
-        // Redirection avec un message de succès (facultatif)
-        return redirect()->route('index')->withSuccess('You have logged out successfully!');
-    }*/
-
-   /* public function authenticate(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-
-        if (auth::attempt($credentials)) {
-
-            $request->session()->regenerate();
-
-            return redirect()->route('dashboard')
-                ->withSuccess('You have successfully logged in!');
+            return redirect('/login')->withErrors(['message' => 'Votre compte a été bloqué. Veuillez contacter l`administrateur.']);
         }
 
-        return back()->withErrors([
-            'email' => 'Your provided credentials do not match in our records.',
-        ])->onlyInput('email');
-
-    }*/
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return $this->sendLoginResponse($request);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    $this->incrementLoginAttempts($request);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    return $this->sendFailedLoginResponse($request);
+}
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-   // use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    //protected $redirectTo = 'index';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    // public function __construct()
-    // {
-    //     $this->middleware('guest')->except('logout');
-    // }
-
-   
 }

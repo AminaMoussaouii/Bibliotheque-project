@@ -17,6 +17,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #398ec3 !important">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><img src="{{ asset('public/images/fsts_logo.png') }}" alt="" style="width: 60px;height:60px;margin-left:40px;"> FSTS</a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

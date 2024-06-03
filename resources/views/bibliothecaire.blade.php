@@ -230,7 +230,37 @@
         });
     
     </script>
-    
+<!--code script de retour-->
+    <script>   
+    $(document).on('click', '.returnEmprunt', function() {
+    var id = $(this).data('id');
+
+    if (confirm("Êtes-vous sûr de vouloir retourner cet emprunt ?")) {
+        $.ajax({
+            type: "POST",
+            url: "{{ route('emprunt.retourner') }}",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id: id
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert(response.success);
+                    // Mettez à jour la ligne dans le tableau avec la nouvelle date de retour et le nombre de jours de retard
+                    var row = $('a[data-id="'+id+'"]').closest('tr');
+                    row.find('.date-retour').text(response.date_retour);
+                    row.find('.nbr-jrs-retard').text(response.nbr_jrs_retard);
+                } else {
+                    alert(response.error);
+                }
+            }
+        });
+    }
+});
+
+
+</script>
+
     
     <script>
     $(document).ready(function() {

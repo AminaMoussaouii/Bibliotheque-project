@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Livre; 
+use Illuminate\Support\Facades\Cookie;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\LivresImport;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 Use Response;
 use DataTables;
 
@@ -26,20 +28,36 @@ class LivreController extends Controller
     {
         return view('responsablegestion');
     }
-    
+    public function showProfile()
+    {
+        // Récupérer l'utilisateur authentifié
+        $user = Auth::user();
+
+        // Passer les données de l'utilisateur à la vue
+        return view('formReservation', compact('user'));
+    }
     //recuperer les données du livre dans le form de reservation 
     public function reserverLivre($id)
-     {
+    {
     $livre = Livre::find($id);
 
     if (!$livre) {
         return redirect()->route('catalogue')->with('error', 'Livre non trouvé.');
     }
 
-    return view('formReservation', ['livre' => $livre]);
-     }
+    // Récupérer l'utilisateur connecté
+    $user = Auth::user();
 
+    // Vérifier si l'utilisateur est connecté
+    if (!$user) {
+        // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+        return redirect()->route('login')->with('error', 'Vous devez vous connecter pour accéder à cette page');
+    }
 
+    return view('formReservation', ['livre' => $livre,'user'=> $user]);
+}
+
+    
   //methode pour afficher les details de chaque livre 
   public function afficherDetails($id) {
     $livre = Livre::find($id);
@@ -58,7 +76,7 @@ class LivreController extends Controller
 
 //============ recupere les livres respo ====================
 public function getLivres(Request $request)
-{
+{ 
     if ($request->ajax()) {
         $livres = Livre::all();
         return datatables()->of($livres)

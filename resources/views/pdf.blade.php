@@ -43,8 +43,8 @@
             <td>{{ $prenom }}</td>
         </tr>
         <tr>
-            <th>Branche</th>
-            <td>{{ $branche }}</td>
+            <th>Filière</th>
+            <td>{{ $Filière }}</td>
         </tr>
         <tr>
             <th>Email</th>

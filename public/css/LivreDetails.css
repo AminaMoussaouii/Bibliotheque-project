@@ -1,6 +1,4 @@
 
-
-
 body {
     background-color: #29a2de;
     margin: 0;
@@ -260,6 +258,8 @@ font-family: cursive;
     }
 
     .res {
+
         padding: 8px 16px;
+
     }
 }
