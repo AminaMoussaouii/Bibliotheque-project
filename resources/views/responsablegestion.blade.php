@@ -96,12 +96,6 @@
                         <span class="title">Statistiques</span>
                     </a>
                 </li>
-                <!--<li>
-                    <a href="{{ url('logout') }}" class="sidebar-link">
-                        <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
-                        <span class="title">Déconnexion</span>
-                    </a>
-                    </li>-->
                     <li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -295,42 +289,61 @@
             </div>
         </div>
 
-        <!--=====================table regle emprunt ================== -->
-
-        <div id="regle-emprunt-content">
-            <h2>Règle d'emprunt</h2>
-            <div class="regles-container">
-        
-                <button id="ajouter-regle">Ajouter Règle</button>
-                <form id="regle-form" style="display: none;">
-                    <label for="type_tier">Type Tier:</label>
-                    <select name="type-tier" id="type_tier">
-                       <option value="Professeur">Professeur</option>
-                       <option value="Étudiant">Étudiant</option>
-                    </select>
-                    <br><br>
-                    <label for="nbr_emprunt">Nombre Emprunt:</label>
-                    <input type="number" id="nbr_emprunt" name="nbr_emprunt"><br><br>
-                    <button type="submit">Enregistrer</button>
-                </form>
-        
-                <table id="regles-table">
-                    <thead>
-                        <tr>
-                            <td id="first">Nombre emprunt</td>
-                            <td>Type tiers</td>
-                            <td id="last">Actions</td>
-                        </tr>
-                    </thead>
-                    <tbody id="regles-table-body">
-                       
-                    </tbody>
-                </table>
-        
+      <!--=====================table regle emprunt ================== -->
+      <div id="regle-emprunt-content" style="padding-left: 50px; padding-right:50px; padding-bottom:70px;">
+        <h2>Règle d'emprunt</h2>
+        <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-regle" style="margin-left: 110px; background-color: #f99324; border:none; border-radius:10px; box-shadow: 0 5px 5px #9a9a9a;">Ajouter</a>
+        <br><br>
+        <table class="table table-bordered table-striped" id="regle_datatable" style="width:90%;">
+            <thead>
+                <tr>
+                    <th>Nombre emprunt</th>
+                    <th>Type tiers</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    
+    <div class="modal fade" id="ajax-regle-modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="regleCrudModal"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="regleForm" name="regleForm" class="form-horizontal">
+                        @csrf
+                        <input type="hidden" name="regle_id" id="regle_id">
+                        <div class="form-group">
+                            <label for="type_tier" class="col-sm-4 control-label">Type Tier:</label>
+                            <div class="col-sm-12">
+                                <select name="type_tier" id="type_tier" class="form-control">
+                                   <option value="Professeur">Professeur</option>
+                                   <option value="Étudiant">Étudiant</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nbr_emprunt" class="col-sm-4 control-label">Nombre Emprunt:</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="nbr_emprunt" name="nbr_emprunt" placeholder="Enter Number" value="" maxlength="50" required="">
+                            </div>
+                        </div>
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" id="btn-save" value="create">Save changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+    </div>
+    
+
+
         
-        <!--Statistiquees -->
+        <!--===================Statistiquees========================= -->
         <div id="statistiques-content" style="display: none;">
             <h2>Statistiques de la bibliothèque de FSTS</h2>
             <div class="boxstat daily">
@@ -411,10 +424,6 @@ $(document).ready(function() {
         $('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
     });
 
-    $('body').on('change', '#image', function() {
-        readURL(this);
-    });
-
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -424,15 +433,28 @@ $(document).ready(function() {
             reader.readAsDataURL(input.files[0]);
         }
     }
-    // Ajout
+
+    $('body').on('change', '#image', function() {
+        readURL(this);
+    });
+
+    // Ajout et mise à jour
     $('body').on('submit', '#livreForm', function(e) {
         e.preventDefault();
         var actionType = $('#btn-save').val();
         $('#btn-save').html('Sending..');
         var formData = new FormData(this);
+
+        var ajaxType = 'POST';
+        var ajaxUrl = SITEURL + 'livres/Store';
+        if (actionType === 'edit-livre') {
+            var livreId = $('#livre_id').val();
+            ajaxUrl = SITEURL + 'livres/Update/' + livreId;
+        }
+
         $.ajax({
-            type: 'POST',
-            url: SITEURL + 'livres/Store',
+            type: ajaxType,
+            url: ajaxUrl,
             data: formData,
             cache: false,
             contentType: false,
@@ -451,38 +473,8 @@ $(document).ready(function() {
             }
         });
     });
-    
-//modification methode (update)
 
-    $('body').on('submit', '#livreForm', function(e) {
-    e.preventDefault();
-    var actionType = $('#btn-save').val();
-    $('#btn-save').html('Sending..');
-    var formData = new FormData(this);
-    $.ajax({
-        type: 'POST',
-        url: SITEURL + 'livres/Update/' + $('#livre_id').val(),
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(data) {
-            console.log(data);
-            $('#livreForm').trigger("reset");
-            $('#ajax-livre-modal').modal('hide');
-            $('#btn-save').html('Save Changes');
-            var oTable = $('#laravel_11_datatable').DataTable();
-            oTable.ajax.reload();
-        },
-        error: function(data) {
-            console.log('Error:', data);
-           // alert('Erreur lors de la mise à jour du livre.');
-            $('#btn-save').html('Save Changes');
-        }
-    });
-});
-
-//edit 
+    //edit
     $('body').on('click', '.edit-livre', function() {
         var livre_id = $(this).data('id');
         $.get(SITEURL + 'livres/Edit/' + livre_id, function(data) {
@@ -508,7 +500,6 @@ $(document).ready(function() {
     });
 
     //supprimer
-
     $('body').on('click', '#delete-livre', function() {
         var livre_id = $(this).data('id');
         if (confirm("Êtes-vous sûr de vouloir supprimer ce livre?")) {
@@ -528,55 +519,33 @@ $(document).ready(function() {
     });
 
     //================== EXCEL ===============
-    $(document).ready(function() {
-                var SITEURL = '{{ url("/") }}/';
+    $('#import-button').click(function() {
+        $('#importFile').click();
+    });
 
-                console.log(SITEURL);
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $('#create-new-livre').click(function() {
-                    $('#btn-save').val("create-livre");
-                    $('#livre_id').val('');
-                    $('#livreForm').trigger("reset");
-                    $('#livreCrudModal').html("Ajouter Nouveau Livre");
-                    $('#ajax-livre-modal').modal('show');
-                    $('#modal-preview').attr('src', 'https://via.placeholder.com/150').addClass('hidden');
-                });
-
-                $('#import-button').click(function() {
-                    $('#importFile').click();
-                });
-
-                $('#importFile').change(function(e) {
-                    var formData = new FormData();
-                    formData.append('file', e.target.files[0]);
-                    
-                    $.ajax({
-                        type: 'POST',
-                        url: SITEURL + 'import',
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function(data) {
-                            console.log(data);
-                            alert('Les livres ont été importés avec succès.');
-                            var oTable = $('#laravel_11_datatable').DataTable();
-                            oTable.ajax.reload();
-                        },
-                        error: function(data) {
-                            console.log('Error:', data);
-                            alert('Erreur lors de l\'importation des livres.');
-                        }
-                    });
-                });
-
-            });
+    $('#importFile').change(function(e) {
+        var formData = new FormData();
+        formData.append('file', e.target.files[0]);
+        
+        $.ajax({
+            type: 'POST',
+            url: SITEURL + 'import',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                console.log(data);
+                alert('Les livres ont été importés avec succès.');
+                var oTable = $('#laravel_11_datatable').DataTable();
+                oTable.ajax.reload();
+            },
+            error: function(data) {
+                console.log('Error:', data);
+                alert('Erreur lors de l\'importation des livres.');
+            }
+        });
+    });
 
     $('#laravel_11_datatable').DataTable({
         processing: true,
@@ -610,48 +579,82 @@ $(document).ready(function() {
                     'rgba(255, 161, 0, 1)',
                     'rgba(116, 201, 221, 1)',
                     'rgba(255, 119, 119, 1)',
-                    'rgba(36, 130, 128, 1)',
-                    'rgba(117, 13, 234, 1)',
-                    'rgba(106, 214, 57, 1)',
+                    '#fd9219',
+                    '#a80f99',
+                    '#6ad639',
                     'rgba(255, 161, 0, 1.2)',
                     'rgba(116, 201, 221, 1)',
                     'rgba(255, 119, 119, 1)',
                     'rgba(36, 130, 128, 1)',
                     'rgba(117, 13, 234, 1)',
-                    'rgba(106, 214, 57, 1)'
+                    'rgba(106, 214, 57, 1)',
                 ];
 
                 var ctx = document.getElementById('empruntsChart').getContext('2d');
-                var empruntsChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
-                        datasets: [{
-                            label: '# d\'emprunts',
-                            data: data,
-                            backgroundColor: colors,
-                            borderColor: colors.map(color => color.replace('0.8', '1')),
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        return Number.isInteger(value) ? value : '';
-                                    },
-                                    stepSize: 1
+            var empruntsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+                    datasets: [{
+                        label: '# d\'emprunts',
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: colors.map(color => color.replace('0.8', '1')),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return Number.isInteger(value) ? value : '';
+                                },
+                                stepSize: 1,
+                                color: '#000',  
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#000',  
+                                font: {
+                                    size: 12,
+                                    weight: '500'
                                 }
                             }
                         }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#000', 
+                                font: {
+                                    size: 12,
+                                    weight: '500'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            titleFont: {
+                                size: 13,
+                                weight: '500'
+                            },
+                            bodyFont: {
+                                size: 13,
+                                weight: '500'
+                            }
+                        }
                     }
-                });
-            }
-        });
+                }
+            });
+        }
     });
-
+});
       // emprunt par disciplines
       fetch('/statistiques/emprunts-par-discipline')
         .then(response => response.json())
@@ -669,16 +672,16 @@ $(document).ready(function() {
                         label: 'Emprunts par discipline',
                         data: counts,
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.5)',
-                            'rgba(54, 162, 235, 0.5)',
-                            'rgba(255, 206, 86, 0.6)',
-                            'rgba(75, 192, 192, 0.5)',
-                            'rgba(153, 102, 255, 0.5)',
-                            'rgba(255, 159, 64, 0.5)'
-                        ],
-                        borderColor: [
                             'rgba(255, 99, 132, 1)',
                             'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 0.8)',
+                            'rgba(255, 159, 64, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1.5)',
+                            'rgba(54, 162, 235, 1.5)',
                             'rgba(255, 206, 86, 1)',
                             'rgba(75, 192, 192, 1)',
                             'rgba(153, 102, 255, 1)',
@@ -691,7 +694,7 @@ $(document).ready(function() {
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'top',
+                            position: 'right',
                         },
                         tooltip: {
                             callbacks: {
@@ -720,6 +723,111 @@ $(document).ready(function() {
 
 
 <!-- Script pour la gestion de la regle de nombre d'emprunt -->
+<script>
+    $(document).ready(function() {
+        var SITEURL = '{{ url("/") }}/';
+    
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    
+        $('#create-new-regle').click(function() {
+            $('#btn-save').val("create-regle");
+            $('#regle_id').val('');
+            $('#regleForm').trigger("reset");
+            $('#regleCrudModal').html("Ajouter Nouvelle Règle");
+            $('#ajax-regle-modal').modal('show');
+        });
+    
+        var regleTable = $('#regle_datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: SITEURL + 'regles',
+            columns: [
+                { data: 'nbr_emprunt', name: 'nbr_emprunt' },
+                { data: 'type_tier', name: 'type_tier' },
+                { data: 'action', name: 'action', orderable: false, searchable: false },
+            ],
+            paging: false,
+            info: false,
+            lengthChange: false,
+            searching: false,
+            scrollY: '350px',
+            scrollCollapse: true,
+            order: [[0, 'desc']],
+            columnDefs: [
+                { width: '33%', targets: 0 },
+                { width: '33%', targets: 1 },
+                { width: '34%', targets: 2 }
+            ]
+        });
+    
+        $('body').on('submit', '#regleForm', function(e) {
+            e.preventDefault();
+            var actionType = $('#btn-save').val();
+            $('#btn-save').html('Sending..');
+            var formData = $(this).serialize();
+    
+            var ajaxType = 'POST';
+            var ajaxUrl = SITEURL + 'regles/store';
+            if (actionType === 'edit-regle') {
+                var regleId = $('#regle_id').val();
+                ajaxUrl = SITEURL + 'regles/update/' + regleId;
+            }
+    
+            $.ajax({
+                type: ajaxType,
+                url: ajaxUrl,
+                data: formData,
+                success: function(data) {
+                    $('#regleForm').trigger("reset");
+                    $('#ajax-regle-modal').modal('hide');
+                    $('#btn-save').html('Save Changes');
+                    regleTable.ajax.reload();
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                    $('#btn-save').html('Save Changes');
+                }
+            });
+        });
+    
+        $('body').on('click', '.edit-regle', function() {
+            var regle_id = $(this).data('id');
+            $.get(SITEURL + 'regles/edit/' + regle_id, function(data) {
+                $('#regleCrudModal').html("Modifier Règle");
+                $('#btn-save').val("edit-regle");
+                $('#regle_id').val(regle_id);
+                $('#ajax-regle-modal').modal('show');
+                $('#type_tier').val(data.type_tier);
+                $('#nbr_emprunt').val(data.nbr_emprunt);
+            });
+        });
+    
+        $('body').on('click', '.delete-regle', function() {
+            var regle_id = $(this).data('id');
+            if (confirm("Êtes-vous sûr de vouloir supprimer cette règle?")) {
+                $.ajax({
+                    type: "GET",
+                    url: SITEURL + 'regles/delete/' + regle_id,
+                    success: function(data) {
+                        regleTable.ajax.reload();
+                        alert(data.success);
+                    },
+                    error: function(data) {
+                        console.log('Error:', data);
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+  
+<!-- Fin script pour la rgele d'emprunt -->  
 
 @if(session()->has('message'))
 <script>
@@ -734,7 +842,6 @@ $(document).ready(function() {
 @endif
 
 
-<!-- Fin script pour la rgele d'emprunt -->
 
     
 

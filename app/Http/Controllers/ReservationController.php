@@ -20,7 +20,9 @@ class ReservationController extends Controller
     {
         return view('bibliothecaire');
     }  
+    
     //pour afficher le formulaire de demande de reservation 
+
    /*public function show()
     {
         // Récupérer l'utilisateur connecté
@@ -31,7 +33,7 @@ class ReservationController extends Controller
         // Afficher le formulaire de réservation avec les informations de l'utilisateur
         return view('formReservation', compact('user'));
     } else {
-        // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
+     
         return redirect()->route('login')->with('error', 'Vous devez vous connecter pour accéder à cette page');
     }
     }

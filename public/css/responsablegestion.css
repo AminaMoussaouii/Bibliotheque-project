@@ -203,6 +203,111 @@ body {
 
 /* Style du gestion de la regle d'emprunt */
 
+#regle_datatable {
+  width: 100% !important;
+  margin: 0 auto;
+  border-collapse: separate;
+}
+
+#regle_datatable thead th {
+  background-color: #096097;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+.dataTables_scrollHead{
+  background-color: #096097;
+  color: #fff;
+}
+
+#regle_datatable tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+
+
+#regle_datatable tbody td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+  float: right;
+  margin-top: 20px;
+}
+
+.modal-content {
+  border-radius: 15px;
+}
+
+.modal-header {
+  background-color: #096097;
+  color: white;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.modal-footer {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+
+/* ============Style des statistiques===============*/
+
+.charts-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boxstat {
+  flex: 1;
+  margin: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 8px  #9a9a9a;
+  border-radius: 8px;
+  background-color: #fff;
+  position: relative;
+}
+
+.boxstat h3 {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.bar canvas {
+  height: 300px !important;
+  width: 500px !important;
+}
+
+.pie canvas {
+  height: 280px !important;
+  width: 300px !important;
+}
+
+.daily p{
+  margin-bottom: 10px;
+  color: #003fde;
+  font-family: cursive;
+}
+.daily{
+  width: 240px !important;
+  height: 126px !important;
+}
+
+#dailyEmpruntsCount {
+  font-size: 40px;
+  color: orange;
+  font-family: 'Arial', sans-serif;
+}
+
+
+/*  ancien code de regle emprunt 
 .regles-container{
   padding-left: 100px;
   padding-right: 150px;
@@ -324,280 +429,5 @@ border-right: 1px solid #ccc;}
 .button2:hover{
   background-color: brown;
 }
+*/
 
-/* Style des statistiques*/
-
-.charts-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.boxstat {
-  flex: 1;
-  margin: 20px;
-  padding: 20px;
-  box-shadow: 0 4px 8px  #9a9a9a;
-  border-radius: 8px;
-  background-color: #fff;
-  position: relative;
-}
-
-.boxstat h3 {
-  position: absolute;
-  top: 10px;
-  left: 20px;
-  margin: 0;
-  font-size: 16px;
-  color: #333;
-}
-
-.bar canvas {
-  height: 300px !important;
-  width: 500px !important;
-}
-
-.pie canvas {
-  height: 300px !important;
-  width: 320px !important;
-}
-.daily p{
-  margin-bottom: 10px;
-  color: #003fde;
-  font-family: cursive;
-}
-.daily{
-  width: 240px !important;
-  height: 126px !important;
-}
-
-#dailyEmpruntsCount {
-  font-size: 40px;
-  color: orange;
-  font-family: 'Arial', sans-serif;
-}
-
-
-/* style pour ancien design*/
-
-
-
-
-/*.search2 {
-  position: relative;
-  width: 300px;
-  margin-left: 100px;
-  margin-bottom: 10px;
-  border-radius: 20px ;
-  padding: 5px;
-
-}
-
-.search2 label {
-  position: relative;
-  width: 100%;
-}
-
-.search2 input[type="search"] {
-  width: 70%;
-  height: 20px;
-  padding: 5px 20px;
-  padding-left: 35px;
-  outline: none;
-  border: none;
-    border:1.3px solid #003fde;
-    border-radius: 20px;
-    margin-right: 10px;
-    outline: none;
-    box-shadow: 0 5px 8px #9a9a9a; 
-}
-.search2 button{
-  border: 1px solid #096097;
-  background-color: #096097;
-  border-radius: 10px;
-  cursor: pointer;
-  height: 30px;
-  font-size: xx-small;
-  width: 65px;
-  color: white;
-  font-weight: 500;
-  font-family: 'ubuntu';
-}
-
-#ajouter-btn , #excelfile{
-    background-color: #f99324;
-    height: 30px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    border: none;
-    width: 70px;
-    font-family: 'ubuntu';
-    font-weight:500;
-    font-size: x-small;
-}
-#excelfile{
-  width: 90px;
-}*/
-
-
-  /*===============modification et ajout ===============*/
-
-/*.main{
-  display: grid;
- grid-template-columns: repeat(2,1fr);
- gap: 20px;
-}
-.main .table1{
-  background-color: white;
-  box-shadow: 0 5px 5px #aeadad;
-  border-radius: 8px;
-}
-
-.table-cont th, .table-cont td {
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-}
-.table-cont th{
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  font-size: x-small;
-  color: white;
-}
-
-.table-cont td{
-  font-family: 'ubuntu';
-  font-size:x-small;
-}
-
-.table-cont th{
-  background-color: #096097;
-}
-.table-cont img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-}
-
-.button1{
-  background-color: #5dac0e;
-  border-radius: 5px;
-  color: rgb(255, 255, 255);
-  font-size: xx-small;
-  padding: 3px;
-  border: none;
-  margin-bottom: 3px;
-}
-
-.fa-solid.fa-pen{
- width: 30px;
- font-size: 13px;
-}
-
-.button1:hover{
-  background-color: #82b684;
-}
-
-.button2{
-  background-color: #cb0b0b;
-  border-radius: 5px;
-  color: rgb(255, 255, 255);
-  font-size: xx-small;
-  border: none;
-  padding: 3px;
-}
-
-.fa-solid.fa-trash{
-width: 30px;
-font-size: 13px;
-}
-
-.button2:hover{
-  background-color: #db6a6a;
-}
-
-
-/* ============================*/
-/*.grid2 {
-  padding: 20px 10px;
-  margin-right: 20px;
-}
-
-.informations label{
-color: rgb(0, 0, 0); 
-margin-right: 30px;
-width: 150px;
-font-family: 'ubuntu';
-font-size: small;
-}
-.informations input{
- border-color: #096097;
- border-radius: 20px;
- padding-left: 5px;
- padding-top: 5px;
- padding-bottom: 5px;
- height: 20px;
- outline: none;
-}
-.informations input::placeholder{
-color: rgb(163, 159, 159);
-text-align: center;
-font-size: xx-small;
-font-family: 'ubuntu';
-}
-.informations table{
- padding-left: 30px;
- border-collapse: separate;
- border-spacing: 0 10px;
-}
-.informations table tr{
- padding-bottom: 8px;
-}
-.informations .valider{
- padding: 3px;
- background-color: #e8791e;
- border: none;
- border-radius: 20px;
- cursor: pointer;
- width: 90px;
- height: 30px;
- margin-top: 20px;
- margin-left: 20px;
- font-size: small;
- font-family: 'ubuntu';
- transition: background-color 0.3s ease;
-}
-.informations .valider:hover{
- background-color: #2679e7;
-}
-.informations select{
- height: 30px;
- border-radius: 5px;
- border:1.5px solid #096097;
-}
-.informations #editeur{
-  width: 150px;
-}
-.input-file-button {
-  border-radius: 8px;
-  background-color: #096097;
-  padding:5px; 
-  border: none;
-  cursor: pointer; 
-  width: 30px;
-  height: 10px;
-  color: white; 
-  font-size: xx-small;
-  margin-left: 20px;
-  font-family: 'ubuntu';
-}
-.input-file-button:hover{
-  background-color: skyblue; 
-  color: rgb(0, 0, 0);
-}
-
-.input-file-label {
-  margin-left: 10px; 
-  font-size: xx-small;
-  font-family: 'ubuntu';
-
-}*/

@@ -17,10 +17,11 @@ class LivreController extends Controller
     // methode pour afficher les livres dans le ctalogue
    public function index()
     {
-        
-        $livres = Livre::paginate(10);
+        $livres = Livre::paginate(15);
         return view('catalogue', ['livres' => $livres]);
     }
+
+
     public function responsable()
     {
         return view('responsablegestion');
@@ -28,7 +29,7 @@ class LivreController extends Controller
     
     //recuperer les données du livre dans le form de reservation 
     public function reserverLivre($id)
-{
+     {
     $livre = Livre::find($id);
 
     if (!$livre) {
@@ -36,15 +37,23 @@ class LivreController extends Controller
     }
 
     return view('formReservation', ['livre' => $livre]);
-}
-  //methode pour afficher les details de chaque livre 
+     }
 
-  
-    public function afficherDetails($id) {
-        $livre = Livre::find($id);
-        return view('livreDetails', ['livre' => $livre]);
+
+  //methode pour afficher les details de chaque livre 
+  public function afficherDetails($id) {
+    $livre = Livre::find($id);
+
+    if ($livre) {
+       
+        if ($livre->exp_disp == 0 && $livre->statut != 'réservé') {
+            $livre->statut = 'réservé';
+            $livre->save();
+        }
     }
 
+    return view('livreDetails', ['livre' => $livre]);
+}
    
 
 //============ recupere les livres respo ====================
@@ -75,13 +84,14 @@ public function getLivres(Request $request)
 
 public function store(Request $request)
 {
-    request()->validate([
+    $request->validate([
         'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'exp_disp' =>'required|integer',
+        'exp_disp' => 'required|integer',
     ]);
 
     $isbn = $request->isbn;
     $imagePath = null;
+
     if ($request->hasFile('image')) {
         $image = $request->file('image');
         $imageName = time() . '_' . $image->getClientOriginalName();
@@ -106,10 +116,11 @@ public function store(Request $request)
     $livre->image = $imagePath;
 
     $livre->save();
-    flash()->success('Le livre est ajouté avec succés');
+    flash()->success('Le livre est ajouté avec succès');
 
     return response()->json($livre);
 }
+
 
 // =============Edit Livre================
 
@@ -122,45 +133,46 @@ public function edit($id)
 // ============ Update ============
 public function update(Request $request, $id)
 {
-    try {
-        $livre = Livre::findOrFail($id);
-        $request->validate([
-            'isbn' => 'required|string|max:255',
-            'titre' => 'required|string|max:255',
-        ]);
-        
-        $isbn = $request->isbn;
-        $imagePath = $livre->image; 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
-            $imagePath = $imageName; 
-        }
+    $request->validate([
+        'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'exp_disp' => 'required|integer',
+    ]);
 
-        $livre->titre = $request->titre;
-        $livre->auteur = $request->auteur;
-        $livre->isbn = $isbn;
-        $livre->editeur = $request->editeur;
-        $livre->langue = $request->langue;
-        $livre->date_edition = $request->date_edition;
-        $livre->exp_disp = $request->exp_disp;
-        $livre->etage = $request->etage;
-        $livre->rayon = $request->rayon;
-        $livre->nombre_pages = $request->nombre_pages;
-        $livre->discipline = $request->discipline;
-        $livre->statut = $request->statut;
-        $livre->type_ouvrage = $request->type_ouvrage;
-        $livre->image = $imagePath;
-
-        $livre->save();
-        flash()->success('Le livre est modifié avec succés');
-        return response()->json(['message' => 'Les données du livre ont été mises à jour avec succès']);
-    } catch (\Exception $e) {
-        // Log the error message
-        Log::error($e->getMessage());
-        return response()->json(['error' => 'Erreur lors de la mise à jour du livre.'], 500);
+    $livre = Livre::find($id);
+    if (!$livre) {
+        return response()->json(['error' => 'Livre non trouvé'], 404);
     }
+
+    $isbn = $request->isbn;
+    $imagePath = $livre->image; 
+
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('images'), $imageName);
+        $imagePath = $imageName;
+    }
+
+    $livre->titre = $request->titre;
+    $livre->auteur = $request->auteur;
+    $livre->isbn = $isbn;
+    $livre->editeur = $request->editeur;
+    $livre->langue = $request->langue;
+    $livre->date_edition = $request->date_edition;
+    $livre->exp_disp = $request->exp_disp;
+    $livre->etage = $request->etage;
+    $livre->rayon = $request->rayon;
+    $livre->nombre_pages = $request->nombre_pages;
+    $livre->discipline = $request->discipline;
+    $livre->statut = $request->statut;
+    $livre->type_ouvrage = $request->type_ouvrage;
+    $livre->image = $imagePath;
+
+    $livre->save();
+
+    flash()->success('Le livre a été mis à jour avec succès');
+
+    return response()->json($livre);
 }
 
 

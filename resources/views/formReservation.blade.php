@@ -18,43 +18,43 @@
             <input type="hidden" name="livre_id" value="{{ $livre->id }}">
             <div class="form-group">
                 <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required value="{{ old('nom') }}">
+                <input type="text" id="nom" name="nom" required value="{{ old('nom') }}"  readonly>
             </div>
             <div class="form-group">
                 <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom" required value="{{ old('prenom') }}">
+                <input type="text" id="prenom" name="prenom" required value="{{ old('prenom') }}" readonly>
             </div>
-            <div class="form-group">
+           <div class="form-group">
                 <label for="branche">Branche :</label>
-                <input type="text" id="branche" name="branche" value="">
+                <input type="text" id="branche" name="branche" value=""readonly>
             </div>
             <div class="form-group">
                 <label for="email">Email :</label>
-                <input type="email" id="email" name="email" required value="{{ old('email') }}">
+                <input type="email" id="email" name="email" required value="{{ old('email') }}" readonly>
             </div>
             <div class="form-group">
                 <label for="isbn">ISBN :</label>
-                <input type="text" id="isbn" name="isbn" value="{{ $livre->isbn ?? old('isbn') }}">
+                <input type="text" id="isbn" name="isbn" value="{{ $livre->isbn ?? old('isbn') }}"readonly>
             </div>
             <div class="form-group">
                 <label for="type_ouvrage">Type d'ouvrage :</label>
-                <input type="text" id="type_ouvrage" name="type_ouvrage" value="{{ $livre->type_ouvrage ?? old('type_ouvrage') }}">
+                <input type="text" id="type_ouvrage" name="type_ouvrage" value="{{ $livre->type_ouvrage ?? old('type_ouvrage') }}" readonly>
             </div>
             <div class="form-group">
                 <label for="titre">Titre de l'ouvrage :</label>
-                <input type="text" id="titre" name="titre" required value="{{ $livre->titre ?? old('titre') }}">
+                <input type="text" id="titre" name="titre" required value="{{ $livre->titre ?? old('titre') }}" readonly>
             </div>
             <div class="form-group">
                 <label for="auteur">Auteur :</label>
-                <input type="text" id="auteur" name="auteur" required value="{{ $livre->auteur ?? old('auteur') }}">
+                <input type="text" id="auteur" name="auteur" required value="{{ $livre->auteur ?? old('auteur') }}" readonly>
             </div>
             <div class="form-group">
                 <label for="rayon">Rayon :</label>
-                <input type="text" id="rayon" name="rayon" value="{{ $livre->rayon ?? old('rayon') }}">
+                <input type="text" id="rayon" name="rayon" value="{{ $livre->rayon ?? old('rayon') }}" readonly>
             </div>
             <div class="form-group">
                 <label for="etage">Étage :</label>
-                <input type="text" id="etage" name="etage" value="{{ $livre->etage ?? old('etage') }}">
+                <input type="text" id="etage" name="etage" value="{{ $livre->etage ?? old('etage') }}" readonly>
             </div>
 
 

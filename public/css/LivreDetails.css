@@ -1,232 +1,265 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;   
-}
+
+
 
 body {
-    background: #f3f3f2;
-    background-repeat: no-repeat;
-    background-attachment: fixed;  
+    background-color: #29a2de;
+    margin: 0;
+    padding: 0;
 }
-/*debut navbar*/
-header{
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    background-color:#096097;
-    box-shadow:0 5px 3px #9a9a9a;
-    margin-bottom: 20px;
-    height: 40px;
-    padding-top: 5px;
-   /* background: linear-gradient(45deg,#00515a,#100375,#0d0d0d);*/
+
+
+/*========= Styles de la barre de navigation ==============*/
+.btn-logout{
+    background-color: #096097;
+    padding: 8px 5px;
+    border-radius: 50px;
+   transition: 0.3s background-color;
+   border: none;
 }
-nav{
+.btn-logout:hover{
+    background-color: #2281bc;
+
+}
+
+.navbar{
+    height: 55px;
+    margin: 20px;
+    margin-top: 12px;
+    border-radius: 30px;
+}
+.navbar-head {
+    background-color: #f8f9fa; 
+    padding: 10px 20px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: space-around;
-   
-}
-nav h2 span{
-    color: rgb(35, 35, 182);
-}
-.navlinks{
-  list-style: none;
-  
-}
-.navbar-head .logo {
-   /* height: 50px;
-    width: 50px*/
-    color: #000000;
-    font-family:'Times New Roman', Times, serif;
-    font-size: small;
-
-}
-.navbar-head ul li{
-    list-style-type: none;
-    display: inline-block;
-    padding-right: 20px;
-    padding-left: 20px;
-}
-.navbar-head ul li a{
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: x-small;
-    font-family: 'ubuntu';
-  
-}
-.navbar-head ul li:hover{
-    background: #efefef;
-    box-shadow: 10px 20px 30px  #3d3d3d;
-    border-radius: 10px;
-
-}
-.navbar-head ul li a:hover{
-    color: black;
-    transition: .1s;
-   
-}
-.fa-solid.fa-user{
-    color: rgb(240, 240, 240);
-    margin-right: 10px;
-    font-size: 16px;
-}
-.fa-solid.fa-user:hover{
-    color: black;
-}
-.fa-solid.fa-bell{
-    color: rgb(232, 232, 232);
-    font-size: 16px;
-}
-.fa-solid.fa-bell:hover{
-    color: black;
-}
-/*fin nav*/
-
-section {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    margin-top: 70px;
 }
 
-section img {
-    width: 200px;
-    border-radius: 10px;
-    margin-left: 160px;
-    box-shadow: 0 5px 9px #555556;
-}
-
-section img:hover {
-    transform: scale(1.07);
-    border: 2px solid #040404;
-    transition: .2s;
-}
-
-.titre {
-    font-size: 20px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.details {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 30px;
-}
-
-button {
-    position: relative;
-    background-color: #ff9400;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    width: 100px;
-    height: 30px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    margin-top: 20px;
-    font-weight: bold;
-    box-shadow: 0 5px 5px #9a9a9a;
-    color: white;
-   
-}
-
-button:hover {
-    transition: 0.1s;
-    transform: scale(1.01);
-}
-button a{
-    text-decoration: none;
-}
-
-td {
-    padding-right: 60px;
-    padding-top: 12px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: small;
-}
-
-.info {
-    color: #aa5c5c;
+.navbar-brand {
+    font-size: 14px;
+    font-weight: 500;
     font-family: cursive;
-    font-weight: bold;
+    text-decoration: none;
 }
 
+.navbar-toggler {
+    border: none;
+}
 
-@media only screen and (max-width: 768px) {
-    nav {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' linecap='round' linejoin='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
 
-    section {
-        grid-template-columns: 1fr;
-        justify-content: center;
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-link {
+    color: #ffffff;
+    padding: 10px;
+    text-decoration: none;
+position: relative;
+font-size: 16px;
+font-weight: 500;
+font-family: cursive;
+
+}
+#navbarNav li a{
+    color: white;
+    font-weight: 500;
+}
+.nav-link:hover, .nav-link.active{
+    color: orangered;
+
+}
+.nav-link::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #de6f00;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
+}
+.nav-link:hover::before,  .nav-link.active::before{
+    width: 100%;
+    visibility: visible;
+}
+
+.btn-logout .nav-linka{
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    padding: 10px;
+}
+.nav-link:hover {
+    color: #007bff;
+}
+
+.nav-item {
+    margin-left: 15px;
+}
+
+@media (max-width: 992px) {
+    .navbar-nav {
+        flex-direction: column;
+        width: 100%;
         text-align: center;
     }
 
-    section img {
-        margin-left: 0;
+    .nav-item {
+        margin: 0;
     }
 }
+/*===================fin navbar==================*/
 
-@media only screen and (max-width: 480px) {
-    nav {
-        flex-direction: column;
-        align-items: flex-start;
+ /*================body===================*/
+
+.section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 150px;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 5px 5px #c3c3c3;
+}
+
+
+.livre-image {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.livre-image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.informations {
+    flex: 2;
+    padding: 20px;
+}
+
+.titre {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #020202;
+    font-family: cursive;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.details table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.details .info {
+    font-weight: bold;
+    font-family:cursive;
+    color: #096097;
+}
+
+.details td {
+    padding: 8px 12px;
+}
+
+.res {
+    background-color:#114eeb ;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    align-self: flex-start;
+    box-shadow: 0 5px 5px #9a9a9a;
+}
+
+.res a {
+    color: white;
+    text-decoration: none;
+}
+
+.res:hover {
+    background-color: #ff6600;  
+}
+.res a:hover{
+    color: rgb(255, 255, 255);
+}
+
+.res:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.statut-disponible {
+    color: green;
+    font-weight: bold;
+}
+
+.statut-reserve {
+    color: red;
+    font-weight: bold;
+}
+
+/* Responsive Styles */
+
+@media (max-width: 768px) {
+    .section{
+        margin: 20px;
     }
 
-    nav ul {
-        display: none;
-    }
-
-    .navlinks {
-        display: flex;
+    .livre-details-card {
         flex-direction: column;
         align-items: center;
     }
 
-    .navlinks li {
-        margin: 10px 0;
+    .details {
+        flex-direction: column;
     }
 
-    .logo {
-        margin-bottom: 20px;
+    .res{
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    header .logo {
+        font-size: 18px;
+    }
+
+    header .navlinks li a {
+        font-size: 10px;
     }
 
     .titre {
-        font-size: 13px;
+        font-size: 18px;
     }
 
-    .details {
-        grid-template-columns: 1fr;
+    .details td {
+        padding: 6px 10px;
     }
-    .details {
-        grid-template-columns: 1fr;
-        margin-left: 50px;
-    }
-    section img {
-        width: 80px;
-        border-radius: 10px;
-        margin-right: 50px;
-    }
-    td {
-        padding-right: 10px;
-        padding-top: 5px;
-        font-size: 8px;
-    }
-    
-    .info {
-        font-weight: bold;
-        font-size: 8px;
-    }
-    button {
-        border-radius: 20px;
-        width: 55px;
-        height: 20px;
-        margin-top: 15px;
-        font-size: 11px;
+
+    .res {
+        padding: 8px 16px;
     }
 }
-    

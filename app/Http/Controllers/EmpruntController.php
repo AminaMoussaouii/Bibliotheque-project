@@ -34,7 +34,7 @@ class EmpruntController extends Controller
                     return $row->nom . ' ' . $row->prenom;
                 })
                 ->editColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
+                    return Carbon::parse($row->created_at)->format('d/m/Y');
                 })
                 ->addColumn('action', function($row) {
                     $btn = '<a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-danger btn-sm returnEmprunt" >Retourner</a>';

@@ -87,6 +87,9 @@ Route::get('/responsable', [LivreController::class, 'responsable'])->name('respo
 
        Route::post('livres/Update/{id}',[LivreController::class,'update']);
       
+    
+
+      
       
 
 
@@ -136,7 +139,7 @@ Route::get('/reservations', [ReservationController::class, 'index'])->name('rese
 
 
 
-// Routes pour l'export et import d'un fichier excel 
+// Routes pour l'exportation d'un fichier excel 
 Route::post('/import', [LivreController::class, 'import'])->name('import');
 
 //Routes pour la methode de recherche des livres 
@@ -153,16 +156,23 @@ Route::get('/livres/search', [LivreController::class,'searchResponsable'])->name
 //===============Gestion regle d'emprunt =======================
 
 
-// Route pour les règles d'emprunt
-// routes/web.php
+// Routes pour les règles d'emprunt
+Route::resource('regles', RegleEmpruntController::class);
+Route::post('regles/store', [RegleEmpruntController::class, 'store'])->name('regles.store');
+Route::post('regles/update/{id}', [RegleEmpruntController::class, 'update'])->name('regles.update');
+Route::get('regles/delete/{id}', [RegleEmpruntController::class, 'destroy'])->name('regles.destroy');
+Route::get('regles/edit/{id}', [RegleEmpruntController::class, 'edit'])->name('regles.edit');
 
-Route::get('/regles', [RegleEmpruntController::class, 'index']);
+
+
+/*Route::get('/regles', [RegleEmpruntController::class, 'index']);
 Route::post('/regles', [RegleEmpruntController::class,'store'])->name('regles.store');
 
 Route::get('/regles/{id}/edit', [RegleEmpruntController::class, 'edit'])->name('regles.edit');
 Route::put('/regles/{id}', [RegleEmpruntController::class, 'update'])->name('regles.update');
 
-Route::delete('/regles/{id}', [RegleEmpruntController::class, 'destroy']);
+Route::delete('/regles/{id}', [RegleEmpruntController::class, 'destroy']);*/
+
 
 
 Route::get('/test-session', function () {
