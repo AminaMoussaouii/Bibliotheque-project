@@ -3,6 +3,15 @@
     <div class="heading">Sign In</div>
     <link rel="stylesheet" href="auth\login.css">
     <script src="auth\login.js"></script>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{route('login')}}" class="form" method="post">
      @csrf
       <input required="" class="input" type="email" name="email" id="email" placeholder="E-mail">

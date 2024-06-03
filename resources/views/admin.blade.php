@@ -111,6 +111,14 @@
                 </li>
             </ul>
         </div>
+        <div class="navbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+            <div class="user">
+                <img src="images/profil.jpg" alt="" width="50px" height="50px">
+            </div> 
+        </div>
 
 
 
@@ -132,9 +140,13 @@
                             <th style="color: white; font-weight:500; border-top-left-radius: 13px;">Nom</th>
                             <th style="color: white; font-weight:500">Prénom</th>
                             <th style="color: white; font-weight:500">Email</th>
-                            <th style="color: white; font-weight:500">Password</th>
+                            <!--<th style="color: white; font-weight:500">Password</th>-->
                             <th style="color: white; font-weight:500">Tél</th>
                             <th style="color: white; font-weight:500">Role</th>
+                            <th style="color: white; font-weight:500">Filière</th>
+                            <th style="color: white; font-weight:500">Code_Apogée</th>
+                            <th style="color: white; font-weight:500">Department</th>
+                            <th style="color: white; font-weight:500">PPR</th>
                             <th style="color: white; font-weight:500; border-top-right-radius: 13px;">Action</th>
                         </tr>
                     </thead>
@@ -190,6 +202,39 @@
                                         </select>
                                     </div>
                                 </div>
+                                
+                                <div id="etudiant-fields" class="form-group">
+                                    <div>
+                                <label for="Code_Apogée" class="col-sm-2 control-label">Code Apogée</label>
+                                <input type="text" name="Code_Apogée" id="Code_Apogée" class="form-control">
+                                </div>
+                                <div>
+                                <label for="CNE" class="col-sm-2 control-label">CNE</label>
+                                <input type="text" name="CNE" id="CNE" class="form-control">
+                                </div>
+                                <div>
+                                <label for="Filière" class="col-sm-2 control-label">Filière</label>
+                                <input type="text" name="Filière" id="Filière" class="form-control">
+                                </div>
+                            </div>
+    
+                            <div id="personnel-fields" class="form-group">
+                                <div>
+                                <label for="department" class="col-sm-2 control-label">Department</label>
+                                <input type="text" name="department" id="department" class="form-control">
+                                </div>
+                                <div>
+                                <label for="PPR" class="col-sm-2 control-label">PPR</label>
+                                <input type="text" name="PPR" id="PPR" class="form-control">
+                                </div>
+                            </div>
+
+                            <div id="common-fields" class="form-group">
+                                <div>
+                                <label for="PPR" class="col-sm-2 control-label">PPR</label>
+                                <input type="text" name="PPR" id="PPR" class="form-control">
+                                </div>
+                            </div>
                                 <div class="form-group">
                                     <label for="Tél" class="col-sm-2 control-label">Tél</label>
                                     <div class="col-sm-12">
@@ -203,15 +248,39 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="modal-footer"></div>
+                        <div class="modal-footer">
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    <script>
+   document.addEventListener('DOMContentLoaded', function () {
+    var roleSelect = document.getElementById('Role');
+    var etudiantFields = document.getElementById('etudiant-fields');
+    var personnelFields = document.getElementById('personnel-fields');
+    var commonFields = document.getElementById('common-fields');
 
+    // Hide all role-specific fields initially
+    etudiantFields.style.display = 'none';
+    personnelFields.style.display = 'none';
+    commonFields.style.display = 'none';
+
+    function toggleFields() {
+        var role = roleSelect.value;
+        etudiantFields.style.display = role === 'etudiant' ? 'block' : 'none';
+        personnelFields.style.display = role === 'personnel' ? 'block' : 'none';
+        commonFields.style.display = (role === 'responsable' || role === 'bibliothecaire' || role === 'admin') ? 'block' : 'none';
+    }
+
+    roleSelect.addEventListener('change', toggleFields);
+    toggleFields(); // Initial call to set correct fields on page load
+});
+</script>
 
         <script>
-            $(document).ready(function () {
+             $(document).ready(function () {
                 var SITEURL = '{{ url("/") }}/';
 
                 console.log(SITEURL);
@@ -423,9 +492,13 @@
                         { data: 'nom', name: 'nom' },
                         { data: 'prénom', name: 'prénom' },
                         { data: 'email', name: 'email' },
-                        { data: 'password', name: 'password' },
-                        { data: 'Role', name: 'Role' },
+                        //{ data: 'password', name: 'password' },
                         { data: 'Tél', name: 'Tél' },
+                        { data: 'Role', name: 'Role' },
+                        { data: 'Filière', name: 'Filière' },
+                        { data: 'Code_Apogée', name: 'Code_Apogée' },
+                        { data: 'department', name: 'department' },
+                        { data: 'PPR', name: 'PPR' },
                         { data: 'action', name: 'action', orderable: false, searchable: false },
                     ],
                     order: [[0, 'desc']]

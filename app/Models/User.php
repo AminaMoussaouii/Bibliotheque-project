@@ -23,6 +23,11 @@ class User extends Authenticatable
         'password',
         'Tél',
         'Role',
+        'PPR',
+        'Code_Apogée',
+        'CNE',
+        'Filière',
+        'department',
     ];
 
     /**
@@ -34,6 +39,16 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        if (!isset($this->attributes['Role'])) {
+            $this->attributes['Role'] = strtolower(class_basename(static::class));
+        }
+    }
 
     /**
      * Get the attributes that should be cast.

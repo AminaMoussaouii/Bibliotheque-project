@@ -25,8 +25,8 @@
                 <input type="text" id="prenom" name="prenom" required value="{{ $user->prénom }}" >
             </div>
             <div class="form-group">
-                <label for="branche">Branche :</label>
-                <input type="text" id="branche" name="branche" value="">
+                <label for="branche">Filière:</label>
+                <input type="text" id="branche" name="Filière" value="{{ $user->Filière }}">
             </div>
             <div class="form-group">
                 <label for="email">Email :</label>

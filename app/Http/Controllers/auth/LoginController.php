@@ -112,7 +112,7 @@ public function login(Request $request)
 
         if ($user->is_blocked) {
             Auth::logout();
-            return redirect('/login')->withErrors(['message' => 'Your account has been blocked. Please contact the administrator.']);
+            return redirect('/login')->withErrors(['message' => 'Votre compte a été bloqué. Veuillez contacter l`administrateur.']);
         }
 
         return $this->sendLoginResponse($request);

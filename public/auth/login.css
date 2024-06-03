@@ -5,7 +5,25 @@ body {
     height: 100vh;
     margin: 0;
   }
-  
+  .alert-danger {
+    color: #fff;
+    background-color: #f44336; /* Red */
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+    border: 5px solid #f44336;
+    border-radius: 10px;
+}
+
+  .alert-danger ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+  .alert-danger li {
+    margin: 0;
+}
+
   .welcome-message {
     text-align: center;
     font-size: 90px;
