@@ -20,7 +20,7 @@ class ReservationController extends Controller
     {
         return view('bibliothecaire');
     } 
-    
+
     public function recuperer(Request $request)
 {
     // Validez les données du formulaire
@@ -28,39 +28,14 @@ class ReservationController extends Controller
         'nom' => 'required|string',
         'prénom' => 'required|string',
         'email' => 'required|email',
-        // Ajoutez d'autres règles de validation pour les nouveaux champs
     ]);
 
     // Récupérer les données du formulaire
     $nom = $request->input('nom');
     $prenom = $request->input('prénom');
     $email = $request->input('email');
-    // Récupérez d'autres données du formulaire
-
-    // Enregistrez la réservation dans la base de données, générez le PDF, etc.
 }
  
-    }  
-    
-    //pour afficher le formulaire de demande de reservation 
-
-   /*public function show()
-    {
-        // Récupérer l'utilisateur connecté
-    $user = Auth::user();
-    
-    // Vérifier si l'utilisateur est connecté
-    if ($user) {
-        // Afficher le formulaire de réservation avec les informations de l'utilisateur
-        return view('formReservation', compact('user'));
-    } else {
-     
-        return redirect()->route('login')->with('error', 'Vous devez vous connecter pour accéder à cette page');
-    }
-    }
-    */
-  
-
     
     public function store(Request $request)
     {
