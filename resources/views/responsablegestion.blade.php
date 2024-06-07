@@ -290,16 +290,16 @@
         </div>
 
       <!--=====================table regle emprunt ================== -->
-      <div id="regle-emprunt-content" style="padding-left: 50px; padding-right:50px; padding-bottom:70px;">
-        <h2>Règle d'emprunt</h2>
-        <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-regle" style="margin-left: 110px; background-color: #f99324; border:none; border-radius:10px; box-shadow: 0 5px 5px #9a9a9a;">Ajouter</a>
+      <div id="regle-emprunt-content">
+        <h2 style="margin-left: 130px;">Règle d'emprunt</h2>
+        <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-regle" style="margin-left: 150px; margin-right:150px;background-color: #f99324; border:none; border-radius:10px; box-shadow: 0 5px 5px #9a9a9a;">Ajouter</a>
         <br><br>
-        <table class="table table-bordered table-striped" id="regle_datatable" style="width:90%;">
+        <table class="table table-bordered table-striped" id="regle_datatable" style="width:70%; margin-left:80px;">
             <thead>
-                <tr>
-                    <th>Nombre emprunt</th>
-                    <th>Type tiers</th>
-                    <th>Action</th>
+                <tr style="background-color: #096097;">
+                    <th style="color: white;font-weight:500; border-top-left-radius: 13px; ">Nombre emprunt</th>
+                    <th style="color: white;font-weight:500;">Type tiers</th>
+                    <th style="color: white;font-weight:500; border-top-right-radius: 13px;">Action</th>
                 </tr>
             </thead>
         </table>
@@ -336,10 +336,10 @@
                         </div>
                     </form>
                 </div>
+    
             </div>
         </div>
-    </div>
-    
+    </div>
 
 
         
@@ -750,12 +750,10 @@ $(document).ready(function() {
                 { data: 'type_tier', name: 'type_tier' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
             ],
-            paging: false,
-            info: false,
-            lengthChange: false,
-            searching: false,
-            scrollY: '350px',
-            scrollCollapse: true,
+            paging: false, 
+            info: false, 
+            lengthChange: false, 
+            searching: false, 
             order: [[0, 'desc']],
             columnDefs: [
                 { width: '33%', targets: 0 },
@@ -822,8 +820,9 @@ $(document).ready(function() {
                 });
             }
         });
-    });
+    });
 </script>
+
 
 
   

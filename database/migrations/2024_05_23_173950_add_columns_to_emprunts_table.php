@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('emprunts', function (Blueprint $table) {
             $table->string('nom')->nullable();
-            $table->string('prenom')->nullable();
+            $table->string('prénom')->nullable();
             $table->string('email')->nullable();
             $table->string('role');
             $table->string('titre')->nullable();

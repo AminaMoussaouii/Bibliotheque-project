@@ -28,12 +28,7 @@ class LivreController extends Controller
     {
         return view('responsablegestion');
     }
-    public function showProfile()
-    {
-     
-        $user = Auth::user();
-        return view('formReservation', compact('user'));
-    }
+   
 
     
     //recuperer les données du livre dans le form de reservation 

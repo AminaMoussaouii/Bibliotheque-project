@@ -6,6 +6,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RegleEmpruntController;
 use App\Http\Controllers\EmpruntController;
 use App\Http\Controllers\StatistiquesController;
+use App\Http\Controllers\HistoricalUserController;
 
 use Illuminate\Support\Facades\Session;
 
@@ -35,7 +36,7 @@ Route::get('/', [LoginController::class, 'index']);
 
 //routeS pour admin dashbord
 
-Route::prefix('admin')->name('admin.')->middleware('auth','Role:admin')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('users', [adminController::class, 'admin'])->middleware('auth','Role:admin')->name('users.index');
     Route::get('users/get', [adminController::class, 'getUsers']);
     Route::post('users/store', [adminController::class, 'store'])->name('users.store');
@@ -149,6 +150,7 @@ Route::post('/import', [LivreController::class, 'import'])->name('import');
 //Routes pour la methode de recherche des livres 
 //Route::get('livres-list',[LivreController::class,'livresListAjax']);
 Route::get('/catalogue', [LivreController::class, 'index'])->middleware('auth')->name('catalogue');
+Route::get('/mes-emprunts', [HistoricalUserController::class, 'index'])->name('HistoricalUser');
 Route::get('/livre/search', [LivreController::class, 'search'])->name('livre.search');
 
 

@@ -11,27 +11,28 @@
 </head>
 <body>
 
-    <div class="containerform">
+<div class="containerform">
         <h2 class="title">Demande de réservation d'un ouvrage</h2>
         <form id="reservationForm" action="{{ route('reservation.store') }}" method="POST">
             @csrf
             <input type="hidden" name="livre_id" value="{{ $livre->id }}">
             <div class="form-group">
                 <label for="nom">Nom :</label>
-
-                <input type="text" id="nom" name="nom" required value="{{ $user->nom }}" >
+                <input type="text" id="nom" name="nom" required value="{{ $user->nom }}" readonly >
             </div>
             <div class="form-group">
-                <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom" required value="{{ $user->prénom }}" >
+                <label for="prénom">Prénom :</label>
+                <input type="text" id="prénom" name="prénom" required value="{{ $user->prénom}}" readonly>
             </div>
-            <div class="form-group">
-                <label for="branche">Filière:</label>
-                <input type="text" id="branche" name="Filière" value="{{ $user->Filière }}">
+           <div class="form-group">
+            @if($user->Role === 'etudiant')
+                <label for="Filière">Filière :</label>
+                <input type="text" id="Filière" name="Filière" value="{{ $user->Filière }}" readonly>
+            @endif
             </div>
             <div class="form-group">
                 <label for="email">Email :</label>
-                <input type="email" id="email" name="email" required value="{{ $user->email }}" >
+                <input type="email" id="email" name="email" required value="{{$user->email }}" readonly>
             </div>
             <div class="form-group">
                 <label for="isbn">ISBN :</label>
@@ -63,7 +64,8 @@
             <button type="submit" id="confirm">Confirmer</button>
             <button type="button" id="telechargerPDF">Télécharger</button>
         </form>
-    </div> 
+    </div>
+
 
 
 

@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('prenom');
+            $table->string('prénom');
             $table->string('email');
             $table->string('titre');
             $table->string('auteur');
             $table->string('rang');
             $table->string('etage');
-            $table->string('branche');
+            $table->string('Filière');
             $table->timestamps();
         });
     }

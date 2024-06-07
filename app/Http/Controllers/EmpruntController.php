@@ -15,7 +15,7 @@ class EmpruntController extends Controller
             $data = Emprunt::select([
                 'id', 
                 'nom', 
-                'prenom', 
+                'prénom', 
                 'email', 
                 'role', 
                 'isbn', 
@@ -31,13 +31,13 @@ class EmpruntController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('tier', function($row) {
-                    return $row->nom . ' ' . $row->prenom;
+                    return $row->nom . ' ' . $row->prénom;
                 })
                 ->editColumn('created_at', function ($row) {
                     return Carbon::parse($row->created_at)->format('d/m/Y');
                 })
                 ->editColumn('date_retour', function ($row) {
-                    return $row->date_retour ? Carbon::parse($row->date_retour)->format('d/m/Y H:i:s') : '';
+                    return $row->date_retour ? Carbon::parse($row->date_retour)->format('d/m/Y') : '';
                 })
                 ->editColumn('nbr_jrs_retard', function ($row) {
                     return $row->nbr_jrs_retard;
@@ -71,12 +71,14 @@ class EmpruntController extends Controller
 
         return response()->json([
             'success' => 'Emprunt retourné avec succès.', 
-            'date_retour' => $dateRetour->format('d/m/Y H:i:s'),
+            'date_retour' => $dateRetour->format('d/m/Y'),
             'nbr_jrs_retard' => $nbrJrsRetard
         ]);
     }
 
     return response()->json(['error' => 'Emprunt non trouvé.'], 404);
 }
+
+
 
 }

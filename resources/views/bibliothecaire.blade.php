@@ -175,7 +175,7 @@
                 ajax: "{{ route('reservations.index') }}",
                 columns: [
                     { data: 'nom', name: 'nom' },
-                    { data: 'prenom', name: 'prenom' },
+                    { data: 'prénom', name: 'prénom' },
                     { data: 'email', name: 'email' },
                     { data: 'titre', name: 'titre' },
                     { data: 'auteur', name: 'auteur' },
@@ -273,7 +273,7 @@
                     data: null, 
                     name: 'tier', 
                     render: function (data, type, row) {
-                        return data.nom + ' ' + data.prenom;
+                        return data.nom + ' ' + data.prénom;
                     },
                     title: 'Tier'
                 },

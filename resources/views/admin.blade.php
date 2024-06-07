@@ -271,7 +271,7 @@
         var role = roleSelect.value;
         etudiantFields.style.display = role === 'etudiant' ? 'block' : 'none';
         personnelFields.style.display = role === 'personnel' ? 'block' : 'none';
-        commonFields.style.display = (role === 'responsable' || role === 'bibliothecaire' || role === 'admin') ? 'block' : 'none';
+        commonFields.style.display = (role === 'responsable' || role === 'bibliothècaire' || role === 'admin') ? 'block' : 'none';
     }
 
     roleSelect.addEventListener('change', toggleFields);

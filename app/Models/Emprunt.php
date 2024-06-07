@@ -10,7 +10,7 @@ class Emprunt extends Model
     use HasFactory;
     protected $fillable = [
         'nom',
-        'prenom',
+        'prénom',
         'email',
         'role',
         'titre',
@@ -21,6 +21,7 @@ class Emprunt extends Model
         'nbr_jrs_retard',
         'statut',
         'livre_id',
+        'user_id',
     ];
 
     protected $dates = ['date_limite', 'date_retour'];

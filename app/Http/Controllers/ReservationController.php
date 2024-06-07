@@ -21,20 +21,20 @@ class ReservationController extends Controller
         return view('bibliothecaire');
     } 
 
-    public function recuperer(Request $request)
-{
-    // Validez les données du formulaire
-    $request->validate([
-        'nom' => 'required|string',
-        'prénom' => 'required|string',
-        'email' => 'required|email',
-    ]);
+//     public function recuperer(Request $request)
+// {
+//     // Validez les données du formulaire
+//     $request->validate([
+//         'nom' => 'required|string',
+//         'prénom' => 'required|string',
+//         'email' => 'required|email',
+//     ]);
 
-    // Récupérer les données du formulaire
-    $nom = $request->input('nom');
-    $prenom = $request->input('prénom');
-    $email = $request->input('email');
-}
+//     // Récupérer les données du formulaire
+//     $nom = $request->input('nom');
+//     $prenom = $request->input('prénom');
+//     $email = $request->input('email');
+// }
  
     
     public function store(Request $request)
@@ -65,16 +65,19 @@ class ReservationController extends Controller
 
         $reservation = new Reservation();
         $reservation->nom = $validatedData['nom'];
-        $reservation->prenom = $validatedData['prenom'];
+        $reservation->prénom = $validatedData['prénom'];
         $reservation->email = $validatedData['email'];
         $reservation->titre = $validatedData['titre'];
         $reservation->auteur = $validatedData['auteur'];
         $reservation->rayon = $validatedData['rayon'];
         $reservation->etage = $validatedData['etage'];
-        $reservation->Filière = $validatedData['Filière'];
         $reservation->isbn = $validatedData['isbn'];
         $reservation->type_ouvrage = $validatedData['type_ouvrage'];
         $reservation->livre_id = $validatedData['livre_id'];
+        $reservation->user_id = Auth::id();
+        if (array_key_exists('Filière', $validatedData)) {
+            $reservation->Filière = $validatedData['Filière'];
+        }
         
         $reservation->save();
 
@@ -124,7 +127,7 @@ public function emprunter($id, Request $request)
 
             $emprunt = new Emprunt();
             $emprunt->nom = $reservation->nom;
-            $emprunt->prenom = $reservation->prenom;
+            $emprunt->prénom = $reservation->prénom;
             $emprunt->email = $reservation->email;
             $emprunt->role = 'Utilisateur';
             $emprunt->isbn = $reservation->isbn;
@@ -135,6 +138,7 @@ public function emprunter($id, Request $request)
             $emprunt->nbr_jrs_retard = 0;
             $emprunt->statut = 'emprunté';
             $emprunt->livre_id = $reservation->livre_id;
+            $emprunt->user_id = $reservation->user_id ;
 
             $emprunt->save();
             Log::info('Emprunt sauvegardé: ' . json_encode($emprunt));
@@ -155,7 +159,7 @@ public function telechargerPDF(Request $request)
         'title' => 'Demande de réservation d\'un livre',
         'date' => date('d/m/Y'),
         'nom' => $request->nom,
-        'prenom' => $request->prenom,
+        'prénom' => $request->prénom,
         'Filière' => $request->Filière,
         'email' => $request->email,
         'isbn' => $request->isbn,

@@ -27,7 +27,7 @@
                             <a class="nav-link" href="{{ route('catalogue') }}">Ouvrages</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Mes emprunts</a>
+                            <a class="nav-link" href="{{ route('HistoricalUser') }}">Mes emprunts</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fa-solid fa-bell"></i></a>
