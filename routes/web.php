@@ -36,7 +36,7 @@ Route::get('/', [LoginController::class, 'index']);
 
 //routeS pour admin dashbord
 
-Route::prefix('admin')->name('admin.')->middleware('auth','Role:admin')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('users', [adminController::class, 'admin'])->middleware('auth','Role:admin')->name('users.index');
     Route::get('users/get', [adminController::class, 'getUsers']);
     Route::post('users/store', [adminController::class, 'store'])->name('users.store');

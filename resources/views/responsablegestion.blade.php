@@ -342,8 +342,7 @@
     
             </div>
         </div>
-    </div>
-    
+    </div>
 
 
         
@@ -824,7 +823,7 @@ $(document).ready(function() {
                 });
             }
         });
-    });
+    });
 </script>
 
 

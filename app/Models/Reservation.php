@@ -10,6 +10,7 @@ class Reservation extends Model
     use HasFactory;
     protected $fillable = [
         'nom', 'prénom','email', 'titre', 'auteur', 'rayon', 'etage', 'Filière','isbn','type_ouvrage', 'livre_id','user_id','Role'
+
     ];
 
 
@@ -23,5 +24,8 @@ public function livre()
         return $this->belongsTo(Livre::class);
     }
 
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

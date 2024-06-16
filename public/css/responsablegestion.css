@@ -1,4 +1,3 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
 
 * {
@@ -204,7 +203,6 @@ body {
 /* Style du gestion de la regle d'emprunt */
 
 
-
 #regle_datatable tbody tr:nth-child(odd) {
   background-color: #ffffff;
 }
@@ -268,6 +266,13 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
+#reservations_datatable tbody tr td {
+  border: 1px solid #ccc !important;
+  height: auto;
+}
+
+#reservations_datatable{
+height: auto;
 #reservations_datatable tbody tr td {
   border: 1px solid #ccc !important;
   height: auto;
@@ -389,14 +394,3 @@ border-right: 1px solid #ccc;}
 .button1{
   background-color:#5dac0e ;
 }
-.button1:hover{
-  background-color: #417d05;
-}
-.button2{
-  background-color: rgb(227, 32, 71);
-}
-.button2:hover{
-  background-color: brown;
-}
-*/
-

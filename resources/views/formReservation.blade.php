@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <div class="containerform">
+<div class="containerform">
         <h2 class="title">Demande de réservation d'un ouvrage</h2>
         <form id="reservationForm" action="{{ route('reservation.store') }}" method="POST">
             @csrf
@@ -64,7 +64,8 @@
             <button type="submit" id="confirm">Confirmer</button>
             <button type="button" id="telechargerPDF">Télécharger</button>
         </form>
-    </div> 
+    </div>
+
 
 
 

@@ -1,0 +1,146 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --blue: #096097;
+    --white: #fff;
+    --gray: #f5f5f5;
+    --black1: #222;
+    --black2: #999;
+  }
+body { 
+    min-height: 100vh;
+    margin: 0;
+}
+.btn-logout{
+    background-color: #096097;
+    padding: 8px 5px;
+    border-radius: 50px;
+   transition: 0.3s background-color;
+   border: none;
+}
+.btn-logout:hover{
+    background-color: #2281bc;
+
+}
+
+.navbar{
+    height: 60px;
+    margin: 20px;
+    margin-top: 12px;
+    border-radius: 30px;
+}
+.navbar-head {
+    background-color: #f8f9fa; 
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: cursive;
+    color: #f16c1f;
+    text-decoration: none;
+}
+
+.navbar-toggler {
+    border: none;
+}
+#navbarNav li a{
+    color: white;
+    font-weight: 500;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' linecap='round' linejoin='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-link {
+    color: #f7f6f6;
+    padding: 10px;
+    text-decoration: none;
+position: relative;
+font-size: 16px;
+font-weight: 500;
+font-family: cursive;
+
+}
+.nav-link:hover, .nav-link.active{
+    color: orangered;
+
+}
+.nav-link::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #de6f00;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
+}
+.nav-link:hover::before,  .nav-link.active::before{
+    width: 100%;
+    visibility: visible;
+}
+
+.btn-logout .nav-linka{
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    padding: 10px;
+}
+.nav-link:hover {
+    color: #007bff;
+}
+
+.nav-item {
+    margin-left: 15px;
+}
+
+@media (max-width: 992px) {
+    .navbar-nav {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-item {
+        margin: 0;
+    }
+}
+/*fin navbar*/
+
+ /* ===================== Main Content ===================== */
+  .main-content {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    width: auto;
+  }
+  .main-content table{
+    width: 950px !important;
+    margin: 0;
+  }
+  
+
+
+
+
+
