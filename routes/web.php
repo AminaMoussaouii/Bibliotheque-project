@@ -6,6 +6,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RegleEmpruntController;
 use App\Http\Controllers\EmpruntController;
 use App\Http\Controllers\StatistiquesController;
+use App\Http\Controllers\HistoricalUserController;
 
 use Illuminate\Support\Facades\Session;
 
@@ -105,18 +106,21 @@ Route::get('/responsable', [LivreController::class, 'responsable'])->middleware(
 
 //router pour rediriger vers la page des details de chaque livre
 Route::get('/livres/{id}', [LivreController::class, 'afficherDetails']);
-/*Route::get('/livre/{id}', [LivreController::class, 'show'])->name('details_livre');*/
+
 
 //route pour filtrer les recherches dans le sidebar
 Route::get('/livres/filtre', [LivreController::class, 'filtrerLivres'])->name('livres.filtrer');
 
 
+//afficher le form de reservation 
+Route::get('/livres/{id}/reserver', [ReservationController::class, 'reserverLivre'])->name('livres.reserver');
 
-//Route::get('/reservation', [ReservationController::class, 'show'])->name('reservation');
-Route::get('/livres/{id}/reserver', [LivreController::class, 'reserverLivre'])->name('livres.reserver');
 
-// <button><a href="{{ route('reservation') }}" target="blank">Réserver</a></button>
+
+
+//enregistrer la reservation 
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
+//emprunter un un livre
 Route::post('/reservations/emprunter/{id}', [ReservationController::class, 'emprunter'])->name('reservations.emprunter');
 
 
@@ -149,7 +153,10 @@ Route::post('/import', [LivreController::class, 'import'])->name('import');
 //Routes pour la methode de recherche des livres 
 //Route::get('livres-list',[LivreController::class,'livresListAjax']);
 Route::get('/catalogue', [LivreController::class, 'index'])->middleware('auth')->name('catalogue');
+
 Route::get('/livre/search', [LivreController::class, 'search'])->name('livre.search');
+
+Route::get('/mes-emprunts', [HistoricalUserController::class, 'index'])->name('HistoricalUser');
 
 
 //search respo 
@@ -197,5 +204,6 @@ Route::get('/statistiques/emprunts-quotidiens', [StatistiquesController::class,'
 Route::get('reservation/pdf', [ReservationController::class, 'telechargerPDF'])->name('reservation.telechargerPDF');
 
 
+Route::get('/livre/filtre', [LivreController::class, 'filtre'])->name('livre.filtre');
 
 

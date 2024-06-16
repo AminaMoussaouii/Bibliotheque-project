@@ -15,9 +15,9 @@ class EmpruntController extends Controller
             $data = Emprunt::select([
                 'id', 
                 'nom', 
-                'prenom', 
+                'prénom', 
                 'email', 
-                'role', 
+                'Role', 
                 'isbn', 
                 'titre', 
                 'type_ouvrage', 
@@ -30,14 +30,17 @@ class EmpruntController extends Controller
 
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('Type tiertier', function($row) {
+                    return $row->Role;
+                })
                 ->addColumn('tier', function($row) {
-                    return $row->nom . ' ' . $row->prenom;
+                    return $row->nom . ' ' . $row->prénom;
                 })
                 ->editColumn('created_at', function ($row) {
                     return Carbon::parse($row->created_at)->format('d/m/Y');
                 })
                 ->editColumn('date_retour', function ($row) {
-                    return $row->date_retour ? Carbon::parse($row->date_retour)->format('d/m/Y H:i:s') : '';
+                    return $row->date_retour ? Carbon::parse($row->date_retour)->format('d/m/Y') : '';
                 })
                 ->editColumn('nbr_jrs_retard', function ($row) {
                     return $row->nbr_jrs_retard;
@@ -53,6 +56,8 @@ class EmpruntController extends Controller
         return view('bibliothecaire');
     }
 
+
+/*===========Retourner Emprunt ==========================*/
     public function retourner(Request $request)
 {
     $emprunt = Emprunt::find($request->id);
@@ -61,7 +66,6 @@ class EmpruntController extends Controller
         $emprunt->date_retour = $dateRetour;
         $emprunt->statut = 'retourné';
 
-        // Calculer le nombre de jours de retard
         $dateLimite = Carbon::parse($emprunt->date_limite);
         $nbrJrsRetard = $dateRetour->diffInDays($dateLimite, false);
         $nbrJrsRetard = $nbrJrsRetard > 0 ? 0 : abs($nbrJrsRetard);
@@ -71,12 +75,13 @@ class EmpruntController extends Controller
 
         return response()->json([
             'success' => 'Emprunt retourné avec succès.', 
-            'date_retour' => $dateRetour->format('d/m/Y H:i:s'),
+            'date_retour' => $dateRetour->format('d/m/Y'),
             'nbr_jrs_retard' => $nbrJrsRetard
         ]);
     }
 
     return response()->json(['error' => 'Emprunt non trouvé.'], 404);
 }
+ 
 
 }

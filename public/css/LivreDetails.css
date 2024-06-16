@@ -263,3 +263,43 @@ font-family: cursive;
 
     }
 }
+
+
+/*=====message d'erreur d'emprunt===========*/
+.alert-custom {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    color: #a94442;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    z-index: 9999; 
+    width: 300px;
+}
+
+.alert-custom .alert-icon {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.alert-custom .alert-message {
+    flex-grow: 1;
+}
+
+.alert-custom .alert-close {
+    margin-left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+.non-empruntable-message{
+    color: red;
+    font-family: cursive;
+    font-size: xx-small;
+}

@@ -19,7 +19,6 @@ body {
     overflow-x: hidden;
 }
 
-
 /* =============== Debut Sidebar ================ */
 .navigation {
     position: fixed;
@@ -187,14 +186,17 @@ body {
    height: auto;
    margin-top: 40px;
    margin-right: 20px;
-    border-radius: 8px;
+   border-radius: 8px;
      
 }
 .table thead tr th{
   font-family:'Times New Roman', Times, serif;
 }
 .table{
-  width: auto;
+  width: 90%;
+}
+.table thead tr td{
+  border-bottom: 1px dolid #cccc;
 }
 
 #reservations_datatable_wrapper {
@@ -263,7 +265,7 @@ font-size: xx-large;
 #table_reservation td{
   font-family: var(--bs-font-sans-serif);
   color: #212529;
-  
+
 }
 
 .main-content.active #table_reservation{

@@ -48,9 +48,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="sidebar-link" id="gerer-profil-link">
-                        <span class="icon"><i class="fa-regular fa-user"></i></span>
-                        <span class="title">Gestion du profil</span>
+                    <a href="{{ route('catalogue') }}">
+                        <span class="icon"><i class="fa-solid fa-house"></i></span>
+                        <span class="title">Home page</span>
                     </a>
                 </li>
                 <li>
@@ -175,7 +175,7 @@
                 ajax: "{{ route('reservations.index') }}",
                 columns: [
                     { data: 'nom', name: 'nom' },
-                    { data: 'prenom', name: 'prenom' },
+                    { data: 'prénom', name: 'prénom' },
                     { data: 'email', name: 'email' },
                     { data: 'titre', name: 'titre' },
                     { data: 'auteur', name: 'auteur' },
@@ -246,7 +246,7 @@
             success: function(response) {
                 if (response.success) {
                     alert(response.success);
-                    // Mettez à jour la ligne dans le tableau avec la nouvelle date de retour et le nombre de jours de retard
+                   
                     var row = $('a[data-id="'+id+'"]').closest('tr');
                     row.find('.date-retour').text(response.date_retour);
                     row.find('.nbr-jrs-retard').text(response.nbr_jrs_retard);
@@ -273,11 +273,11 @@
                     data: null, 
                     name: 'tier', 
                     render: function (data, type, row) {
-                        return data.nom + ' ' + data.prenom;
+                        return data.nom + ' ' + data.prénom;
                     },
                     title: 'Tier'
                 },
-                { data: 'role', name: 'role' },
+                { data: 'Role', name: 'Role', title: 'Type tier' },
                 { data: 'isbn', name: 'isbn' },
                 { data: 'titre', name: 'titre' },
                 { data: 'type_ouvrage', name: 'type_ouvrage' },

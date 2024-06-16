@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserLibrary;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Reservation; 
 use App\Models\Emprunt;
+use App\Models\RegleEmprunt;
 use App\Models\Livre;
 use Illuminate\Support\Facades\Log; 
 
@@ -19,23 +20,76 @@ class ReservationController extends Controller
     public function bibliothècaire()
     {
         return view('bibliothecaire');
-    } 
+    }  
+    
 
-    public function recuperer(Request $request)
-{
-    // Validez les données du formulaire
-    $request->validate([
-        'nom' => 'required|string',
-        'prénom' => 'required|string',
-        'email' => 'required|email',
-    ]);
+    
+    //recuperer les données du livre et du user dans le form de reservation 
+            public function reserverLivre($id = null)
+        {
+            if (!$id) {
+                return redirect()->route('catalogue')->with('error', 'ID du livre non spécifié.');
+            }
 
-    // Récupérer les données du formulaire
-    $nom = $request->input('nom');
-    $prenom = $request->input('prénom');
-    $email = $request->input('email');
-}
- 
+            $livre = Livre::find($id);
+
+            if (!$livre) {
+                return redirect()->route('catalogue')->with('error', 'Livre non trouvé.');
+            }
+
+            $user = Auth::user();
+
+            if (!$user) {
+                return redirect()->route('login')->with('error', 'Vous devez vous connecter pour accéder à cette page');
+            }
+              // Vérification pour les livres non empruntables
+            if ($livre->statut == 'non empruntable') {
+                return redirect()->route('catalogue')->with('error', 'Ce livre est non empruntable. Vous pouvez venir à la bibliothèque pour le lire.');
+            }
+
+            $regleEmprunt = RegleEmprunt::where('type_tier', $user->Role)->first();
+
+            if ($regleEmprunt) {
+            
+                $nombreEmpruntsActuels = Emprunt::where('user_id', $user->id)->whereNull('date_retour')->count();
+                $nombreReservationsActuelles = Reservation::where('user_id', $user->id)->count();
+
+                if ($nombreEmpruntsActuels >= $regleEmprunt->nbr_emprunt) {
+                    return redirect()->back()->with('error', 'Vous avez atteint la limite d\'emprunts autorisés. Veuillez retourner un emprunt avant de faire une nouvelle réservation.');
+                }
+
+                if ($nombreReservationsActuelles >= $regleEmprunt->nbr_emprunt) {
+                    return redirect()->back()->with('error', 'Vous avez atteint la limite de réservations autorisées. Veuillez emprunter vos réservations avant d\'en faire de nouvelles.');
+                }
+            }
+
+
+            return view('formReservation', ['livre' => $livre, 'user' => $user]);
+        }
+
+    
+
+
+    /*=====Fct qui détermine la limite d'emprunt pour chaque utilisateur */
+    
+    protected function peutEmprunter(User $user)
+    {
+        $regleEmprunt = RegleEmprunt::where('type_tier', $user->Role)->first();
+    
+        if (!$regleEmprunt) {
+            return false;
+        }
+    
+        $nombreEmpruntsActuels = Emprunt::where('user_id', $user->id)->whereNull('date_retour')->count();
+        $nombreReservationsActuelles = Reservation::where('user_id', $user->id)->count();
+    
+        return ($nombreEmpruntsActuels < $regleEmprunt->nbr_emprunt) && ($nombreReservationsActuelles < $regleEmprunt->nbr_emprunt);
+    }
+    
+
+
+  
+/*====== Stocker une nouvelle reservation ======*/
     
     public function store(Request $request)
     {
@@ -63,20 +117,34 @@ class ReservationController extends Controller
             return back()->withErrors(['error' => 'Aucun exemplaire disponible pour ce livre.']);
         }
 
+        $user = Auth::user();
+
+        if (!$this->peutEmprunter($user)) {
+            return back()->withErrors(['error' => 'Vous avez atteint la limite d\'emprunts autorisés. Veuillez retourner un emprunt avant de faire une nouvelle réservation.']);
+        }
+
         $reservation = new Reservation();
         $reservation->nom = $validatedData['nom'];
-        $reservation->prenom = $validatedData['prenom'];
+        $reservation->prénom = $validatedData['prénom'];
         $reservation->email = $validatedData['email'];
         $reservation->titre = $validatedData['titre'];
         $reservation->auteur = $validatedData['auteur'];
         $reservation->rayon = $validatedData['rayon'];
         $reservation->etage = $validatedData['etage'];
-        $reservation->Filière = $validatedData['Filière'];
         $reservation->isbn = $validatedData['isbn'];
         $reservation->type_ouvrage = $validatedData['type_ouvrage'];
         $reservation->livre_id = $validatedData['livre_id'];
+        $reservation->Role = Auth::user()->Role;
+        $reservation->user_id = Auth::id();
+
+    
+        if (array_key_exists('Filière', $validatedData)) {
+            $reservation->Filière = $validatedData['Filière'];
+        }
         
+
         $reservation->save();
+
 
         $livre->exp_disp -= 1;
         $livre->save();
@@ -98,7 +166,7 @@ class ReservationController extends Controller
                   return $btn;
               })
               ->addColumn('created_at', function($row) {
-                  return date('d/m/Y H:i:s', strtotime($row->created_at));
+                  return date('d/m/Y', strtotime($row->created_at));
               })
               ->rawColumns(['action'])
               ->make(true);
@@ -107,11 +175,23 @@ class ReservationController extends Controller
         return view('bibliothecaire'); 
     }
 
-    public function destroy($id)
-    {
-        Reservation::find($id)->delete();
-        return response()->json(['success' => 'Reservation annulé avec succès!']);
+//============== annuler reservation===========
+public function destroy($id)
+{
+    $reservation = Reservation::findOrFail($id);
+
+    $livre = Livre::find($reservation->livre_id);
+
+    if ($livre) {
+        $livre->exp_disp += 1; 
+        $livre->save();
     }
+
+    $reservation->delete();
+
+    return response()->json(['success' => 'Réservation annulée avec succès!']);
+}
+
 /// empruter reservation
    
 public function emprunter($id, Request $request)
@@ -124,9 +204,9 @@ public function emprunter($id, Request $request)
 
             $emprunt = new Emprunt();
             $emprunt->nom = $reservation->nom;
-            $emprunt->prenom = $reservation->prenom;
+            $emprunt->prénom = $reservation->prénom;
             $emprunt->email = $reservation->email;
-            $emprunt->role = 'Utilisateur';
+            $emprunt->Role = $reservation->Role;
             $emprunt->isbn = $reservation->isbn;
             $emprunt->titre = $reservation->titre;
             $emprunt->type_ouvrage = $reservation->type_ouvrage;
@@ -135,6 +215,7 @@ public function emprunter($id, Request $request)
             $emprunt->nbr_jrs_retard = 0;
             $emprunt->statut = 'emprunté';
             $emprunt->livre_id = $reservation->livre_id;
+            $emprunt->user_id = $reservation->user_id;
 
             $emprunt->save();
             Log::info('Emprunt sauvegardé: ' . json_encode($emprunt));
@@ -155,7 +236,7 @@ public function telechargerPDF(Request $request)
         'title' => 'Demande de réservation d\'un livre',
         'date' => date('d/m/Y'),
         'nom' => $request->nom,
-        'prenom' => $request->prenom,
+        'prénom' => $request->prénom,
         'Filière' => $request->Filière,
         'email' => $request->email,
         'isbn' => $request->isbn,

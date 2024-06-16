@@ -25,7 +25,7 @@
                         <a class="nav-link" href="{{ route('catalogue') }}">Ouvrages</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Mes emprunts</a>
+                        <a class="nav-link" href="{{ route('HistoricalUser') }}">Mes emprunts</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fa-solid fa-bell"></i></a>
@@ -42,6 +42,38 @@
             </div>
         </div>
     </nav>
+          <!--message d'erreur de limite d'emprunt-->
+        <!--  @if (session('error'))
+          <div class="alert alert-custom">
+              <div class="alert-icon">
+                  <i class="fas fa-times-circle"></i>
+              </div>
+              <div class="alert-message">
+                  {{ session('error') }}
+              </div>
+              <div class="alert-close" onclick="this.parentElement.style.display='none';">
+                  &times;
+              </div>
+          </div>
+      @endif
+      
+      @if ($errors->any())
+          <div class="alert alert-custom">
+              <div class="alert-icon">
+                  <i class="fas fa-times-circle"></i>
+              </div>
+              <div class="alert-message">
+                  <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+              <div class="alert-close" onclick="this.parentElement.style.display='none';">
+                  &times;
+              </div>
+          </div>
+      @endif -->
     
     <div class="section">
         @if($livre)
@@ -107,7 +139,10 @@
                         </table>
                     </div>
                 </div>
-                @if($livre->exp_disp > 0)
+                @if($livre->statut == 'Non empruntable')
+                <p class="non-empruntable-message">Ce livre est non empruntable. Vous pouvez venir à la bibliothèque pour le lire.</p>
+                <button class="res" style="background-color: grey; cursor: not-allowed; margin-top:-15px !important;">Réserver</button>
+                @elseif($livre->exp_disp > 0)
                     <button class="res"><a href="{{ route('livres.reserver', ['id' => $livre->id]) }}">Réserver</a></button>
                 @else
                     <button disabled style="background-color: grey; cursor: not-allowed;" class="res">Réserver</button>

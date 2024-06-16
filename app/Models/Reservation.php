@@ -9,7 +9,7 @@ class Reservation extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nom', 'prenom','email', 'titre', 'auteur', 'rayon', 'etage', 'branche','isbn','type_ouvrage', 'livre_id'
+        'nom', 'prénom','email', 'titre', 'auteur', 'rayon', 'etage', 'Filière','isbn','type_ouvrage', 'livre_id','user_id','Role'
     ];
 
 

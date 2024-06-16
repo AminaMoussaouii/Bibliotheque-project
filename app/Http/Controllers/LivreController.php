@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Livre; 
+use App\Models\User; 
 use Illuminate\Support\Facades\Cookie;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\LivresImport;
@@ -28,29 +29,15 @@ class LivreController extends Controller
     {
         return view('responsablegestion');
     }
+
     public function showProfile()
     {
-     
         $user = Auth::user();
         return view('formReservation', compact('user'));
     }
 
     
-    //recuperer les données du livre dans le form de reservation 
-    public function reserverLivre($id)
-    {
-    $livre = Livre::find($id);
 
-    if (!$livre) {
-        return redirect()->route('catalogue')->with('error', 'Livre non trouvé.');
-    }
-    $user = Auth::user();
-    if (!$user) {
-        return redirect()->route('login')->with('error', 'Vous devez vous connecter pour accéder à cette page');
-    }
-
-    return view('formReservation', ['livre' => $livre,'user'=> $user]);
-}
 
     
   //methode pour afficher les details de chaque livre 
@@ -201,8 +188,25 @@ public function destroy($id)
 }
 
 //methode pour le filtre
+public function filtre(Request $request)
+{
+    $query = Livre::query();
 
-public function filtrerLivres(Request $request)
+    if ($request->has('mot_cle')) {
+        $query->where('titre', 'like', '%' . $request->mot_cle . '%');
+    }
+
+    if ($request->has('statut')) {
+        $query->whereIn('statut', $request->statut);
+    }
+
+
+    $livres = $query->get();
+    return view('catalogue', ['livres' => $livres]);
+}
+
+
+/*public function filtrerLivres(Request $request)
 {
     $query = Livre::query();
 
@@ -225,11 +229,11 @@ public function filtrerLivres(Request $request)
     $livres = $query->get();
 
     return response()->json(['livres' => $livres]);
-}
+}*/
 
 
 
-//methode pour limportation du fichier Excel diun ensemble de livres 
+//methode pour limportation du fichier Excel d'un ensemble de livres 
 
 public function import(Request $request)
 {
@@ -241,7 +245,7 @@ public function import(Request $request)
 
     Excel::import(new LivresImport, $file);
 
-    return redirect()->back()->with('success', 'Les livres ont été importées avec succès.');
+    return redirect()->back()->with('success', 'Les livres ont été importés avec succès.');
 }
 
 //methode pour la recherche des livres 
@@ -254,7 +258,7 @@ public function search(Request $request)
                     ->get();
                     
     if ($livres->isEmpty()) {
-        return response()->json(['message' => 'No books found'], 404);
+        return response()->json(['message' => 'aucun livre trouvé'], 404);
     }
 
     return response()->json($livres);

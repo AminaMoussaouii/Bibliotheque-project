@@ -203,54 +203,16 @@ body {
 
 /* Style du gestion de la regle d'emprunt */
 
-#regle_datatable {
-  width: 100% !important;
-  margin: 0 auto;
-  border-collapse: separate;
-}
 
-#regle_datatable thead th {
-  background-color: #096097;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-}
-.dataTables_scrollHead{
-  background-color: #096097;
-  color: #fff;
-}
 
 #regle_datatable tbody tr:nth-child(odd) {
   background-color: #ffffff;
 }
-
-
-
-#regle_datatable tbody td {
-  text-align: center;
-  vertical-align: middle;
-}
-
-.dataTables_wrapper .dataTables_paginate {
-  float: right;
-  margin-top: 20px;
-}
-
-.modal-content {
-  border-radius: 15px;
-}
-
-.modal-header {
+.modal-header{
   background-color: #096097;
-  color: white;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  color: #fff;
 }
 
-.modal-footer {
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
 
 
 /* ============Style des statistiques===============*/
@@ -306,6 +268,13 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
+#reservations_datatable tbody tr td {
+  border: 1px solid #ccc !important;
+  height: auto;
+}
+#reservations_datatable{
+  height: auto;
+}
 
 /*  ancien code de regle emprunt 
 .regles-container{

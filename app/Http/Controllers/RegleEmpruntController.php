@@ -17,8 +17,8 @@ class RegleEmpruntController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-                        $btn = '<a href="javascript:void(0)" data-id="'.$row->id.'" class="edit btn btn-success btn-sm edit-regle">Edit</a>';
-                        $btn .= ' <a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-danger btn-sm delete-regle">Delete</a>';
+                        $btn = '<a href="javascript:void(0)" data-id="'.$row->id.'" class="edit btn btn-success btn-sm edit-regle" style="background-color:#5dac0e; border:none">Edit</a>';
+                        $btn .= ' <a href="javascript:void(0)" data-id="'.$row->id.'" class="btn btn-danger btn-sm delete-regle" style="border:none;">Delete</a>';
                         return $btn;
                     })
                     ->rawColumns(['action'])
