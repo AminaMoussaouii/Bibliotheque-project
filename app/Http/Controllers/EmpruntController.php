@@ -84,6 +84,4 @@ class EmpruntController extends Controller
 }
  
 
-
-
 }
