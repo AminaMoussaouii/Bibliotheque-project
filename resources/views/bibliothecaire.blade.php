@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
     <style>
         .table-striped tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
@@ -123,39 +125,57 @@
                 </div>
                 <div id="gestion_retard" style="display: none;">
                     <h2>Gestion des Retards</h2>
+                    <br><br>
+                    <form id="retard-form">
+                        @csrf
+                        <table class="table table-bordered table-striped" id="gestion_retards_datatable" style="width: 90%; margin-left:80px">
+                            <thead>
+                                <tr style="background-color: #096097;">
+                                <th style="color: white;font-weight:500; border-top-left-radius: 13px;">Tier</th>
+                                <th style="color: white;font-weight:500;">Type tier</th>
+                                <th style="color: white;font-weight:500;">ISBN</th>
+                                <th style="color: white;font-weight:500;">Titre</th>
+                                <th style="color: white;font-weight:500;">Type ouvrage</th>
+                                <th style="color: white;font-weight:500;">Date Emprunt</th>
+                                <th style="color: white;font-weight:500;">Date Limite</th>
+                                <th style="color: white;font-weight:500;">Date Retour</th>
+                                <th style="color: white;font-weight:500;">Nombre de jours de retard</th>
+                                <th style="color: white;font-weight:500;border-top-right-radius: 13px; width: 150px;">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
-        $(document).ready(function() {
-           
-            $('#table_reservation').show();
-            $('#historique-emprunt').hide();
-            $('#gestion_retard').hide();
-    
-            
-            $('#gerer-reservation-link').click(function() {
-                $('#table_reservation').show();
-                $('#historique-emprunt').hide();
-                $('#gestion_retard').hide();
-            });
-    
-            $('#gerer-historique-link').click(function() {
-                $('#table_reservation').hide();
-                $('#historique-emprunt').show();
-                $('#gestion_retard').hide();
-            });
-    
-            $('#gerer-retard-link').click(function() {
-                $('#table_reservation').hide();
-                $('#historique-emprunt').hide();
-                $('#gestion_retard').show();
-            });
-        });
-    </script>
-    
+$(document).ready(function() {
+    $('#table_reservation').show();
+    $('#historique-emprunt').hide();
+    $('#gestion_retard').hide();
+
+    $('#gerer-reservation-link').click(function() {
+        $('#table_reservation').show();
+        $('#historique-emprunt').hide();
+        $('#gestion_retard').hide();
+    });
+
+    $('#gerer-historique-link').click(function() {
+        $('#table_reservation').hide();
+        $('#historique-emprunt').show();
+        $('#gestion_retard').hide();
+    });
+
+    $('#gerer-retard-link').click(function() {
+        $('#table_reservation').hide();
+        $('#historique-emprunt').hide();
+        $('#gestion_retard').show();
+    });
+});
+</script>
+
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     
@@ -228,11 +248,10 @@
                 }
             });
         });
-    
     </script>
 <!--code script de retour-->
     <script>   
-    $(document).on('click', '.returnEmprunt', function() {
+   $(document).on('click', '.returnEmprunt', function() {
     var id = $(this).data('id');
 
     if (confirm("Êtes-vous sûr de vouloir retourner cet emprunt ?")) {
@@ -259,40 +278,108 @@
 });
 
 
+
 </script>
 
     
     <script>
-    $(document).ready(function() {
-        var empruntsTable = $('#historique_emprunts_datatable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('emprunts.index') }}",
-            columns: [
-                { 
-                    data: null, 
-                    name: 'tier', 
-                    render: function (data, type, row) {
-                        return data.nom + ' ' + data.prénom;
+             $(document).ready(function() {
+            var empruntsTable = $('#historique_emprunts_datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('emprunts.index') }}",
+                    type: 'GET',
+                    error: function(xhr, error, thrown) {
+                        console.error("Erreur lors de la récupération des réservations: ", xhr.responseText);
                     },
-                    title: 'Tier'
+                    dataSrc: function (json) {
+                        console.log("Données reçues de l'API:", json);
+                        return json.data || [];
+                    }
                 },
-                { data: 'role', name: 'role' },
-                { data: 'isbn', name: 'isbn' },
-                { data: 'titre', name: 'titre' },
-                { data: 'type_ouvrage', name: 'type_ouvrage' },
-                { data: 'created_at', name: 'created_at', title: 'Date Emprunt' }, 
-                { data: 'date_limite', name: 'date_limite' },
-                { data: 'date_retour', name: 'date_retour' },
-                { data: 'nbr_jrs_retard', name: 'nbr_jrs_retard' },
-                { data: 'action', name: 'action', orderable: false, searchable: false },
-            ],
+                columns: [
+                    { 
+                        data: 'tier', 
+                        name: 'tier', 
+                        title: 'Tier'
+                    },
+                    { data: 'Role', name: 'Role', title: 'Type tier' },
+                    { data: 'isbn', name: 'isbn' },
+                    { data: 'titre', name: 'titre' },
+                    { data: 'type_ouvrage', name: 'type_ouvrage' },
+                    { data: 'created_at', name: 'created_at', title: 'Date Emprunt' }, 
+                    { data: 'date_limite', name: 'date_limite' },
+                    { data: 'date_retour', name: 'date_retour' },
+                    { data: 'nbr_jrs_retard', name: 'nbr_jrs_retard' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                ],
+            });
         });
-    });
-    
-    
-       
     </script>
+
+<!--code script de retard-->
+<script>
+$(document).ready(function() {
+    var gestionRetardsTable = $('#gestion_retards_datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('retards.index') }}",
+            type: 'GET',
+            error: function(xhr, error, thrown) {
+                console.error("Erreur lors de la récupération des retards: ", xhr.responseText);
+            },
+            dataSrc: function(json) {
+                console.log("Données reçues de l'API:", json);
+                return json.data || [];
+            }
+        },
+        columns: [
+            { data: 'tier', name: 'tier' },
+            { data: 'Role', name: 'Role', title: 'Type tier' },
+            { data: 'isbn', name: 'isbn' },
+            { data: 'titre', name: 'titre' },
+            { data: 'type_ouvrage', name: 'type_ouvrage' },
+            { data: 'created_at', name: 'created_at', title: 'Date Emprunt' }, 
+            { data: 'date_limite', name: 'date_limite' },
+            { data: 'date_retour', name: 'date_retour' },
+            { data: 'nbr_jrs_retard', name: 'nbr_jrs_retard' },
+            { data: 'action', name: 'action', orderable: false, searchable: false },
+        ],
+    });
+
+    // Action pour envoyer un email
+    $('body').on('click', '.sendEmail', function() {
+        var id = $(this).data('id');
+        var email = $(this).data('email');
+
+        if (confirm("Êtes-vous sûr de vouloir envoyer un email à "+ email +" pour rappeler le retour du livre ?")) {
+            $.ajax({
+                type: "POST",
+                url: "{{ route('retards.envoyerEmail') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id,
+                    email: email
+                },
+                success: function(response) {
+                    alert(response.success);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erreur:', xhr.responseText);
+                    alert('Erreur lors de l\'envoi de l\'email. Veuillez vérifier la console pour plus de détails.');
+                }
+            });
+        }
+    });
+});
+</script>
+
+
+
+
+
     <script src="{{ asset('javascript/bibliothecaire.js') }}"></script>
      <!-- ====== ionicons ======= -->
      <script type="module" src="{{ asset('https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js') }}"></script>

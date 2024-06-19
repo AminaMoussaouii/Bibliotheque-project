@@ -12,7 +12,7 @@ class Emprunt extends Model
         'nom',
         'prénom',
         'email',
-        'role',
+        'Role',
         'titre',
         'type_ouvrage',
         'isbn',
@@ -24,7 +24,21 @@ class Emprunt extends Model
         'user_id',
     ];
 
-    protected $dates = ['date_limite', 'date_retour'];
+    // protected $dates = ['date_limite', 'date_retour'];
+    protected $dates = ['date_emprunt', 'date_limite', 'date_retour'];
+
+    public function getJoursDeRetardAttribute()
+    {
+        if (is_null($this->date_retour) && now()->gt($this->date_limite)) {
+            return now()->diffInDays($this->date_limite);
+        }
+
+        if (!is_null($this->date_retour) && $this->date_retour->gt($this->date_limite)) {
+            return $this->date_retour->diffInDays($this->date_limite);
+        }
+
+        return 0;
+    }
 
 
     public function reservation()

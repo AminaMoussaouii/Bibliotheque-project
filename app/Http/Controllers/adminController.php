@@ -62,7 +62,7 @@ public function store(Request $request)
     $user->nom = $request->nom;
     $user->prénom = $request->prénom;
     $user->email = $request->email;
-    $user->password = $request->password; // Assurez-vous que le mot de passe est hashé
+    $user->password = $request->password; 
     $user->Role = $request->Role;
     $user->Tél = $request->Tél;
 
@@ -73,8 +73,8 @@ public function store(Request $request)
         $user->Filière = $request->Filière;
     } elseif ($request->Role === 'personnel') {
         $user->department = $request->department;
-        $user->PPR = $request->PPR;
-    } elseif (in_array($request->Role, ['responsable', 'bibliothècaire', 'admin'])) {
+        //$user->PPR = $request->PPR;
+    } elseif (in_array($request->Role, ['responsable', 'bibliothècaire', 'admin','personnel'])) {
         $user->PPR = $request->PPR;
     }
 

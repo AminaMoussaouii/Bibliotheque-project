@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('nom')->nullable();
             $table->string('prénom')->nullable();
             $table->string('email')->nullable();
-            $table->string('role');
+            $table->string('Role');
             $table->string('titre')->nullable();
             $table->string('type_ouvrage')->nullable();
             $table->string('isbn')->nullable();

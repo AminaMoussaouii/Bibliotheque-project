@@ -13,7 +13,7 @@ return new class extends Migration
     {
         //
         Schema::table('emprunts', function (Blueprint $table) {
-            $table->string('role')->nullable()->change();
+            $table->string('Role')->nullable()->change();
             $table->date('date_retour')->nullable()->change();
         });
     }

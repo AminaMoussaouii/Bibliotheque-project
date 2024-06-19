@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <th>Prénom</th>
-            <td>{{ $prenom }}</td>
+            <td>{{ $prénom }}</td>
         </tr>
         <tr>
             <th>Filière</th>

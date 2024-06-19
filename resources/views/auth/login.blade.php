@@ -1,9 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="auth/login.css">
+    <title>Login</title>
+</head>
 <body class="body">
-<div class="container">
-    <div class="heading">Sign In</div>
-    <link rel="stylesheet" href="auth\login.css">
-    <script src="auth\login.js"></script>
-    @if ($errors->any())
+<div class="background">
+<div class="form-container">
+@if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -12,42 +18,42 @@
             </ul>
         </div>
     @endif
-    <form action="{{route('login')}}" class="form" method="post">
-     @csrf
-      <input required="" class="input" type="email" name="email" id="email" placeholder="E-mail">
-      <input required="" class="input" type="password" name="password" id="password" placeholder="Password">
-      <div>
-      <input type="checkbox"  id="showPassword">
-      <label for="showPassword" class="showPassword">Afficher le mot de passe</label>
+
+<form class="form" action="{{route('login')}}" method="post">
+@csrf
+    <div class="flex-column">
+      <label>Email </label></div>
+      <div class="inputForm">
+        <svg height="20" viewBox="0 0 32 32" width="20" xmlns="http://www.w3.org/2000/svg"><g id="Layer_3" data-name="Layer 3"><path d="m30.853 13.87a15 15 0 0 0 -29.729 4.082 15.1 15.1 0 0 0 12.876 12.918 15.6 15.6 0 0 0 2.016.13 14.85 14.85 0 0 0 7.715-2.145 1 1 0 1 0 -1.031-1.711 13.007 13.007 0 1 1 5.458-6.529 2.149 2.149 0 0 1 -4.158-.759v-10.856a1 1 0 0 0 -2 0v1.726a8 8 0 1 0 .2 10.325 4.135 4.135 0 0 0 7.83.274 15.2 15.2 0 0 0 .823-7.455zm-14.853 8.13a6 6 0 1 1 6-6 6.006 6.006 0 0 1 -6 6z"></path></g></svg>
+        <input  required="" type="text" class="input" name="email" id="email" placeholder="Entrer votre Email">
       </div>
+    
+    <div class="flex-column">
+      <label>mot de passe</label></div>
+      <div class="inputForm">
+        <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><path d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0"></path><path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0"></path></svg>        
+        <input  required="" type="password" class="input" name="password" id="password" placeholder="Entrer votre mot de passe">
+        <svg id="togglePassword" viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"></path></svg>
+      </div>
+    
+    <div class="flex-row">
       <div>
-      <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-      <label class="form-check-label" for="remember">Se souvenir de moi</label>
-      </div>        
-      
-      <span class="forgot-password"><a href="{{ route('password.request') }}">Forgot Password ?</a></span>
-      <input class="login-button" type="submit" value="Sign In">
-      
+      <input type="checkbox" name="remember" id="remember">
+      <label>Remember me </label>
+      </div>
+      <span class="span"><a href="{{ route('password.request') }}">mot de passse oublié?</a></span>
+    </div>
+    <button class="button-submit">se connecter</button>
     </form>
-    <!--<div class="social-account-container">
-        <span class="title">Or Sign in with</span>
-        <div class="social-accounts">
-          <button class="social-button google">
-            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 488 512">
-              <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-            </svg></button>
-          <button class="social-button apple">
-            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
-              <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path>
-            </svg>
-          </button>
-          <button class="social-button twitter">
-            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-              <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-      <span class="agreement"><a href="#">Learn user licence agreement</a></span>
-  </div>-->
-  </body>
+</div>
+</div>
+    <script>
+      document.getElementById('togglePassword').addEventListener('click', function () {
+      var passwordInput = document.getElementById('password');
+      var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      });
+    </script>
+
+
+</body>

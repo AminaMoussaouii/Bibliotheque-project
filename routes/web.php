@@ -7,7 +7,8 @@ use App\Http\Controllers\RegleEmpruntController;
 use App\Http\Controllers\EmpruntController;
 use App\Http\Controllers\StatistiquesController;
 use App\Http\Controllers\HistoricalUserController;
-
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Session;
 
 use App\Http\Controllers\auth\LoginController;
@@ -25,7 +26,7 @@ use App\Http\Middleware\CheckRole;
 //     Route::post('/logout', 'logout')->name('logout');
 // });
 // });
-
+Route::middleware(['web'])->group(function () {
 Auth::routes(['register' => false]);
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -58,7 +59,8 @@ Route::post('/import', [adminController::class, 'import'])->name('import');*/
 
 // Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 // Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-
+// Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+// Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 
 ///////////////////////////////////////:::::
@@ -198,6 +200,10 @@ Route::get('/statistiques/emprunts-quotidiens', [StatistiquesController::class,'
 //Route::get('pdf_generator', [ReservationController::class,'telechargerPDF']);
 Route::get('reservation/pdf', [ReservationController::class, 'telechargerPDF'])->name('reservation.telechargerPDF');
 
+Route::get('retards', [EmpruntController::class, 'getRetards'])->name('retards.index');
+Route::post('retards/envoyer-email', [EmpruntController::class, 'envoyerEmail'])->name('retards.envoyerEmail');
 
+
+});
 
 

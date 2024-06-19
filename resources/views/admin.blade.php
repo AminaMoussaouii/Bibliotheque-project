@@ -119,15 +119,13 @@
                 <img src="images/profil.jpg" alt="" width="50px" height="50px">
             </div> 
         </div>
-
-
-
+        
         <!--====================== Main-content ==========================-->
         <div class="main-content">
             <div class="containergestion" style="padding-left: 50px; padding-right:50px; padding-bottom:70px">
-                <h2 style="margin-left: 90px; margin-top:50px">Gestion des utilisateurs</h2>
+                <h2 style="margin-left: 25px; margin-top:10px">Gestion des utilisateurs</h2>
                 <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-user"
-                    style="margin-left: 110px; background-color: #f99324; border:none; border-radius:10px; box-shadow: 0 5px 5px #9a9a9a;">Ajouter
+                    style="margin-left: 25px; background-color: #f99324; border:none; border-radius:10px; box-shadow: 0 5px 5px #9a9a9a;">Ajouter
                     utilisateur</a>
                 <input type="file" id="importFile" style="display:none;">
                 <a href="javascript:void(0)" class="btn btn-info ml-3" id="import-button"
@@ -203,43 +201,49 @@
                                     </div>
                                 </div>
                                 
-                                <div id="etudiant-fields" class="form-group">
-                                    <div>
+                            <div id="etudiant-fields" class="form-group">
+                                
                                 <label for="Code_Apogée" class="col-sm-2 control-label">Code Apogée</label>
-                                <input type="text" name="Code_Apogée" id="Code_Apogée" class="form-control">
+                                <div class="col-sm-12">
+                                <input type="text" name="Code_Apogée" id="Code_Apogée" class="form-control" placeholder="Entrer code apogée">
                                 </div>
-                                <div>
+                                
                                 <label for="CNE" class="col-sm-2 control-label">CNE</label>
-                                <input type="text" name="CNE" id="CNE" class="form-control">
+                                <div class="col-sm-12">
+                                <input type="text" name="CNE" id="CNE" class="form-control" placeholder="Entrer CNE" >
                                 </div>
-                                <div>
+                                
                                 <label for="Filière" class="col-sm-2 control-label">Filière</label>
-                                <input type="text" name="Filière" id="Filière" class="form-control">
+                                <div class="col-sm-12">
+                                <input type="text" name="Filière" id="Filière" class="form-control" placeholder="Entrer Filière" >
                                 </div>
                             </div>
     
                             <div id="personnel-fields" class="form-group">
-                                <div>
+                                
                                 <label for="department" class="col-sm-2 control-label">Department</label>
-                                <input type="text" name="department" id="department" class="form-control">
+                                <div class="col-sm-12">
+                                <input type="text" name="department" id="department" class="form-control" placeholder="Entrer departement" >
                                 </div>
-                                <div>
-                                <label for="PPR" class="col-sm-2 control-label">PPR</label>
-                                <input type="text" name="PPR" id="PPR" class="form-control">
-                                </div>
+                                
+                                <!--<label for="PPR" class="col-sm-2 control-label">PPR</label>
+                                <div class="col-sm-12">
+                                <input type="text" name="PPR" id="PPR" class="form-control" placeholder="Entrer PPR" >
+                                </div>-->
                             </div>
 
                             <div id="common-fields" class="form-group">
-                                <div>
+                                
                                 <label for="PPR" class="col-sm-2 control-label">PPR</label>
-                                <input type="text" name="PPR" id="PPR" class="form-control">
+                                <div class="col-sm-12">
+                                <input type="text" name="PPR" id="PPR" class="form-control" placeholder="Entrer PPR" >
                                 </div>
                             </div>
                                 <div class="form-group">
                                     <label for="Tél" class="col-sm-2 control-label">Tél</label>
                                     <div class="col-sm-12">
                                         <input type="text" class="form-control" id="Tél" name="Tél"
-                                            placeholder="Entrer numéro tél" maxlength="50" required="">
+                                            placeholder="Entrer numéro tél" maxlength="50" >
                                     </div>
                                 </div>
                                 <div class="col-sm-offset-2 col-sm-10">
@@ -271,7 +275,7 @@
         var role = roleSelect.value;
         etudiantFields.style.display = role === 'etudiant' ? 'block' : 'none';
         personnelFields.style.display = role === 'personnel' ? 'block' : 'none';
-        commonFields.style.display = (role === 'responsable' || role === 'bibliothècaire' || role === 'admin') ? 'block' : 'none';
+        commonFields.style.display = (role === 'responsable' || role === 'bibliothècaire' || role === 'admin'  || role === 'personnel') ? 'block' : 'none';
     }
 
     roleSelect.addEventListener('change', toggleFields);
@@ -387,6 +391,12 @@
                         $('#password').val(data.password);
                         $('#Role').val(data.Role);
                         $('#Tél').val(data.Tél);
+                        $('#Code_Apogée').val(data.Code_Apogée);
+                        $('#CNE').val(data.CNE);
+                        $('#Filière').val(data.Filière);
+                        $('#department').val(data.department);
+                        $('#PPR').val(data.PPR);
+                        
                     });
                 });
 

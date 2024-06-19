@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserLibrary;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Reservation; 
 use App\Models\Emprunt;
@@ -125,17 +125,20 @@ public function emprunter($id, Request $request)
             $reservation = Reservation::findOrFail($id);
             Log::info('Réservation trouvée: ' . json_encode($reservation));
 
+            $user = User::findOrFail($id);
+            $role = $user->Role; 
+
             $emprunt = new Emprunt();
             $emprunt->nom = $reservation->nom;
             $emprunt->prénom = $reservation->prénom;
             $emprunt->email = $reservation->email;
-            $emprunt->role = 'Utilisateur';
+            $emprunt->Role = $role;
             $emprunt->isbn = $reservation->isbn;
             $emprunt->titre = $reservation->titre;
             $emprunt->type_ouvrage = $reservation->type_ouvrage;
-            $emprunt->date_limite = Carbon::now()->addDays(3); 
+            $emprunt->date_limite = Carbon::now()->addDays(1); 
             $emprunt->date_retour = null;
-            $emprunt->nbr_jrs_retard = 0;
+            $emprunt->nbr_jrs_retard;
             $emprunt->statut = 'emprunté';
             $emprunt->livre_id = $reservation->livre_id;
             $emprunt->user_id = $reservation->user_id ;
