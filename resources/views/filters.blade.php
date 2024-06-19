@@ -14,7 +14,11 @@
         <table>
             <tr>
                 <td><label for="disponible">Disponible</label></td>
-                <td><input type="checkbox" name="statut[]" value="Disponible" id="disponible"></td>
+                <td><input type="checkbox" name="statut[]" value="disponible" id="disponible"></td>
+            </tr>
+            <tr>
+                <td><label for="disponible">Non empruntable</label></td>
+                <td><input type="checkbox" name="statut[]" value="non empruntable" id="non-empruntable"></td>
             </tr>
         </table>
     </div>
@@ -31,20 +35,21 @@
                 <td><input type="checkbox" name="discipline[]" value="Informatique" id="Informatique"></td>
             </tr>
             <tr>
-                <td><label for="Electronique">Électronique</label></td>
-                <td><input type="checkbox" name="discipline[]" value="Electronique" id="Electronique"></td>
+                <td><label for="Mathematiques">Mathématiques</label></td>
+                <td><input type="checkbox" name="discipline[]" value="Mathématiques" id="Mathematiques"></td>
             </tr>
             <tr>
-                <td><label for="Mecanique">Mécanique</label></td>
-                <td><input type="checkbox" name="discipline[]" value="Mecanique" id="Mecanique"></td>
+                <td><label for="Physique">Physique</label></td>
+                <td><input type="checkbox" name="discipline[]" value="Physique" id="Physique"></td>
             </tr>
             <tr>
-                <td><label for="Mathematique">Mathématique</label></td>
-                <td><input type="checkbox" name="discipline[]" value="Mathematique" id="Mathematique"></td>
+                <td><label for="Economie">Économie</label></td>
+                <td><input type="checkbox" name="discipline[]" value="Économie" id="Economie"></td>
             </tr>
         </table>
     </div>
 </div>
+
 
 <div class="section">
     <div class="section-header">

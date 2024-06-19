@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 
-   
+
     
     <style>
         #laravel_11_datatable_filter label{
@@ -57,6 +57,9 @@
          }
          .table thead tr th{
         font-family:'Times New Roman', Times, serif;
+        }
+        .table tbody tr td{
+            border-bottom: 1px solid #9a9a9a;
         }
 
     </style>
@@ -122,15 +125,15 @@
             <div id="dynamic-content">
 
         <div id="gerer-ouvrages-content"  style="display: none;">
-            <div class="containergestion" style="padding-left: 50px; padding-right:50px;padding-bottom:70px">
+            <div class="containergestion" style="padding-left: 50px; padding-right:50px;">
                 <h2 style="margin-left: 110px">Gestion des ouvrages</h2>
-                <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-livre" style="margin-left: 110px; background-color: #f99324; border:none;border-radius:10px   ;box-shadow: 0 5px 5px #9a9a9a; ">Ajouter</a>
+                <a href="javascript:void(0)" class="btn btn-info ml-3" id="create-new-livre" style="margin-left: 110px; background-color: #f99324; border:none;border-radius:10px; box-shadow: 0 5px 5px #9a9a9a; ">Ajouter</a>
                 <input type="file" id="importFile" style="display:none;">
                 <a href="javascript:void(0)" class="btn btn-info ml-3" id="import-button" style="background-color: #f99324; border:none;border-radius:10px; box-shadow: 0 5px 5px #9a9a9a;">Importer</a>
         
                 <br><br>
                
-                <table class="table table-bordered table-striped" id="laravel_11_datatable" style="height: 380px;width:90%;">
+                <table class="table table-bordered table-striped" id="laravel_11_datatable" style="height:auto; width:90%;">
                     <thead>
                         <tr style="background-color: #096097;">
                             <th style="color: white;font-weight:500; border-top-left-radius: 13px;">Image</th>
@@ -319,8 +322,8 @@
                             <label for="type_tier" class="col-sm-4 control-label">Type Tier:</label>
                             <div class="col-sm-12">
                                 <select name="type_tier" id="type_tier" class="form-control">
-                                   <option value="Professeur">Professeur</option>
-                                   <option value="Étudiant">Étudiant</option>
+                                   <option value="personnel">personnel</option>
+                                   <option value="etudiant">etudiant</option>
                                 </select>
                             </div>
                         </div>
@@ -828,25 +831,17 @@ $(document).ready(function() {
   
 <!-- Fin script pour la rgele d'emprunt -->  
 
-@if(session()->has('message'))
-<script>
-    Swal.fire({
-        title: 'Message',
-        text: "{{ session('message') }}",
-        icon: 'success',
-        confirmButtonText: 'OK'
-        timer:3000,
-    });
-</script>
-@endif
 
+<script src="{{ asset('javascript/responsablegestion.js') }}"></script>
+
+<!--===========================================================-->
 
 
     
 
 
 
-<script src="{{ asset('javascript/responsablegestion.js') }}"></script>
+
  <!-- ====== ionicons ======= -->
  <script type="module" src="{{ asset('https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js') }}"></script>
  <script nomodule src="{{ asset('https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js') }}"></script>

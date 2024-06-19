@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Emprunt;
+use App\Models\Livre;
 use DataTables;
 use Illuminate\Mail\Mailable;
 use Carbon\Carbon;
@@ -17,6 +18,7 @@ class EmpruntController extends Controller
                 'id', 
                 'nom', 
                 'prénom', 
+                'email', 
                 'Role', 
                 'isbn', 
                 'titre', 
@@ -29,6 +31,9 @@ class EmpruntController extends Controller
     
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('Type tiertier', function($row) {
+                    return $row->Role;
+                })
                 ->addColumn('tier', function($row) {
                     return $row->nom . ' ' . $row->prénom;
                 })
@@ -53,31 +58,38 @@ class EmpruntController extends Controller
     
 
 
-public function retourner(Request $request)
-{
-    $emprunt = Emprunt::find($request->id);
-    if ($emprunt) {
-        $dateRetour = Carbon::now();
-        $emprunt->date_retour = $dateRetour;
-        $emprunt->statut = 'retourné';
+   /*===========Retourner Emprunt ==========================*/
+   public function retourner(Request $request)
+   {
+       $emprunt = Emprunt::find($request->id);
+       if ($emprunt) {
+           $dateRetour = Carbon::now();
+           $emprunt->date_retour = $dateRetour;
+           $emprunt->statut = 'retourné';
 
-        // Calculer le nombre de jours de retard
-        $dateLimite = Carbon::parse($emprunt->date_limite);
-        $nbrJrsRetard = $dateRetour->diffInDays($dateLimite, false);
-        $nbrJrsRetard = $nbrJrsRetard > 0 ? 0 : abs($nbrJrsRetard);
-        $emprunt->nbr_jrs_retard = $nbrJrsRetard;
 
-        $emprunt->save();
+           $dateLimite = Carbon::parse($emprunt->date_limite);
+           $nbrJrsRetard = $dateRetour->diffInDays($dateLimite, false);
+           $nbrJrsRetard = $nbrJrsRetard > 0 ? 0 : abs($nbrJrsRetard);
+           $emprunt->nbr_jrs_retard = $nbrJrsRetard;
 
-        return response()->json([
+           $emprunt->save();
+
+           $livre = Livre::find($emprunt->livre_id);
+           if ($livre) {
+               $livre->exp_disp += 1;
+               $livre->save();
+           }
+           return response()->json([
             'success' => 'Emprunt retourné avec succès.', 
             'date_retour' => $dateRetour->format('d/m/Y'),
             'nbr_jrs_retard' => $nbrJrsRetard
         ]);
+       }
+        return response()->json(['error' => 'Emprunt non trouvé.'], 404);
+    
     }
 
-    return response()->json(['error' => 'Emprunt non trouvé.'], 404);
-}
 
 public function updateLateFees()
 {
@@ -162,5 +174,10 @@ public function envoyerEmail(Request $request)
     return response()->json(['error' => 'Erreur lors de l\'envoi de l\'email.'], 500);
 }
 
+
+
+
+  
+ 
 
 }

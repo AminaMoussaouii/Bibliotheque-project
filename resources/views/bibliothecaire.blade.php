@@ -50,9 +50,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="sidebar-link" id="gerer-profil-link">
-                        <span class="icon"><i class="fa-regular fa-user"></i></span>
-                        <span class="title">Gestion du profil</span>
+                    <a href="{{ route('catalogue') }}">
+                        <span class="icon"><i class="fa-solid fa-house"></i></span>
+                        <span class="title">Home page</span>
                     </a>
                 </li>
                 <li>
@@ -265,7 +265,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     alert(response.success);
-                    // Mettez à jour la ligne dans le tableau avec la nouvelle date de retour et le nombre de jours de retard
+                   
                     var row = $('a[data-id="'+id+'"]').closest('tr');
                     row.find('.date-retour').text(response.date_retour);
                     row.find('.nbr-jrs-retard').text(response.nbr_jrs_retard);
@@ -283,39 +283,32 @@ $(document).ready(function() {
 
     
     <script>
-             $(document).ready(function() {
-            var empruntsTable = $('#historique_emprunts_datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('emprunts.index') }}",
-                    type: 'GET',
-                    error: function(xhr, error, thrown) {
-                        console.error("Erreur lors de la récupération des réservations: ", xhr.responseText);
+    $(document).ready(function() {
+        var empruntsTable = $('#historique_emprunts_datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('emprunts.index') }}",
+            columns: [
+                { 
+                    data: null, 
+                    name: 'tier', 
+                    render: function (data, type, row) {
+                        return data.nom + ' ' + data.prénom;
                     },
-                    dataSrc: function (json) {
-                        console.log("Données reçues de l'API:", json);
-                        return json.data || [];
-                    }
+                    title: 'Tier'
                 },
-                columns: [
-                    { 
-                        data: 'tier', 
-                        name: 'tier', 
-                        title: 'Tier'
-                    },
-                    { data: 'Role', name: 'Role', title: 'Type tier' },
-                    { data: 'isbn', name: 'isbn' },
-                    { data: 'titre', name: 'titre' },
-                    { data: 'type_ouvrage', name: 'type_ouvrage' },
-                    { data: 'created_at', name: 'created_at', title: 'Date Emprunt' }, 
-                    { data: 'date_limite', name: 'date_limite' },
-                    { data: 'date_retour', name: 'date_retour' },
-                    { data: 'nbr_jrs_retard', name: 'nbr_jrs_retard' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false },
-                ],
-            });
+                { data: 'Role', name: 'Role', title: 'Type tier' },
+                { data: 'isbn', name: 'isbn' },
+                { data: 'titre', name: 'titre' },
+                { data: 'type_ouvrage', name: 'type_ouvrage' },
+                { data: 'created_at', name: 'created_at', title: 'Date Emprunt' }, 
+                { data: 'date_limite', name: 'date_limite' },
+                { data: 'date_retour', name: 'date_retour' },
+                { data: 'nbr_jrs_retard', name: 'nbr_jrs_retard' },
+                { data: 'action', name: 'action', orderable: false, searchable: false },
+            ],
         });
+    });
     </script>
 
 <!--code script de retard-->

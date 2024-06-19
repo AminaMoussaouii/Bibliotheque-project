@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +8,13 @@
 </head>
 <body>
    <div class="gradient">
-        <ul class="navlinks">
-            <li><button><a href="{{ route('login') }}">Connexion</a></button></li>
-        </ul>
+        <header class="header">
+            <img class="logo" src="{{ asset('images/fstsettat.png') }}" alt="Logo">
+            <button class="connexion-btn"><a href="{{ route('login') }}">Connexion</a></button>
+        </header>
 
         <div class="center-content">
             <div class="text-anime">
-                <img class="logo" src="{{ asset('public/images/fsts_logo.png') }}" alt="Logo">
                 <span>Bienvenue à la bibliothèque de FSTS</span>
             </div>
         </div>
