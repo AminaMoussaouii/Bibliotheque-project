@@ -1,44 +1,54 @@
 $(document).ready(function() {
-    // =================méthode de redirection vers la page de détails ================
+    // Méthode de redirection vers la page de détails
     $(document).on('click', '.livre-box', function() {
         var livreId = $(this).data('id');
         window.location.href = '/livres/' + livreId;
     });
 
-    // =================début filtre ===========================
+    // Début filtre par checkboxes
     $('input[type="checkbox"]').change(function() {
         var filters = {};
         $('input[type="checkbox"]:checked').each(function() {
-            filters[$(this).attr('name')] = $(this).val();
+            var filterName = $(this).attr('name').replace('[]', ''); 
+            if (!filters[filterName]) {
+                filters[filterName] = [];
+            }
+            filters[filterName].push($(this).val());
         });
 
-        console.log(filters);
+        console.log("Filtres appliqués :", filters);
 
         $.ajax({
             url: '/livres/filtres',
             type: 'GET',
             data: filters,
             success: function(response) {
+                console.log("Réponse du serveur :", response);
                 $('#livre-container').empty();
-                $.each(response.livres, function(index, livre) {
-                    var html = '<div class="livre-box" data-id="' + livre.id + '">' +
-                               '<div class="img-box"><img src="' + livre.image + '" alt="' + livre.titre + '"></div>' +
-                               '<div class="livre-info">' +
-                               '<h5>' + livre.titre + '</h5>' +
-                               '<p><span>Auteur:</span> ' + livre.auteur + '</p>' +
-                               '<p><span>Statut:</span> ' + livre.statut + '</p>' +
-                               '</div></div>';
-                    $('#livre-container').append(html);
-                });
+                if (response.livres && response.livres.length > 0) {
+                    $.each(response.livres, function(index, livre) {
+                        var imageUrl = baseUrl + '/' + livre.image;
+                        var html = '<div class="livre-box" data-id="' + livre.id + '">' +
+                                   '<div class="img-box"><img src="' + imageUrl + '" alt="' + livre.titre + '"></div>' +
+                                   '<div class="livre-info">' +
+                                   '<h5>' + livre.titre + '</h5>' +
+                                   '<p><span>Auteur:</span> ' + livre.auteur + '</p>' +
+                                   '<p><span>Statut:</span> ' + livre.statut + '</p>' +
+                                   '</div></div>';
+                        $('#livre-container').append(html);
+                    });
+                } else {
+                    $('#livre-container').append('<p>Aucun livre trouvé.</p>');
+                }
             },
             error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+                console.error("Erreur :", xhr.responseText);
             }
         });
     });
 
-    //=============methode recherche livres===========================
-    var searchUrl = "/livre/search";
+    // Méthode de recherche de livres
+    var searchUrl = $("#search_livre").attr('name');
 
     $("#search_livre").autocomplete({
         source: function(request, response) {
@@ -69,7 +79,7 @@ $(document).ready(function() {
             success: function(data) {
                 $("#livre-container").empty();
                 if (data.length === 0) {
-                    $("#livre-container").append('<p>No books found.</p>');
+                    $("#livre-container").append('<p>Aucun livre trouvé.</p>');
                 } else {
                     data.forEach(function(livre) {
                         var imageUrl = baseUrl + '/' + livre.image;
@@ -88,8 +98,8 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Search error:', xhr.responseText);
+                console.error('Erreur de recherche:', xhr.responseText);
             }
-        });
-    });
+        });
+    });
 });

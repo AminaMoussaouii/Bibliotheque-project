@@ -18,14 +18,7 @@ use app\Http\Middleware\CheckBlockedUser;
 use App\Http\Middleware\CheckRole;
 
 //route pour l'authentification 
-// Route::withoutMiddleware([CheckBlockedUser::class])->group(function() {
-// Route::controller(LoginController::class)->group(function() {
-//     Route::get('/login', 'login')->name('login');
-//     Route::get('/','index')->name('index');
-//     Route::post('/login/store', 'Redirection')->name('Redirection');
-//     Route::post('/logout', 'logout')->name('logout');
-// });
-// });
+
 Route::middleware(['web'])->group(function () {
 Auth::routes(['register' => false]);
 
@@ -48,25 +41,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('users/import', [adminController::class, 'import'])->name('users.import');
 });
 
-/*Route::get('/admin', [adminController::class, 'admin']);
-
-Route::get('users', [adminController::class, 'getUsers']);
-Route::post('users/store', [adminController::class, 'store'])->name('users.store');
-Route::get('users/Edit/{id}', [adminController::class, 'edit']);
-Route::get('users/Delete/{id}', [adminController::class, 'destroy']);
-Route::post('users/update/{id}', [adminController::class, 'update']);
-Route::post('/import', [adminController::class, 'import'])->name('import');*/
-
-// Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-// Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-// Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-// Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 
 ///////////////////////////////////////:::::
-/*Route::get('/', function () {
-    return redirect()->route('catalogue');
-});*/
+
 // route pour afficher les livres dans la page du catalogue
 Route::get('/catalogue', [LivreController::class, 'index'])->middleware('auth','Role:etudiant','Role:personnel')->name('catalogue');
 
@@ -74,20 +52,7 @@ Route::get('/catalogue', [LivreController::class, 'index'])->middleware('auth','
 Route::get('/responsable', [LivreController::class, 'responsable'])->middleware('auth','Role:responsable')->name('responsable');
 
 
-//debut routes pour faires appels aux methodes ajouter modifer supprimer pour le responsable
-       //ajouter nv livre
-     //  Route::post('/livres/ajouter', [LivreController::class, 'store'])->name('livres.store');
 
-       //recuperer les livres existants pour les modifier 
-      // Route::get('/livres', [LivreController::class, 'getAllLivres'])->name('livres.all');
-       // Route pour mettre à jour un livre
-      // Route::put('/livres/{id}', [LivreController::class, 'update'])->name('livres.update');
-
-       //reccuperer les infos du livre à modifier
-       // Route::get('/livres/{id}/modifier', [LivreController::class, 'modifier'])->name('livres.modifier');
-       
-        //suppression d'un livre 
-       // Route::delete('/livres/{id}', [LivreController::class, 'destroy'])->name('livres.destroy');
        Route::middleware('auth')->group(function () {
 
        Route::get('livres', [LivreController::class, 'getLivres']);
@@ -111,7 +76,7 @@ Route::get('/livres/{id}', [LivreController::class, 'afficherDetails']);
 
 
 //route pour filtrer les recherches dans le sidebar
-Route::get('/livres/filtre', [LivreController::class, 'filtrerLivres'])->name('livres.filtrer');
+Route::get('/livres/filtres', [LivreController::class, 'filtrer'])->name('livres.filtrer');
 
 
 //afficher le form de reservation 
@@ -143,8 +108,8 @@ Route::post('/emprunt/retourner', [EmpruntController::class, 'retourner'])->name
 
 
 Route::get('/bibliothècaire', [ReservationController::class, 'bibliothècaire'])->middleware('auth','Role:bibliothècaire')->name('bibliothècaire');
-//gestions des reservations 
-//Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+
+
 
 
 
@@ -176,22 +141,6 @@ Route::post('regles/update/{id}', [RegleEmpruntController::class, 'update'])->na
 Route::get('regles/delete/{id}', [RegleEmpruntController::class, 'destroy'])->name('regles.destroy');
 Route::get('regles/edit/{id}', [RegleEmpruntController::class, 'edit'])->name('regles.edit');
 
-
-
-/*Route::get('/regles', [RegleEmpruntController::class, 'index']);
-Route::post('/regles', [RegleEmpruntController::class,'store'])->name('regles.store');
-
-Route::get('/regles/{id}/edit', [RegleEmpruntController::class, 'edit'])->name('regles.edit');
-Route::put('/regles/{id}', [RegleEmpruntController::class, 'update'])->name('regles.update');
-
-Route::delete('/regles/{id}', [RegleEmpruntController::class, 'destroy']);*/
-
-
-
-// Route::get('/test-session', function () {
-//     Session::put('key', 'value');
-//     return Session::get('key');
-// });
 
 
 //Chart JS ==============================

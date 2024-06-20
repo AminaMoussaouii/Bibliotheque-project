@@ -79,7 +79,10 @@ class EmpruntController extends Controller
            $livre = Livre::find($emprunt->livre_id);
            if ($livre) {
                $livre->exp_disp += 1;
-               $livre->save();
+               if($livre->status=='réservé'){
+                $livre->status=='disponible';
+               }
+            $livre->save();
            }
 
            return response()->json([

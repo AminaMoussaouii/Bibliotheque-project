@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Discipline;
 use App\Models\Livre; 
 use App\Models\User; 
 use Illuminate\Support\Facades\Cookie;
@@ -188,48 +189,27 @@ public function destroy($id)
 }
 
 //methode pour le filtre
-public function filtre(Request $request)
+
+public function filtrer(Request $request)
 {
+    $filters = $request->only(['type_ouvrage', 'statut', 'langue']);
+    Log::info('Filtres appliqués :', ['filters' => $filters]);
+
     $query = Livre::query();
 
-    if ($request->has('mot_cle')) {
-        $query->where('titre', 'like', '%' . $request->mot_cle . '%');
-    }
-
-    if ($request->has('statut')) {
-        $query->whereIn('statut', $request->statut);
-    }
-
-
-    $livres = $query->get();
-    return view('catalogue', ['livres' => $livres]);
-}
-
-
-/*public function filtrerLivres(Request $request)
-{
-    $query = Livre::query();
-
-    if ($request->has('statut')) {
-        $query->where('statut', 'disponible');
-    }
-
-    if ($request->has('discipline')) {
-        $query->whereIn('discipline', $request->input('discipline'));
-    }
-
-    if ($request->has('type_ouvrage')) {
-        $query->whereIn('type_ouvrage', $request->input('type_ouvrage'));
-    }
-
-    if ($request->has('langue')) {
-        $query->whereIn('langue', $request->input('langue'));
+    foreach ($filters as $filterName => $filterValues) {
+        if (!empty($filterValues)) {
+            $query->whereIn($filterName, $filterValues);
+        }
     }
 
     $livres = $query->get();
+
+    Log::info('Livres trouvés :', ['livres' => $livres]);
 
     return response()->json(['livres' => $livres]);
-}*/
+}
+
 
 
 
@@ -255,6 +235,10 @@ public function search(Request $request)
     
     $livres = Livre::where('titre', 'LIKE', "%$term%")
                     ->orWhere('auteur', 'LIKE', "%$term%")
+                    ->orWhere('discipline', 'LIKE', "%$term%")
+                    ->orWhere('langue', 'LIKE', "%$term%")
+                    ->orWhere('statut', 'LIKE', "%$term%")
+                    ->orWhere('type_ouvrage', 'LIKE', "%$term%")
                     ->get();
                     
     if ($livres->isEmpty()) {

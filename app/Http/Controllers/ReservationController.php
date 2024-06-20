@@ -184,6 +184,9 @@ public function destroy($id)
 
     if ($livre) {
         $livre->exp_disp += 1; 
+        if($livre->status=='réservé'){
+            $livre->status=='disponible';
+        }
         $livre->save();
     }
 
