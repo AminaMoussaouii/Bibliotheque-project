@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="auth/login.css">
+    <link rel="stylesheet" href="{{ asset('auth/homePage.css') }}">
     <title>Login</title>
 </head>
 <body class="body">
+      <header class="header">
+            <img class="logo" src="{{ asset('images/fstsettat.png') }}" alt="Logo">
+      </header>
 <div class="background">
 <div class="form-container">
 @if ($errors->any())

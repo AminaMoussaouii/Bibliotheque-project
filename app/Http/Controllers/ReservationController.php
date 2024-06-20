@@ -210,9 +210,9 @@ public function emprunter($id, Request $request)
             $emprunt->isbn = $reservation->isbn;
             $emprunt->titre = $reservation->titre;
             $emprunt->type_ouvrage = $reservation->type_ouvrage;
-            $emprunt->date_limite = Carbon::now()->addDays(1); 
+            $emprunt->date_limite = Carbon::now()->addDays(3); 
             $emprunt->date_retour = null;
-            $emprunt->nbr_jrs_retard;
+            $emprunt->nbr_jrs_retard= 0;
             $emprunt->statut = 'emprunté';
             $emprunt->livre_id = $reservation->livre_id;
             $emprunt->user_id = $reservation->user_id;

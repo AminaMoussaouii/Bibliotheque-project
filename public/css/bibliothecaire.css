@@ -177,6 +177,10 @@ body {
     left: 290px;
     transition: 0.5s;
   }
+  .main-content table{
+    width: 1000px !important;
+
+  }
   .main-content.active {
     left: 120px;
   }
@@ -187,6 +191,7 @@ body {
    margin-top: 40px;
    margin-right: 20px;
    border-radius: 8px;
+  
      
 }
 .table thead tr th{
@@ -320,6 +325,7 @@ font-size: xx-large;
   color: #f5f5f5;
 }
 /*style table gestion retard*/
+
 #gestion_retards_datatable_filter input[type="search"]{
   border: 2px solid #2679e7;
   border-radius: 20px;
@@ -335,7 +341,7 @@ font-size: xx-large;
 #gestion_retards_datatable tr th, #gestion_retards_datatable tr td{
      font-size: small;
      font-family: 'Times New Roman', Times, serif;
-     /*width: 100px;*/
+     width: 100px;
     
 }
 #gestion_retards_datatable tr td{

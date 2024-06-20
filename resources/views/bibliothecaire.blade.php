@@ -138,9 +138,7 @@
                                 <th style="color: white;font-weight:500;">Type ouvrage</th>
                                 <th style="color: white;font-weight:500;">Date Emprunt</th>
                                 <th style="color: white;font-weight:500;">Date Limite</th>
-                                <th style="color: white;font-weight:500;">Date Retour</th>
-                                <th style="color: white;font-weight:500;">Nombre de jours de retard</th>
-                                <th style="color: white;font-weight:500;border-top-right-radius: 13px; width: 150px;">Action</th>
+                                <th style="color: white;font-weight:500;border-top-right-radius: 13px;">Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -250,8 +248,8 @@ $(document).ready(function() {
         });
     </script>
 <!--code script de retour-->
-    <script>   
-   $(document).on('click', '.returnEmprunt', function() {
+<script>
+$(document).on('click', '.returnEmprunt', function() {
     var id = $(this).data('id');
 
     if (confirm("Êtes-vous sûr de vouloir retourner cet emprunt ?")) {
@@ -265,7 +263,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     alert(response.success);
-                   
+
                     var row = $('a[data-id="'+id+'"]').closest('tr');
                     row.find('.date-retour').text(response.date_retour);
                     row.find('.nbr-jrs-retard').text(response.nbr_jrs_retard);
@@ -276,13 +274,9 @@ $(document).ready(function() {
         });
     }
 });
-
-
-
 </script>
 
-    
-    <script>
+   <script>
     $(document).ready(function() {
         var empruntsTable = $('#historique_emprunts_datatable').DataTable({
             processing: true,
@@ -336,18 +330,19 @@ $(document).ready(function() {
             { data: 'type_ouvrage', name: 'type_ouvrage' },
             { data: 'created_at', name: 'created_at', title: 'Date Emprunt' }, 
             { data: 'date_limite', name: 'date_limite' },
-            { data: 'date_retour', name: 'date_retour' },
-            { data: 'nbr_jrs_retard', name: 'nbr_jrs_retard' },
+            //{ data: 'date_retour', name: 'date_retour' },
+            //{ data: 'nbr_jrs_retard', name: 'nbr_jrs_retard' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
         ],
     });
-
+});
     // Action pour envoyer un email
+    $(document).ready(function() {
     $('body').on('click', '.sendEmail', function() {
         var id = $(this).data('id');
         var email = $(this).data('email');
 
-        if (confirm("Êtes-vous sûr de vouloir envoyer un email à "+ email +" pour rappeler le retour du livre ?")) {
+        if (confirm("Êtes-vous sûr de vouloir envoyer un email à " + email + " pour rappeler le retour du livre ?")) {
             $.ajax({
                 type: "POST",
                 url: "{{ route('retards.envoyerEmail') }}",
