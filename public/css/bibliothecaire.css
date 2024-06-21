@@ -179,6 +179,7 @@ body {
   }
   .main-content table{
     width: 1000px !important;
+    height: 300px;
 
   }
   .main-content.active {

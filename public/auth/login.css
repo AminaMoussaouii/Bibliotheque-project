@@ -5,6 +5,8 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
+  flex-direction: column;
+  padding-top: 0%;
 }
 .form-container {
   position: relative;
@@ -148,5 +150,23 @@ body {
   border: 1px solid #2d79f3;
   ;
 }
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-    
+.logo {
+  height: 150px;
+  width: 150px;
+  /*border-radius: 50px; */
+}
+.h1 {
+  text-align: center;
+  margin-top: 20px; 
+  width: 100%;
+}  

@@ -5,7 +5,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-image: url('/images/Bib-FSTS.jpeg');
+    background-image: url('/images/Bib-fsts1.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -30,16 +30,16 @@ body {
 }
 
 .logo {
-    height: 100px;
-    width: 100px;
-    border-radius: 50px; 
+    height: 150px;
+    width: 150px;
+    /*border-radius: 50px; */
 }
 
 .connexion-btn {
     background-color: #ff882c;
     border: none;
     border-radius: 50px;
-    padding: 5px 8px;
+    padding: 10px 15px;
 }
 
 .connexion-btn a {

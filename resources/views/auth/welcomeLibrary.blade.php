@@ -9,7 +9,7 @@
 <body>
    <div class="gradient">
         <header class="header">
-            <img class="logo" src="{{ asset('images/fstsettat.png') }}" alt="Logo">
+            <img class="logo" src="{{ asset('images/fsts_logo.png') }}" alt="Logo">
             <button class="connexion-btn"><a href="{{ route('login') }}">Connexion</a></button>
         </header>
 
