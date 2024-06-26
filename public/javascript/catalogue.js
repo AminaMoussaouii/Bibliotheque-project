@@ -25,8 +25,8 @@ $(document).ready(function() {
             success: function(response) {
                 console.log("Réponse du serveur :", response);
                 $('#livre-container').empty();
-                if (response.livres && response.livres.length > 0) {
-                    $.each(response.livres, function(index, livre) {
+                if (Array.isArray(response) && response.length > 0) {
+                    response.forEach(function(livre) {
                         var imageUrl = baseUrl + '/' + livre.image;
                         var html = '<div class="livre-box" data-id="' + livre.id + '">' +
                                    '<div class="img-box"><img src="' + imageUrl + '" alt="' + livre.titre + '"></div>' +
@@ -47,8 +47,8 @@ $(document).ready(function() {
         });
     });
 
-    // Méthode de recherche de livres
-    var searchUrl = $("#search_livre").attr('name');
+    //=============methode recherche livres===========================
+    var searchUrl = "/livre/search";
 
     $("#search_livre").autocomplete({
         source: function(request, response) {
@@ -59,7 +59,7 @@ $(document).ready(function() {
                 success: function(data) {
                     var suggestions = data.map(function(livre) {
                         return {
-                            label: livre.titre + " - " + livre.auteur,
+                            label: livre.titre + " - " + livre.auteur + "-" + livre.discipline + "-" + livre.langue,
                             value: livre.titre
                         };
                     });
@@ -79,7 +79,7 @@ $(document).ready(function() {
             success: function(data) {
                 $("#livre-container").empty();
                 if (data.length === 0) {
-                    $("#livre-container").append('<p>Aucun livre trouvé.</p>');
+                    $("#livre-container").append('<p>No books found.</p>');
                 } else {
                     data.forEach(function(livre) {
                         var imageUrl = baseUrl + '/' + livre.image;
@@ -98,8 +98,8 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Erreur de recherche:', xhr.responseText);
+                console.error('Search error:', xhr.responseText);
             }
-        });
-    });
+        });
+    });
 });
